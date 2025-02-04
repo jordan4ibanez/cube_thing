@@ -14,3 +14,6 @@ cube_thing-test-*
 *.o
 *.obj
 *.lst
+libraylib.so.550
+libraylib.so.5.5.0
+libraylib.so
