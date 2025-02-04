@@ -27,6 +27,8 @@ void main() {
 	while (Window.shouldStayOpen()) {
 		BeginDrawing();
 
+		//! Note: DrawTexture and DrawTexturePro are batched as long as you use the same texture.
+
 		ClearBackground(Colors.GRAY);
 
 		EndDrawing();
