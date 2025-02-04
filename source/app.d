@@ -26,9 +26,9 @@ void main() {
 
 	while (Window.shouldStayOpen()) {
 
-		CameraHandler.setTarget(Vector2(50, 50));
+		CameraHandler.setTarget(Vector2(0, 0));
 
-		CameraHandler.setZoom(1.0);
+		CameraHandler.setZoom(100.0);
 
 		BeginDrawing();
 		{
@@ -38,7 +38,7 @@ void main() {
 
 			CameraHandler.begin();
 			{
-				DrawRectangle(0, 0, 100, 100, Colors.WHITE);
+				DrawRectangle(0, 0, 1, 2, Colors.WHITE);
 
 			}
 			CameraHandler.end();

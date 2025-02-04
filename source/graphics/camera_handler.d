@@ -1,5 +1,6 @@
 module graphics.camera_handler;
 
+import game.player;
 import raylib;
 import utility.window;
 
@@ -38,6 +39,11 @@ private:
 
     public void setZoom(float zoom) {
         camera.zoom = zoom;
+    }
+
+    public void centerToPlayer() {
+        Vector2 playerPosition = Player.getPosition();
+        camera.target = Vector2Add(playerPosition, Vector2Multiply(playerPosition, Vector2(0.5, 0.5)));
     }
 
     public void __update() {
