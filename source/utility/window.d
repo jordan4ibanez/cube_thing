@@ -4,6 +4,7 @@ import graphics.font_handler;
 import graphics.gui;
 import raylib;
 import utility.delta;
+import graphics.camera_handler;
 
 static final const class Window {
 static:
@@ -95,6 +96,7 @@ private:
     void updateSystem() {
         Delta.__calculateDelta();
         GUI.__update(getSize());
+        CameraHandler.__update();
         // FontHandler.__update();
     }
 
