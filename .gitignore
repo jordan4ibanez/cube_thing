@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/cube_thing
+cube_thing.so
+cube_thing.dylib
+cube_thing.dll
+cube_thing.a
+cube_thing.lib
+cube_thing-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst
