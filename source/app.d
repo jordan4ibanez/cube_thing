@@ -25,12 +25,24 @@ void main() {
 	CameraHandler.initialize();
 
 	while (Window.shouldStayOpen()) {
+
+		CameraHandler.setTarget(Vector2(50, 50));
+
+		CameraHandler.setZoom(1.0);
+
 		BeginDrawing();
+		{
+			//! Note: DrawTexture and DrawTexturePro are batched as long as you use the same texture.
 
-		//! Note: DrawTexture and DrawTexturePro are batched as long as you use the same texture.
+			ClearBackground(Colors.BLACK);
 
-		ClearBackground(Colors.GRAY);
+			CameraHandler.begin();
+			{
+				DrawRectangle(0, 0, 100, 100, Colors.WHITE);
 
+			}
+			CameraHandler.end();
+		}
 		EndDrawing();
 	}
 }
