@@ -9,6 +9,8 @@ struct CollisionResult {
     float newPosition = 0;
 }
 
+private immutable float magicAdjustment = 0.001;
+
 CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vector2 entityVelocity,
     Vector2 blockPosition, Vector2 blockSize) {
 
@@ -32,7 +34,6 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
 
     if (CheckCollisionRecs(entityRectangle, blockRectangle)) {
         // This doesn't kick out in a specific direction on dir 0 because the Y axis check will kick them up as a safety.
-        immutable magicAdjustment = 0.001;
         result.collides = true;
         if (dir < 0) {
             // Kick left.
