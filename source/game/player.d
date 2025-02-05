@@ -36,6 +36,11 @@ private:
         return position;
     }
 
+    public Rectangle getRectangle() {
+        Vector2 centeredPosition = centerCollisionboxBottom(position, size);
+        return Rectangle(centeredPosition.x, centeredPosition.y, size.x, size.y);
+    }
+
     public void draw() {
         DrawRectangleV(centerCollisionboxBottom(position, size), size, Colors.WHITE);
     }
