@@ -13,7 +13,6 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
     Vector2 blockPosition, Vector2 blockSize) {
 
     CollisionResult result;
-
     result.newPosition = entityPosition.x;
 
     int dir = cast(int) sgn(entityVelocity.x);
@@ -30,17 +29,10 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
 
     immutable Rectangle blockRectangle = Rectangle(blockPosition.x, blockPosition.y, blockSize.x, blockSize
             .y);
-
     if (CheckCollisionRecs(entityRectangle, blockRectangle)) {
-
         // This doesn't kick out in a specific direction on dir 0 because the Y axis check will kick them up as a safety.
-
         immutable magicAdjustment = 0.001;
-
         result.collides = true;
-
-        writeln("collision");
-
         if (dir < 0) {
             // Kick left.
             result.newPosition = blockPosition.x - entityHalfWidth - magicAdjustment;
