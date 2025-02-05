@@ -36,6 +36,14 @@ private:
         return position;
     }
 
+    public float getWidth() {
+        return size.y;
+    }
+
+    public float getHalfWidth() {
+        return size.x * 0.5;
+    }
+
     public Rectangle getRectangle() {
         Vector2 centeredPosition = centerCollisionboxBottom(position, size);
         return Rectangle(centeredPosition.x, centeredPosition.y, size.x, size.y);
