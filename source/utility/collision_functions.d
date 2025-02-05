@@ -46,3 +46,40 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
 
     return result;
 }
+
+CollisionResult collideYToBlock(Vector2 entityPosition, Vector2 entitySize, Vector2 entityVelocity,
+    Vector2 blockPosition, Vector2 blockSize) {
+
+    CollisionResult result;
+    result.newPosition = entityPosition.y;
+
+    int dir = cast(int) sgn(entityVelocity.y);
+
+    // This thing isn't moving.
+    if (dir == 0) {
+        return result;
+    }
+
+    // Entity position is on the bottom center of the collisionbox.
+    immutable float entityHalfWidth = entitySize.x * 0.5;
+    immutable Rectangle entityRectangle = Rectangle(entityPosition.x - entityHalfWidth, entityPosition.y - entitySize.y,
+        entitySize.x, entitySize.y);
+
+    immutable Rectangle blockRectangle = Rectangle(blockPosition.x, blockPosition.y, blockSize.x, blockSize
+            .y);
+
+    if (CheckCollisionRecs(entityRectangle, blockRectangle)) {
+        result.collides = true;
+        if (dir >= 0) {
+            // Kick up. This is the safety default.
+            writeln("kick up");
+            result.newPosition = blockPosition.y - magicAdjustment;
+        } else {
+            // Kick down.
+            writeln("kick down");
+            result.newPosition = blockPosition.y + blockSize.y + entitySize.y + magicAdjustment;
+        }
+    }
+
+    return result;
+}
