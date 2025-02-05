@@ -74,11 +74,9 @@ CollisionResult collideYToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
         result.collides = true;
         if (dir >= 0) {
             // Kick up. This is the safety default.
-            writeln("kick up");
             result.newPosition = blockPosition.y - magicAdjustment;
         } else {
             // Kick down.
-            writeln("kick down");
             result.newPosition = blockPosition.y + blockSize.y + entitySize.y + magicAdjustment;
         }
     }
