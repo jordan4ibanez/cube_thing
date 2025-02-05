@@ -25,6 +25,9 @@ void main() {
 
 	CameraHandler.initialize();
 
+	Vector2 sampleBlockPosition = Vector2(0, 0);
+	Vector2 sampleBlockSize = Vector2(1, 1);
+
 	while (Window.shouldStayOpen()) {
 
 		CameraHandler.centerToPlayer();
@@ -40,6 +43,8 @@ void main() {
 			CameraHandler.begin();
 			{
 				Player.draw();
+
+				DrawRectangleV(sampleBlockPosition, sampleBlockSize, Colors.BLUE);
 
 			}
 			CameraHandler.end();
