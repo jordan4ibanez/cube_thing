@@ -114,6 +114,7 @@ void main() {
 			DrawCircle(cast(int) center.x, cast(int) center.y, 4, Colors.RED);
 
 			DrawText(toStringz("y: " ~ to!string(playerPos.y)), 0, 0, 120, Colors.WHITE);
+			DrawText(toStringz("x: " ~ to!string(playerPos.x)), 0, 120, 120, Colors.WHITE);
 		}
 		EndDrawing();
 	}
