@@ -16,7 +16,7 @@ private:
     public void initialize() {
         camera = new Camera2D();
         camera.rotation = 0;
-        camera.zoom = 100.0;
+        camera.zoom = 250.0;
         camera.target = Vector2(0, 0);
     }
 
@@ -46,8 +46,14 @@ private:
 
     public void centerToPlayer() {
         Vector2 playerPosition = Player.getPosition();
-        Vector2 playerCollisionCenter = Vector2Multiply(Player.getSize(), Vector2(0.5, 0.5));
-        Vector2 playerCenter = Vector2Add(playerPosition, playerCollisionCenter);
+        Vector2 offset = Player.getSize();
+        offset.x = 0;
+        //? this will move it to the center of the collisionbox.
+        // offset.y *= -0.5;
+        offset.y = 0;
+
+        Vector2 playerCenter = Vector2Add(playerPosition, offset);
+
         camera.target = playerCenter;
     }
 
