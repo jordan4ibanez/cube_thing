@@ -44,6 +44,7 @@ void main() {
 		Vector2 playerSize = Player.getSize();
 		Vector2 playerVelocity = Player.getVelocity();
 
+		//? Controls first.
 		if (Keyboard.isDown(KeyboardKey.KEY_RIGHT)) {
 			playerVelocity.x += delta * 0.0001;
 		} else if (Keyboard.isDown(KeyboardKey.KEY_LEFT)) {
@@ -68,7 +69,7 @@ void main() {
 			playerVelocity.y = (abs(playerVelocity.y) - (delta * 0.0001)) * valSign;
 		}
 
-
+		//? Then apply X axis.
 		playerPos.x += playerVelocity.x;
 
 		CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
@@ -77,6 +78,7 @@ void main() {
 			playerPos.x = res.newPosition;
 		}
 
+		//? Finally apply Y axis.
 		playerPos.y += playerVelocity.y;
 
 		res = collideYToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
