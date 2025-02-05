@@ -45,6 +45,10 @@ private:
         DrawRectangleV(centerCollisionboxBottom(position, size), size, Colors.WHITE);
     }
 
+    public void setPosition(Vector2 newPosition) {
+        position = newPosition;
+    }
+
     //* BEGIN INTERNAL API.
 
 }
