@@ -29,7 +29,7 @@ void main() {
 
 		CameraHandler.centerToPlayer();
 
-		CameraHandler.setZoom(100.0);
+		Vector2 center = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
 
 		BeginDrawing();
 		{
@@ -43,6 +43,8 @@ void main() {
 
 			}
 			CameraHandler.end();
+
+			DrawCircle(cast(int) center.x, cast(int) center.y, 4, Colors.RED);
 		}
 		EndDrawing();
 	}
