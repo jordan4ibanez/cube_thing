@@ -19,6 +19,10 @@ private:
         return position;
     }
 
+    public void draw() {
+        DrawRectangleV(position, size, Colors.WHITE);
+    }
+
     //* BEGIN INTERNAL API.
 
 }
