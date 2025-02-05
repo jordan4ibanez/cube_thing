@@ -9,6 +9,8 @@ struct CollisionResult {
     float newPosition = 0;
 }
 
+// This basically shoves the entity out of the block.
+//? Note: This will have issues extremely far out.
 private immutable float magicAdjustment = 0.001;
 
 CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vector2 entityVelocity,
