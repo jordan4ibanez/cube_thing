@@ -5,7 +5,9 @@ import game.player;
 import graphics.camera_handler;
 import graphics.font_handler;
 import raylib;
+import std.conv;
 import std.math.traits;
+import std.string;
 import utility.collision_functions;
 import utility.delta;
 import utility.window;
@@ -110,6 +112,8 @@ void main() {
 
 			Vector2 center = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
 			DrawCircle(cast(int) center.x, cast(int) center.y, 4, Colors.RED);
+
+			DrawText(toStringz("y: " ~ to!string(playerPos.y)), 0, 0, 120, Colors.WHITE);
 		}
 		EndDrawing();
 	}
