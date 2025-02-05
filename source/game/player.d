@@ -1,6 +1,9 @@
 module game.player;
 
+import controls.keyboard;
 import raylib;
+import utility.collision_functions;
+import utility.delta;
 import utility.drawing_functions;
 
 static final const class Player {
