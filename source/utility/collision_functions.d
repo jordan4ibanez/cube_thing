@@ -35,10 +35,10 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
     if (CheckCollisionRecs(entityRectangle, blockRectangle)) {
         // This doesn't kick out in a specific direction on dir 0 because the Y axis check will kick them up as a safety.
         result.collides = true;
-        if (dir < 0) {
+        if (dir > 0) {
             // Kick left.
             result.newPosition = blockPosition.x - entityHalfWidth - magicAdjustment;
-        } else if (dir > 0) {
+        } else if (dir < 0) {
             // Kick right.
             result.newPosition = blockPosition.x + blockSize.x + entityHalfWidth + magicAdjustment;
         }
