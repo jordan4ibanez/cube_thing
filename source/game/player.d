@@ -8,6 +8,20 @@ static:
 private:
 
     //? Note: Entities position is at the bottom center of the collision box.
+    /*
+    |------------|
+    |            |
+    |            |
+    |            |
+    |            |
+    |            |
+    |            |
+    |            |
+    |            |
+    |------X-----|
+           ^
+           |-------- Actual position
+    */
 
     Vector2 size = Vector2(0.6, 1.8);
     Vector2 position = Vector2(0, 0);
