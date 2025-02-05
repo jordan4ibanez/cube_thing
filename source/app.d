@@ -26,7 +26,7 @@ void main() {
 
 	while (Window.shouldStayOpen()) {
 
-		CameraHandler.setTarget(Vector2(0, 0));
+		CameraHandler.centerToPlayer();
 
 		CameraHandler.setZoom(100.0);
 
