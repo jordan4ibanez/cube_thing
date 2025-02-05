@@ -40,24 +40,26 @@ void main() {
 		//! BEGIN TESTING COLLISION.
 
 		Vector2 playerPos = Player.getPosition();
+		Vector2 playerSize = Player.getSize();
+
+		// todo: swap dir for a sign made from velocity.
+		byte dir = 0;
 
 		if (Keyboard.isDown(KeyboardKey.KEY_RIGHT)) {
 			playerPos.x += delta;
+			dir = -1;
 		} else if (Keyboard.isDown(KeyboardKey.KEY_LEFT)) {
 			playerPos.x -= delta;
+			dir = 1;
 		}
 
-		// todo: collision detect.
-
-		Rectangle playerRect = Player.getRectangle();
-
-		if (CheckCollisionRecs(playerRect, Rectangle(sampleBlockPosition.x, sampleBlockPosition.y,
-				sampleBlockSize.x, sampleBlockSize.y))) {
+		if (CheckCollisionRecs(Rectangle(playerPos.x - (playerSize.x * 0.5), playerPos.y - playerSize.y, playerSize.x,
+				playerSize.y), Rectangle(sampleBlockPosition.x, sampleBlockPosition.y, sampleBlockSize.x, sampleBlockSize
+				.y))) {
 
 			// Kick the player out based on the direction they are based in the center of this rectangle.
 			// If the player goes too fast, they can phase through the block.
 			immutable float blockCenterX = sampleBlockPosition.x + (sampleBlockSize.x * 0.5);
-			immutable byte dir = cast(byte) sgn(playerPos.x - blockCenterX);
 
 			// This doesn't kick out in a specific direction on dir 0 because the Y axis check will kick them up.
 
@@ -70,16 +72,34 @@ void main() {
 				playerPos.x = sampleBlockPosition.x - playerHalfWidth - magicAdjustment;
 			} else if (dir > 0) {
 				// Kick right.
-				writeln("right");
 				playerPos.x = sampleBlockPosition.x + sampleBlockSize.x + playerHalfWidth + magicAdjustment;
 			}
-
 		}
 
+		dir = 0;
 		if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
 			playerPos.y += delta;
+			dir = 1;
 		} else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
 			playerPos.y -= delta;
+			dir = -1;
+		}
+
+		if (CheckCollisionRecs(Rectangle(playerPos.x - (playerSize.x * 0.5), playerPos.y - playerSize.y,
+				playerSize.x, playerSize.y), Rectangle(sampleBlockPosition.x, sampleBlockPosition.y, sampleBlockSize.x,
+				sampleBlockSize.y))) {
+
+			immutable magicAdjustment = 0.001;
+
+			if (dir >= 0) {
+				// Kick up. This is the safety default.
+				writeln("kick up");
+				playerPos.y = sampleBlockPosition.y - magicAdjustment;
+			} else {
+				// Kick down.
+				writeln("kick down");
+				playerPos.y = sampleBlockPosition.y + sampleBlockSize.y + playerSize.y + magicAdjustment;
+			}
 		}
 
 		Player.setPosition(playerPos);
