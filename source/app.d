@@ -42,39 +42,45 @@ void main() {
 
 		Vector2 playerPos = Player.getPosition();
 		Vector2 playerSize = Player.getSize();
-
-		// todo: swap dir for a sign made from velocity.
-		byte dir = 0;
+		Vector2 playerVelocity = Player.getVelocity();
 
 		if (Keyboard.isDown(KeyboardKey.KEY_RIGHT)) {
-			playerPos.x += delta;
-			dir = 1;
+			playerVelocity.x += delta * 0.0001;
 		} else if (Keyboard.isDown(KeyboardKey.KEY_LEFT)) {
-			playerPos.x -= delta;
-			dir = -1;
+			playerVelocity.x -= delta * 0.0001;
+		} else {
+			import std.math.algebraic : abs;
+			import std.math.traits : sgn;
+
+			float valSign = sgn(playerVelocity.x);
+			playerVelocity.x = (abs(playerVelocity.x) - (delta * 0.0001)) * valSign;
 		}
 
-		// todo: make this a float not a vector2 wtf.
-		CollisionResult res = collideXToBlock(playerPos, playerSize, Vector2(dir, 0), sampleBlockPosition, sampleBlockSize);
+		playerPos.x += playerVelocity.x;
+
+		CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
 		if (res.collides) {
+			playerVelocity.x = 0;
 			playerPos.x = res.newPosition;
 		}
 
-		dir = 0;
-		if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
-			playerPos.y += delta;
-			dir = 1;
-		} else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
-			playerPos.y -= delta;
-			dir = -1;
-		}
+		// dir = 0;
+		// if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
+		// 	playerPos.y += delta;
+		// 	dir = 1;
+		// } else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
+		// 	playerPos.y -= delta;
+		// 	dir = -1;
+		// } else {
 
-		// todo: make this a float not a vector2 wtf.
-		res = collideYToBlock(playerPos, playerSize, Vector2(0, dir), sampleBlockPosition, sampleBlockSize);
-		if (res.collides) {
-			playerPos.y = res.newPosition;
-		}
+		// }
 
+		// res = collideYToBlock(playerPos, playerSize, Vector2(0, dir), sampleBlockPosition, sampleBlockSize);
+		// if (res.collides) {
+		// 	playerPos.y = res.newPosition;
+		// }
+
+		Player.setVelocity(playerVelocity);
 		Player.setPosition(playerPos);
 
 		//! END TESTING COLLISION.
