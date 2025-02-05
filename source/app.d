@@ -54,6 +54,7 @@ void main() {
 			dir = -1;
 		}
 
+		// todo: make this a float not a vector2 wtf.
 		CollisionResult res = collideXToBlock(playerPos, playerSize, Vector2(dir, 0), sampleBlockPosition, sampleBlockSize);
 		if (res.collides) {
 			playerPos.x = res.newPosition;
@@ -68,21 +69,10 @@ void main() {
 			dir = -1;
 		}
 
-		if (CheckCollisionRecs(Rectangle(playerPos.x - (playerSize.x * 0.5), playerPos.y - playerSize.y,
-				playerSize.x, playerSize.y), Rectangle(sampleBlockPosition.x, sampleBlockPosition.y, sampleBlockSize.x,
-				sampleBlockSize.y))) {
-
-			immutable magicAdjustment = 0.001;
-
-			if (dir >= 0) {
-				// Kick up. This is the safety default.
-				writeln("kick up");
-				playerPos.y = sampleBlockPosition.y - magicAdjustment;
-			} else {
-				// Kick down.
-				writeln("kick down");
-				playerPos.y = sampleBlockPosition.y + sampleBlockSize.y + playerSize.y + magicAdjustment;
-			}
+		// todo: make this a float not a vector2 wtf.
+		res = collideYToBlock(playerPos, playerSize, Vector2(0, dir), sampleBlockPosition, sampleBlockSize);
+		if (res.collides) {
+			playerPos.y = res.newPosition;
 		}
 
 		Player.setPosition(playerPos);
