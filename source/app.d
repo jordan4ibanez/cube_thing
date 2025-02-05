@@ -1,9 +1,11 @@
 import std.stdio;
 
+import controls.keyboard;
 import game.player;
 import graphics.camera_handler;
 import graphics.font_handler;
 import raylib;
+import utility.delta;
 import utility.window;
 
 void main() {
@@ -32,7 +34,32 @@ void main() {
 
 		CameraHandler.centerToPlayer();
 
-		Vector2 center = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
+		double delta = Delta.getDelta();
+
+		Vector2 playerPos = Player.getPosition();
+
+		if (Keyboard.isDown(KeyboardKey.KEY_RIGHT)) {
+			playerPos.x += delta;
+		} else if (Keyboard.isDown(KeyboardKey.KEY_LEFT)) {
+			playerPos.x -= delta;
+		}
+
+		if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
+			playerPos.y += delta;
+		} else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
+			playerPos.y -= delta;
+		}
+
+		// todo: collision detect.
+
+		Rectangle playerRect = Player.getRectangle();
+
+		bool collision = CheckCollisionRecs(playerRect, Rectangle(sampleBlockPosition.x, sampleBlockPosition.y,
+				sampleBlockSize.x, sampleBlockSize.y));
+
+		writeln(collision);
+
+		Player.setPosition(playerPos);
 
 		BeginDrawing();
 		{
@@ -49,6 +76,7 @@ void main() {
 			}
 			CameraHandler.end();
 
+			Vector2 center = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
 			DrawCircle(cast(int) center.x, cast(int) center.y, 4, Colors.RED);
 		}
 		EndDrawing();
