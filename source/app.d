@@ -50,6 +50,8 @@ void main() {
 
 			ClearBackground(Colors.BLACK);
 
+			Player.move();
+
 			CameraHandler.begin();
 			{
 				Player.draw();
