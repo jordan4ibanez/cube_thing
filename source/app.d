@@ -1,5 +1,6 @@
 import std.stdio;
 
+import game.player;
 import graphics.camera_handler;
 import graphics.font_handler;
 import raylib;
