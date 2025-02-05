@@ -2,6 +2,7 @@ module graphics.camera_handler;
 
 import game.player;
 import raylib;
+import std.stdio;
 import utility.window;
 
 static final const class CameraHandler {
@@ -15,6 +16,8 @@ private:
     public void initialize() {
         camera = new Camera2D();
         camera.rotation = 0;
+        camera.zoom = 100.0;
+        camera.target = Vector2(0, 0);
     }
 
     public void terminate() {
@@ -43,7 +46,9 @@ private:
 
     public void centerToPlayer() {
         Vector2 playerPosition = Player.getPosition();
-        camera.target = Vector2Add(playerPosition, Vector2Multiply(playerPosition, Vector2(0.5, 0.5)));
+        Vector2 playerCollisionCenter = Vector2Multiply(Player.getSize(), Vector2(0.5, 0.5));
+        Vector2 playerCenter = Vector2Add(playerPosition, playerCollisionCenter);
+        camera.target = playerCenter;
     }
 
     public void __update() {
