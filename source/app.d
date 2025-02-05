@@ -56,14 +56,6 @@ void main() {
 			playerVelocity.x = (abs(playerVelocity.x) - (delta * 0.0001)) * valSign;
 		}
 
-		playerPos.x += playerVelocity.x;
-
-		CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
-		if (res.collides) {
-			playerVelocity.x = 0;
-			playerPos.x = res.newPosition;
-		}
-
 		if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
 			playerVelocity.y += delta * 0.0001;
 		} else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
@@ -74,6 +66,15 @@ void main() {
 
 			float valSign = sgn(playerVelocity.y);
 			playerVelocity.y = (abs(playerVelocity.y) - (delta * 0.0001)) * valSign;
+		}
+
+
+		playerPos.x += playerVelocity.x;
+
+		CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
+		if (res.collides) {
+			playerVelocity.x = 0;
+			playerPos.x = res.newPosition;
 		}
 
 		playerPos.y += playerVelocity.y;
