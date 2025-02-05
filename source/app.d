@@ -64,21 +64,26 @@ void main() {
 			playerPos.x = res.newPosition;
 		}
 
-		// dir = 0;
-		// if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
-		// 	playerPos.y += delta;
-		// 	dir = 1;
-		// } else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
-		// 	playerPos.y -= delta;
-		// 	dir = -1;
-		// } else {
+		if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
+			playerVelocity.y += delta * 0.0001;
+		} else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
+			playerVelocity.y -= delta * 0.0001;
+		} else {
+			import std.math.algebraic : abs;
+			import std.math.traits : sgn;
 
-		// }
+			float valSign = sgn(playerVelocity.y);
+			playerVelocity.y = (abs(playerVelocity.y) - (delta * 0.0001)) * valSign;
+		}
 
-		// res = collideYToBlock(playerPos, playerSize, Vector2(0, dir), sampleBlockPosition, sampleBlockSize);
-		// if (res.collides) {
-		// 	playerPos.y = res.newPosition;
-		// }
+		playerPos.y += playerVelocity.y;
+
+		res = collideYToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
+
+		if (res.collides) {
+			playerPos.y = res.newPosition;
+			playerVelocity.y = 0;
+		}
 
 		Player.setVelocity(playerVelocity);
 		Player.setPosition(playerPos);
