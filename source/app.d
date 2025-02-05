@@ -39,7 +39,7 @@ void main() {
 
 			CameraHandler.begin();
 			{
-				DrawRectangle(0, 0, 1, 2, Colors.WHITE);
+				Player.draw();
 
 			}
 			CameraHandler.end();
