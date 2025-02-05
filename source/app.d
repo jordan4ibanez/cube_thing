@@ -42,57 +42,6 @@ void main() {
 
 		//! BEGIN TESTING COLLISION.
 
-		Vector2 playerPos = Player.getPosition();
-		Vector2 playerSize = Player.getSize();
-		Vector2 playerVelocity = Player.getVelocity();
-
-		//? Controls first.
-		if (Keyboard.isDown(KeyboardKey.KEY_RIGHT)) {
-			playerVelocity.x += delta * 0.0001;
-		} else if (Keyboard.isDown(KeyboardKey.KEY_LEFT)) {
-			playerVelocity.x -= delta * 0.0001;
-		} else {
-			import std.math.algebraic : abs;
-			import std.math.traits : sgn;
-
-			float valSign = sgn(playerVelocity.x);
-			playerVelocity.x = (abs(playerVelocity.x) - (delta * 0.0001)) * valSign;
-		}
-
-		if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
-			playerVelocity.y += delta * 0.0001;
-		} else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
-			playerVelocity.y -= delta * 0.0001;
-		} else {
-			import std.math.algebraic : abs;
-			import std.math.traits : sgn;
-
-			float valSign = sgn(playerVelocity.y);
-			playerVelocity.y = (abs(playerVelocity.y) - (delta * 0.0001)) * valSign;
-		}
-
-		//? Then apply X axis.
-		playerPos.x += playerVelocity.x;
-
-		CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
-		if (res.collides) {
-			playerVelocity.x = 0;
-			playerPos.x = res.newPosition;
-		}
-
-		//? Finally apply Y axis.
-		playerPos.y += playerVelocity.y;
-
-		res = collideYToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
-
-		if (res.collides) {
-			playerPos.y = res.newPosition;
-			playerVelocity.y = 0;
-		}
-
-		Player.setVelocity(playerVelocity);
-		Player.setPosition(playerPos);
-
 		//! END TESTING COLLISION.
 
 		BeginDrawing();
