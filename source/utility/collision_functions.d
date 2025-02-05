@@ -29,7 +29,7 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
 
     immutable Rectangle blockRectangle = Rectangle(blockPosition.x, blockPosition.y, blockSize.x, blockSize
             .y);
-            
+
     if (CheckCollisionRecs(entityRectangle, blockRectangle)) {
         // This doesn't kick out in a specific direction on dir 0 because the Y axis check will kick them up as a safety.
         immutable magicAdjustment = 0.001;
