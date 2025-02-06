@@ -12,6 +12,7 @@ private:
 
     double delta = 0;
 
+    // Minimum is 5 FPS.
     double maxDelta = 1.0 / 5.0;
 
 public: //* BEGIN PUBLIC API.
