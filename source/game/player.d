@@ -1,6 +1,7 @@
 module game.player;
 
 import controls.keyboard;
+import graphics.render;
 import raylib;
 import utility.collision_functions;
 import utility.delta;
@@ -66,7 +67,7 @@ public: //* BEGIN PUBLIC API.
     }
 
     void draw() {
-        DrawRectangleV(centerCollisionboxBottom(position, size), size, Colors.WHITE);
+        Render.rectangle(centerCollisionboxBottom(position, size), size, Colors.WHITE);
     }
 
     void move() {
