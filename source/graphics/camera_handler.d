@@ -13,18 +13,18 @@ private:
 
 public: //* BEGIN PUBLIC API.
 
-    public void initialize() {
+    void initialize() {
         camera = new Camera2D();
         camera.rotation = 0;
         camera.zoom = 100.0;
         camera.target = Vector2(0, 0);
     }
 
-    public void terminate() {
+    void terminate() {
         camera = null;
     }
 
-    public void begin() {
+    void begin() {
         Matrix4 matOrigin = MatrixTranslate(-camera.target.x, camera.target.y, 0.0);
         Matrix4 matRotation = MatrixRotate(Vector3(0, 0, 1), camera.rotation * DEG2RAD);
         Matrix4 matScale = MatrixScale(camera.zoom, camera.zoom, 1.0);
@@ -37,23 +37,23 @@ public: //* BEGIN PUBLIC API.
         // rlDisableBackfaceCulling();
     }
 
-    public void end() {
+    void end() {
         EndMode2D();
     }
 
-    public void setTarget(Vector2 position) {
+    void setTarget(Vector2 position) {
         camera.target = position;
     }
 
-    public float getZoom() {
+    float getZoom() {
         return camera.zoom;
     }
 
-    public void setZoom(float zoom) {
+    void setZoom(float zoom) {
         camera.zoom = zoom;
     }
 
-    public void centerToPlayer() {
+    void centerToPlayer() {
         Vector2 playerPosition = Player.getPosition();
         Vector2 offset = Player.getSize();
         offset.x = 0;
@@ -66,7 +66,7 @@ public: //* BEGIN PUBLIC API.
         camera.target = playerCenter;
     }
 
-    public void __update() {
+    void __update() {
         camera.offset = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
     }
 
