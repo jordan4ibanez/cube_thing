@@ -1,6 +1,7 @@
 import std.stdio;
 
 import controls.keyboard;
+import game.map;
 import game.player;
 import graphics.camera_handler;
 import graphics.font_handler;
@@ -31,8 +32,7 @@ void main() {
 
 	CameraHandler.initialize();
 
-	Vector2 sampleBlockPosition = Vector2(0, 0);
-	Vector2 sampleBlockSize = Vector2(1, 1);
+	Map.initialize();
 
 	while (Window.shouldStayOpen()) {
 
@@ -40,9 +40,7 @@ void main() {
 
 		double delta = Delta.getDelta();
 
-		//! BEGIN TESTING COLLISION.
-
-		//! END TESTING COLLISION.
+		Player.move();
 
 		BeginDrawing();
 		{
@@ -50,14 +48,10 @@ void main() {
 
 			ClearBackground(Colors.BLACK);
 
-			Player.move();
-
 			CameraHandler.begin();
 			{
+				Map.draw();
 				Player.draw();
-
-				DrawRectangleV(sampleBlockPosition, sampleBlockSize, Colors.BLUE);
-
 			}
 			CameraHandler.end();
 
