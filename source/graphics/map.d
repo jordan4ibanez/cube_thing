@@ -13,4 +13,8 @@ static final const class Map {
 static:
 private:
 
+public: //* BEGIN PUBLIC API.
+
+private: //* BEGIN INTERNAL API.
+
 }
