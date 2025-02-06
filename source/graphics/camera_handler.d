@@ -16,7 +16,7 @@ private:
     public void initialize() {
         camera = new Camera2D();
         camera.rotation = 0;
-        camera.zoom = 250.0;
+        camera.zoom = 100.0;
         camera.target = Vector2(0, 0);
     }
 
@@ -25,7 +25,16 @@ private:
     }
 
     public void begin() {
+        Matrix4 matOrigin = MatrixTranslate(-camera.target.x, camera.target.y, 0.0);
+        Matrix4 matRotation = MatrixRotate(Vector3(0, 0, 1), camera.rotation * DEG2RAD);
+        Matrix4 matScale = MatrixScale(camera.zoom, camera.zoom, 1.0);
+        Matrix4 matTranslation = MatrixTranslate(camera.offset.x, camera.offset.y, 0.0);
+        Matrix4 output = MatrixMultiply(MatrixMultiply(matOrigin, MatrixMultiply(matScale, matRotation)),
+            matTranslation);
+
         BeginMode2D(*camera);
+        rlSetMatrixModelview(output);
+        // rlDisableBackfaceCulling();
     }
 
     public void end() {
