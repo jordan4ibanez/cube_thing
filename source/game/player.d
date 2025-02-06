@@ -69,10 +69,6 @@ private:
         DrawRectangleV(centerCollisionboxBottom(position, size), size, Colors.WHITE);
     }
 
-    public Vector2 getPositionInWorldSpace() {
-        return Vector2(position.x, -position.y);
-    }
-
     public void move() {
         double delta = Delta.getDelta();
         Vector2 playerPos = getPosition();

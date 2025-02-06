@@ -64,7 +64,7 @@ void main() {
 			Vector2 center = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
 			DrawCircle(cast(int) center.x, cast(int) center.y, 4, Colors.RED);
 
-			Vector2 playerPos = Player.getPositionInWorldSpace();
+			Vector2 playerPos = Player.getPosition();
 			DrawText(toStringz("y: " ~ to!string(playerPos.y)), 0, 0, 120, Colors.WHITE);
 			DrawText(toStringz("x: " ~ to!string(playerPos.x)), 0, 120, 120, Colors.WHITE);
 		}
