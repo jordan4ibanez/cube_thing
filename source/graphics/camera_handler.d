@@ -11,7 +11,7 @@ private:
 
     Camera2D* camera;
 
-    //* BEGIN PUBLIC API.
+public: //* BEGIN PUBLIC API.
 
     public void initialize() {
         camera = new Camera2D();
@@ -70,6 +70,6 @@ private:
         camera.offset = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
     }
 
-    //* BEGIN INTERNAL API.
+private: //* BEGIN INTERNAL API.
 
 }
