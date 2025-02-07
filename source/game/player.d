@@ -1,9 +1,11 @@
 module game.player;
 
 import controls.keyboard;
+import game.map : CHUNK_HEIGHT, CHUNK_WIDTH;
 import graphics.render;
 import raylib;
 import std.math.algebraic : abs;
+import std.math.rounding;
 import std.math.traits : sgn;
 import std.stdio;
 import utility.collision_functions;
@@ -33,6 +35,7 @@ private:
     Vector2 size = Vector2(0.6, 1.8);
     Vector2 position = Vector2(0, 0);
     Vector2 velocity = Vector2(0, 0);
+    int inChunk = int.max;
 
 public: //* BEGIN PUBLIC API.
 
@@ -147,6 +150,18 @@ public: //* BEGIN PUBLIC API.
         //     playerPos.y = res.newPosition;
         //     playerVelocity.y = 0;
         // }
+
+        int oldChunk = inChunk;
+        int newChunk = cast(int) floor(position.x / CHUNK_WIDTH);
+
+        if (oldChunk != newChunk) {
+            writeln("update!");
+            inChunk = newChunk;
+        }
+    }
+
+    int inWhichChunk() {
+        return inChunk;
     }
 
 private: //* BEGIN INTERNAL API.
