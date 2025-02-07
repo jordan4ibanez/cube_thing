@@ -75,37 +75,57 @@ public: //* BEGIN PUBLIC API.
 
     void move() {
         double delta = Delta.getDelta();
-        Vector2 playerPos = getPosition();
-        Vector2 playerSize = getSize();
-        Vector2 playerVelocity = getVelocity();
+
+        immutable float acceleration = 20;
+        immutable float deceleration = 25;
+
+        // writeln(velocity.x);
 
         //? Controls first.
         if (Keyboard.isDown(KeyboardKey.KEY_RIGHT)) {
-            playerVelocity.x += delta * 0.0001;
+            if (sgn(velocity.x) < 0) {
+                velocity.x += delta * deceleration;
+            } else {
+                velocity.x += delta * acceleration;
+            }
         } else if (Keyboard.isDown(KeyboardKey.KEY_LEFT)) {
-            playerVelocity.x -= delta * 0.0001;
+            if (sgn(velocity.x) > 0) {
+                velocity.x -= delta * deceleration;
+            } else {
+                velocity.x -= delta * acceleration;
+            }
         } else {
-            import std.math.algebraic : abs;
-            import std.math.traits : sgn;
-
-            float valSign = sgn(playerVelocity.x);
-            playerVelocity.x = (abs(playerVelocity.x) - (delta * 0.0001)) * valSign;
+            if (abs(velocity.x) > delta * deceleration) {
+                float valSign = sgn(velocity.x);
+                velocity.x = (abs(velocity.x) - (delta * deceleration)) * valSign;
+            } else {
+                velocity.x = 0;
+            }
         }
 
-        if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
-            playerVelocity.y += delta * 0.0001;
-        } else if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
-            playerVelocity.y -= delta * 0.0001;
+        if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
+            if (sgn(velocity.y) < 0) {
+                velocity.y += delta * deceleration;
+            } else {
+                velocity.y += delta * acceleration;
+            }
+        } else if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
+            if (sgn(velocity.y) > 0) {
+                velocity.y -= delta * deceleration;
+            } else {
+                velocity.y -= delta * acceleration;
+            }
         } else {
-            import std.math.algebraic : abs;
-            import std.math.traits : sgn;
-
-            float valSign = sgn(playerVelocity.y);
-            playerVelocity.y = (abs(playerVelocity.y) - (delta * 0.0001)) * valSign;
+            if (abs(velocity.y) > delta * deceleration) {
+                float valSign = sgn(velocity.y);
+                velocity.y = (abs(velocity.y) - (delta * deceleration)) * valSign;
+            } else {
+                velocity.y = 0;
+            }
         }
 
         //? Then apply X axis.
-        playerPos.x += playerVelocity.x;
+        position.x += velocity.x * delta;
 
         // CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
         // if (res.collides) {
@@ -114,7 +134,12 @@ public: //* BEGIN PUBLIC API.
         // }
 
         // //? Finally apply Y axis.
-        playerPos.y += playerVelocity.y;
+        position.y += velocity.y * delta;
+
+        // todo: the void.
+        // if (position.y <= 0) {
+        //     position.y = 0;
+        // }
 
         // res = collideYToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
 
@@ -122,9 +147,6 @@ public: //* BEGIN PUBLIC API.
         //     playerPos.y = res.newPosition;
         //     playerVelocity.y = 0;
         // }
-
-        setVelocity(playerVelocity);
-        setPosition(playerPos);
     }
 
 private: //* BEGIN INTERNAL API.
