@@ -1,11 +1,15 @@
 module game.map;
 
+import graphics.camera_handler;
 import graphics.render;
 import raylib.raylib_types;
+import std.algorithm.comparison;
 import std.conv;
 import std.math.algebraic;
+import std.math.rounding;
 import std.random;
 import std.stdio;
+import utility.window;
 
 immutable public int CHUNK_WIDTH = 32;
 immutable public int CHUNK_HEIGHT = 256;
@@ -27,21 +31,53 @@ private:
 public: //* BEGIN PUBLIC API.
 
     void draw() {
-        foreach (chunkWorldPosition, thisChunk; database) {
-            foreach (x; 0 .. CHUNK_WIDTH) {
-                foreach (y; 0 .. CHUNK_HEIGHT) {
 
-                    if (thisChunk.data[x][y] == 0) {
-                        continue;
-                    }
+        //? Screen draws, bottom left to top right.
+        int windowWidth = Window.getWidth();
+        int windowHeight = Window.getHeight();
 
-                    // +1 on Y because it's drawn with the origin at the top left.
-                    Vector2 position = Vector2((chunkWorldPosition * CHUNK_WIDTH) + x, y + 1);
+        Vector2 bottomLeft = CameraHandler.screenToWorld(0, 0);
+        Vector2 topRight = CameraHandler.screenToWorld(windowWidth, windowHeight);
 
-                    Render.rectangle(position, Vector2(1, 1), Colors.ORANGE);
+        int minX = cast(int) floor(bottomLeft.x);
+        int minY = cast(int) floor(bottomLeft.y);
 
-                    Render.rectangleLines(position, Vector2(1, 1), Colors.WHITE);
+        int maxX = cast(int) floor(topRight.x);
+        int maxY = cast(int) floor(topRight.y);
+
+        // Player has been exploded out of the world.
+        if (minY > CHUNK_HEIGHT) {
+            writeln("exploded");
+            return;
+        }
+        // Player has fallen out of the world.
+        if (maxY < 0) {
+            writeln("fallen");
+            return;
+        }
+
+        minY = clamp(minY, 0, CHUNK_HEIGHT);
+        maxY = clamp(maxY, 0, CHUNK_HEIGHT);
+
+        foreach (x; minX .. maxX + 1) {
+            // todo: cache the chunk.
+            foreach (y; minY .. maxY + 1) {
+
+                Vector2 position = Vector2(x, y);
+
+                int thisData = getBlockAtWorldPosition(position);
+
+                if (thisData == 0) {
+                    continue;
                 }
+
+                // +1 on Y because it's drawn with the origin at the top left.
+
+                position.y += 1;
+
+                Render.rectangle(position, Vector2(1, 1), Colors.ORANGE);
+
+                Render.rectangleLines(position, Vector2(1, 1), Colors.WHITE);
             }
         }
     }
