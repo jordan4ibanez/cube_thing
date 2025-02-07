@@ -1,7 +1,5 @@
 module game.block_database;
 
-import option;
-
 class BlockDefinition {
     string name = null;
     string modName = null;
@@ -48,12 +46,8 @@ public: //* BEGIN PUBLIC API.
         databaseID[newBlock.id] = newBlock;
     }
 
-    Option!BlockDefinition getBlockByID(int id) {
-        if (id in databaseID) {
-            return Some!BlockDefinition(databaseID[id]);
-        } else {
-            return None!BlockDefinition();
-        }
+    BlockDefinition getBlockByID(int id) {
+        return databaseID[id];
     }
 
 private: //* BEGIN INTERNAL API.
