@@ -1,6 +1,8 @@
-module game.block_data;
+module game.block_database;
 
-static final const class BlockData {
+
+
+static final const class BlockDatabase {
 static:
 private:
 
