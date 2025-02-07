@@ -1,5 +1,7 @@
 module game.block_database;
 
+import option;
+
 class BlockDefinition {
     string name = null;
     string modName = null;
@@ -35,7 +37,22 @@ public: //* BEGIN PUBLIC API.
         }
 
         if (newBlock.id <= 0) {
+            throw new Error("Texture for block invalid.");
+        }
 
+        if (newBlock.id in databaseID) {
+            throw new Error("Tried to override block " ~ databaseID[newBlock.id].name);
+        }
+
+        databaseName[newBlock.name] = newBlock;
+        databaseID[newBlock.id] = newBlock;
+    }
+
+    Option!BlockDefinition getBlockByID(int id) {
+        if (id in databaseID) {
+            return Some!BlockDefinition(databaseID[id]);
+        } else {
+            return None!BlockDefinition();
         }
     }
 

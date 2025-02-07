@@ -3,6 +3,7 @@
 	"versions": {
 		"fast_pack": "3.0.4",
 		"mini_png": "1.0.1",
+		"option_d": "1.0.2",
 		"raylib-d": "5.5.1"
 	}
 }
