@@ -18,6 +18,11 @@ public: //* BEGIN PUBLIC API.
         DrawRectangleLinesEx(rect, thickness, color);
     }
 
+    void circle(Vector2 center, float radius, Color color) {
+        Vector2 invertedPosition = invertPosition(center);
+        DrawCircleV(invertedPosition, radius, color);
+    }
+
 private: //* BEGIN INTERNAL API.
 
     Vector2 invertPosition(Vector2 position) {
