@@ -2,7 +2,6 @@ module game.player;
 
 import controls.keyboard;
 import game.map;
-import game.map : CHUNK_HEIGHT, CHUNK_WIDTH;
 import graphics.render;
 import raylib;
 import std.math.algebraic : abs;
@@ -153,11 +152,10 @@ public: //* BEGIN PUBLIC API.
         // }
 
         int oldChunk = inChunk;
-        int newChunk = cast(int) floor(position.x / CHUNK_WIDTH);
+        int newChunk = Map.calculateChunkAtWorldPosition(position.x);
 
         if (oldChunk != newChunk) {
             inChunk = newChunk;
-
             Map.worldLoad(inChunk);
         }
     }
