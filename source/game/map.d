@@ -55,6 +55,8 @@ public: //* BEGIN PUBLIC API.
         database[chunkPosition] = newChunk;
     }
 
+private: //* BEGIN INTERNAL API.
+
     void generateChunkData(int chunkPosition, ref Chunk thisChunk) {
 
         //? This is a placeholder.
@@ -68,7 +70,5 @@ public: //* BEGIN PUBLIC API.
             }
         }
     }
-
-private: //* BEGIN INTERNAL API.
 
 }
