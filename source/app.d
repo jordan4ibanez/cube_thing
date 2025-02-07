@@ -19,8 +19,7 @@ void main() {
 	scope (exit) {
 		// FontHandler.terminate();
 		// ShaderHandler.terminate();
-		// TextureHandler.terminate();
-		// ModelHandler.terminate();
+		TextureHandler.terminate();
 		Window.terminate();
 		CameraHandler.terminate();
 	}
