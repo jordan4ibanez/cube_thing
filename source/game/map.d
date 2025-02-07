@@ -2,6 +2,7 @@ module game.map;
 
 import graphics.camera_handler;
 import graphics.render;
+import graphics.texture_handler;
 import raylib.raylib_types;
 import std.algorithm.comparison;
 import std.conv;
@@ -75,9 +76,11 @@ public: //* BEGIN PUBLIC API.
 
                 position.y += 1;
 
-                Render.rectangle(position, Vector2(1, 1), Colors.ORANGE);
+                // Render.rectangle(position, Vector2(1, 1), Colors.ORANGE);
 
-                Render.rectangleLines(position, Vector2(1, 1), Colors.WHITE);
+                TextureHandler.drawTexture("default_dirt.png", position, Vector2(16, 16), Vector2(1, 1));
+
+                // Render.rectangleLines(position, Vector2(1, 1), Colors.WHITE);
             }
         }
     }

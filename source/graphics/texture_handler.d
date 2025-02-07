@@ -22,6 +22,19 @@ public: //* BEGIN PUBLIC API.
         }
     }
 
+    void drawTexture(string textureName, Vector2 position, Vector2 sourceSize, Vector2 size) {
+        if (textureName !in database) {
+            throw new Error(
+                "[TextureManager]: Texture does not exist. Cannot draw. " ~ textureName);
+        }
+        Vector2 flippedPosition = Vector2(position.x, -position.y);
+
+        Rectangle source = Rectangle(0, 0, sourceSize.x, sourceSize.y);
+        Rectangle dest = Rectangle(flippedPosition.x, flippedPosition.y, size.x, size.y);
+
+        DrawTexturePro(*database[textureName], source, dest, Vector2(0, 0), 0, Colors.WHITE);
+    }
+
     void loadTexture(string location) {
 
         // Extract the file name from the location.
