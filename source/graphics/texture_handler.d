@@ -3,6 +3,8 @@ module graphics.texture_handler;
 import fast_pack;
 import raylib;
 import std.container;
+import std.file;
+import std.path;
 import std.regex;
 import std.stdio;
 import std.string;
@@ -15,6 +17,22 @@ private:
     TexturePacker!string textureAtlas;
 
 public: //* BEGIN PUBLIC API.
+
+    void initialize() {
+        TexturePackerConfig config;
+        config.padding = 3;
+        config.width = 128;
+        config.height = 128;
+        config.expansionAmount = 64;
+        textureAtlas = new TexturePacker!string(config);
+
+        foreach (string thisFilePathString; dirEntries("textures", "*.png", SpanMode.depth)) {
+            string fileName = baseName(thisFilePathString);
+            textureAtlas.pack(fileName, thisFilePathString);
+        }
+
+        textureAtlas.saveToFile("atlas.png");
+    }
 
     void loadTexture(string location) {
 

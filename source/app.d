@@ -5,6 +5,7 @@ import game.map;
 import game.player;
 import graphics.camera_handler;
 import graphics.font_handler;
+import graphics.texture_handler;
 import raylib;
 import std.conv;
 import std.math.traits;
@@ -29,6 +30,8 @@ void main() {
 	SetTraceLogLevel(TraceLogLevel.LOG_WARNING);
 
 	Window.initialize();
+
+	TextureHandler.initialize();
 
 	// SetWindowState(ConfigFlags.FLAG_VSYNC_HINT);
 	// SetTargetFPS(100);
