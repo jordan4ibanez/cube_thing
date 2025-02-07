@@ -1,6 +1,7 @@
 module graphics.camera_handler;
 
 import game.player;
+import graphics.gui;
 import raylib;
 import std.stdio;
 import utility.window;
@@ -12,6 +13,8 @@ private:
     Camera2D* camera;
 
 public: //* BEGIN PUBLIC API.
+
+    float realZoom = 100.0;
 
     void initialize() {
         camera = new Camera2D();
@@ -46,11 +49,11 @@ public: //* BEGIN PUBLIC API.
     }
 
     float getZoom() {
-        return camera.zoom;
+        return realZoom;
     }
 
     void setZoom(float zoom) {
-        camera.zoom = zoom;
+        realZoom = zoom;
     }
 
     void centerToPlayer() {
@@ -72,6 +75,7 @@ public: //* BEGIN PUBLIC API.
 
     void __update() {
         camera.offset = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
+        camera.zoom = realZoom * GUI.getGUIScale();
     }
 
 private: //* BEGIN INTERNAL API.
