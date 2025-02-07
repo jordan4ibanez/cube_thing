@@ -157,7 +157,8 @@ public: //* BEGIN PUBLIC API.
 
         if (oldChunk != newChunk) {
             inChunk = newChunk;
-            chunkLoaderThing();
+
+            Map.worldLoad(inChunk);
         }
     }
 
@@ -166,11 +167,5 @@ public: //* BEGIN PUBLIC API.
     }
 
 private: //* BEGIN INTERNAL API.
-
-    void chunkLoaderThing() {
-        foreach (i; inChunk - 1 .. inChunk + 2) {
-            Map.loadChunk(i);
-        }
-    }
 
 }

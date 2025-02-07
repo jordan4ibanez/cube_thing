@@ -2,6 +2,8 @@ module game.map;
 
 import graphics.render;
 import raylib.raylib_types;
+import std.conv;
+import std.math.algebraic;
 import std.random;
 import std.stdio;
 
@@ -44,6 +46,32 @@ public: //* BEGIN PUBLIC API.
         }
     }
 
+    void worldLoad(int currentPlayerChunk) {
+        foreach (i; currentPlayerChunk - 1 .. currentPlayerChunk + 2) {
+            writeln(i);
+            loadChunk(i);
+        }
+
+        // This can get very laggy if old chunks are not unloaded. :)
+        unloadOldChunks(currentPlayerChunk);
+    }
+
+private: //* BEGIN INTERNAL API.
+
+    void unloadOldChunks(int currentPlayerChunk) {
+
+        // todo: save the chunks to mongoDB.
+
+        int[] keys = [] ~ database.keys;
+
+        foreach (int key; keys) {
+            if (abs(key - currentPlayerChunk) > 1) {
+                database.remove(key);
+                // writeln("deleted: " ~ to!string(key));
+            }
+        }
+    }
+
     void loadChunk(int chunkPosition) {
         // Already loaded.
         if (chunkPosition in database) {
@@ -54,8 +82,6 @@ public: //* BEGIN PUBLIC API.
         generateChunkData(chunkPosition, newChunk);
         database[chunkPosition] = newChunk;
     }
-
-private: //* BEGIN INTERNAL API.
 
     void generateChunkData(int chunkPosition, ref Chunk thisChunk) {
 
