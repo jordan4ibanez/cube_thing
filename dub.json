@@ -4,6 +4,7 @@
 	],
 	"copyright": "Copyright © 2025, jordan4ibanez",
 	"dependencies": {
+		"option_d": "~>1.0.2",
 		"raylib-d": "~>5.5.1"
 	},
 	"description": "A cube thing",
