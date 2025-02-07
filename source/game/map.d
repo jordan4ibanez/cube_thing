@@ -2,13 +2,18 @@ module game.map;
 
 import graphics.render;
 import raylib.raylib_types;
+import std.random;
 import std.stdio;
 
 immutable int CHUNK_WIDTH = 32;
-immutable int CHUNK_HEIGHT = 128;
+immutable int CHUNK_HEIGHT = 256;
+
+// class ChunkData {
+
+// }
 
 class Chunk {
-    int[CHUNK_WIDTH][CHUNK_HEIGHT] data;
+    int[CHUNK_HEIGHT][CHUNK_WIDTH] data;
 }
 
 static final const class Map {
@@ -22,8 +27,13 @@ public: //* BEGIN PUBLIC API.
     void draw() {
         foreach (key, value; database) {
             foreach (x; 0 .. CHUNK_WIDTH) {
-                foreach (y; 0 .. 1) {
-                    
+                foreach (y; 0 .. CHUNK_HEIGHT) {
+
+                    if (value.data[x][y] == 0) {
+                        continue;
+                    }
+
+                    // +1 on Y because it's drawn with the origin at the top left.
                     Vector2 position = Vector2(x, y + 1);
 
                     Render.rectangle(position, Vector2(1, 1), Colors.ORANGE);
@@ -34,8 +44,32 @@ public: //* BEGIN PUBLIC API.
         }
     }
 
-    void initialize() {
-        database[0] = new Chunk();
+    void loadChunk(int chunkPosition) {
+        // Already loaded.
+        if (chunkPosition in database) {
+            return;
+        }
+
+        Chunk newChunk = new Chunk();
+
+        generateChunkData(chunkPosition, newChunk);
+
+        database[chunkPosition] = newChunk;
+
+    }
+
+    void generateChunkData(int chunkPosition, ref Chunk thisChunk) {
+
+        //? This is a placeholder.
+
+        auto rnd = Random(unpredictableSeed());
+
+        foreach (x; 0 .. CHUNK_WIDTH) {
+            foreach (y; 0 .. CHUNK_HEIGHT) {
+                int data = uniform(0, 2, rnd);
+                thisChunk.data[x][y] = data;
+            }
+        }
     }
 
 private: //* BEGIN INTERNAL API.
