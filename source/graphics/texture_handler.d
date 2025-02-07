@@ -1,6 +1,5 @@
 module graphics.texture_handler;
 
-import fast_pack;
 import raylib;
 import std.container;
 import std.file;
@@ -14,24 +13,13 @@ static:
 private:
 
     Texture2D*[string] database;
-    TexturePacker!string textureAtlas;
 
 public: //* BEGIN PUBLIC API.
 
     void initialize() {
-        TexturePackerConfig config;
-        config.padding = 3;
-        config.width = 128;
-        config.height = 128;
-        config.expansionAmount = 64;
-        textureAtlas = new TexturePacker!string(config);
-
         foreach (string thisFilePathString; dirEntries("textures", "*.png", SpanMode.depth)) {
-            string fileName = baseName(thisFilePathString);
-            textureAtlas.pack(fileName, thisFilePathString);
+            loadTexture(thisFilePathString);
         }
-
-        textureAtlas.saveToFile("atlas.png");
     }
 
     void loadTexture(string location) {
