@@ -25,16 +25,16 @@ private:
 public: //* BEGIN PUBLIC API.
 
     void draw() {
-        foreach (key, value; database) {
+        foreach (chunkWorldPosition, thisChunk; database) {
             foreach (x; 0 .. CHUNK_WIDTH) {
                 foreach (y; 0 .. CHUNK_HEIGHT) {
 
-                    if (value.data[x][y] == 0) {
+                    if (thisChunk.data[x][y] == 0) {
                         continue;
                     }
 
                     // +1 on Y because it's drawn with the origin at the top left.
-                    Vector2 position = Vector2(x, y + 1);
+                    Vector2 position = Vector2((chunkWorldPosition * CHUNK_WIDTH) + x, y + 1);
 
                     Render.rectangle(position, Vector2(1, 1), Colors.ORANGE);
 
@@ -49,15 +49,10 @@ public: //* BEGIN PUBLIC API.
         if (chunkPosition in database) {
             return;
         }
-
         // todo: try to read from mongoDB.
-
         Chunk newChunk = new Chunk();
-
         generateChunkData(chunkPosition, newChunk);
-
         database[chunkPosition] = newChunk;
-
     }
 
     void generateChunkData(int chunkPosition, ref Chunk thisChunk) {
