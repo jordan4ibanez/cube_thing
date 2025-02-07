@@ -1,8 +1,8 @@
 {
 	"fileVersion": 1,
 	"versions": {
-		"arsd-official": "10.9.10",
-		"fast_pack": "3.0.2",
+		"fast_pack": "3.0.4",
+		"mini_png": "1.0.1",
 		"raylib-d": "5.5.1"
 	}
 }
