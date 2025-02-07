@@ -1,5 +1,6 @@
 module graphics.texture_handler;
 
+import fast_pack;
 import raylib;
 import std.container;
 import std.regex;
@@ -11,10 +12,11 @@ static:
 private:
 
     Texture2D*[string] database;
+    TexturePacker!string textureAtlas;
 
-    //* BEGIN PUBLIC API.
+public: //* BEGIN PUBLIC API.
 
-    public void loadTexture(string location) {
+    void loadTexture(string location) {
 
         // Extract the file name from the location.
         string fileName = () {
@@ -44,7 +46,7 @@ private:
         database[fileName] = thisTexture;
     }
 
-    public Texture2D* getTexturePointer(string textureName) {
+    Texture2D* getTexturePointer(string textureName) {
         if (textureName !in database) {
             throw new Error("[TextureManager]: Texture does not exist. " ~ textureName);
         }
@@ -52,7 +54,7 @@ private:
         return database[textureName];
     }
 
-    public void deleteTexture(string textureName) {
+    void deleteTexture(string textureName) {
         if (textureName !in database) {
             throw new Error(
                 "[TextureManager]: Texture does not exist. Cannot delete. " ~ textureName);
@@ -63,7 +65,7 @@ private:
         database.remove(textureName);
     }
 
-    public void terminate() {
+    void terminate() {
         foreach (textureName, thisTexture; database) {
             UnloadTexture(*thisTexture);
         }
@@ -71,5 +73,5 @@ private:
         database.clear();
     }
 
-    //* BEGIN INTERNAL API.
+private: //* BEGIN INTERNAL API.
 }
