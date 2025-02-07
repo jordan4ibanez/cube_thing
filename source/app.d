@@ -35,8 +35,6 @@ void main() {
 
 	CameraHandler.initialize();
 
-	Map.loadChunk(0);
-
 	while (Window.shouldStayOpen()) {
 
 		double delta = Delta.getDelta();
