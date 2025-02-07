@@ -5,8 +5,8 @@ import raylib.raylib_types;
 import std.random;
 import std.stdio;
 
-immutable int CHUNK_WIDTH = 32;
-immutable int CHUNK_HEIGHT = 256;
+immutable public int CHUNK_WIDTH = 32;
+immutable public int CHUNK_HEIGHT = 256;
 
 // class ChunkData {
 
@@ -49,6 +49,8 @@ public: //* BEGIN PUBLIC API.
         if (chunkPosition in database) {
             return;
         }
+
+        // todo: try to read from mongoDB.
 
         Chunk newChunk = new Chunk();
 
