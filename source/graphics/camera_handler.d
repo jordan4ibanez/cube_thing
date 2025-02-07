@@ -66,6 +66,10 @@ public: //* BEGIN PUBLIC API.
         camera.target = playerCenter;
     }
 
+    Vector2 screenToWorld(int x, int y) {
+        return GetScreenToWorld2D(Vector2(x, y), *camera);
+    }
+
     void __update() {
         camera.offset = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
     }
