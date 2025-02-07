@@ -1,6 +1,7 @@
 module game.player;
 
 import controls.keyboard;
+import game.map;
 import game.map : CHUNK_HEIGHT, CHUNK_WIDTH;
 import graphics.render;
 import raylib;
@@ -155,8 +156,8 @@ public: //* BEGIN PUBLIC API.
         int newChunk = cast(int) floor(position.x / CHUNK_WIDTH);
 
         if (oldChunk != newChunk) {
-            writeln("update!");
             inChunk = newChunk;
+            chunkLoaderThing();
         }
     }
 
@@ -165,5 +166,11 @@ public: //* BEGIN PUBLIC API.
     }
 
 private: //* BEGIN INTERNAL API.
+
+    void chunkLoaderThing() {
+        foreach (i; inChunk - 1 .. inChunk + 2) {
+            Map.loadChunk(i);
+        }
+    }
 
 }
