@@ -46,6 +46,32 @@ public: //* BEGIN PUBLIC API.
         }
     }
 
+    int calculateChunkAtWorldPosition(float x) {
+        return cast(int) floor(x / CHUNK_WIDTH);
+    }
+
+    int getBlockAtWorldPosition(Vector2 position) {
+        int chunkID = calculateChunkAtWorldPosition(position.x);
+
+        if (chunkID !in database) {
+            return 0;
+        }
+
+        int xPosInChunk = cast(int) floor(position.x % CHUNK_WIDTH);
+        // Account for negatives.
+        if (xPosInChunk < 0) {
+            xPosInChunk += CHUNK_WIDTH;
+        }
+
+        int yPosInChunk = cast(int) floor(position.y);
+        // Out of bounds.
+        if (yPosInChunk < 0 || yPosInChunk >= CHUNK_HEIGHT) {
+            return 0;
+        }
+
+        return database[chunkID].data[xPosInChunk][yPosInChunk];
+    }
+
     void worldLoad(int currentPlayerChunk) {
         foreach (i; currentPlayerChunk - 1 .. currentPlayerChunk + 2) {
             writeln(i);
@@ -67,6 +93,7 @@ private: //* BEGIN INTERNAL API.
         foreach (int key; keys) {
             if (abs(key - currentPlayerChunk) > 1) {
                 database.remove(key);
+                // todo: save the chunks to mongoDB.
                 // writeln("deleted: " ~ to!string(key));
             }
         }
