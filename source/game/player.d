@@ -3,7 +3,8 @@ module game.player;
 import controls.keyboard;
 import game.map;
 import graphics.render;
-import raylib;
+import math.rect;
+import math.vec2d;
 import std.math.algebraic : abs;
 import std.math.rounding;
 import std.math.traits : sgn;
@@ -11,6 +12,7 @@ import std.stdio;
 import utility.collision_functions;
 import utility.delta;
 import utility.drawing_functions;
+import raylib;
 
 static final const class Player {
 static:
@@ -34,19 +36,19 @@ private:
 
     // todo: replace this with double type!
 
-    Vector2 size = Vector2(0.6, 1.8);
-    Vector2 position = Vector2(100_000, 0);
-    Vector2 velocity = Vector2(0, 0);
+    Vec2d size = Vec2d(0.6, 1.8);
+    Vec2d position = Vec2d(100_000, 0);
+    Vec2d velocity = Vec2d(0, 0);
     int inChunk = int.max;
     bool firstGen = true;
 
 public: //* BEGIN PUBLIC API.
 
-    Vector2 getSize() {
+    Vec2d getSize() {
         return size;
     }
 
-    Vector2 getPosition() {
+    Vec2d getPosition() {
         return position;
     }
 
@@ -58,21 +60,21 @@ public: //* BEGIN PUBLIC API.
         return size.x * 0.5;
     }
 
-    Vector2 getVelocity() {
+    Vec2d getVelocity() {
         return velocity;
     }
 
-    void setPosition(Vector2 newPosition) {
+    void setPosition(Vec2d newPosition) {
         position = newPosition;
     }
 
-    void setVelocity(Vector2 newVelocity) {
+    void setVelocity(Vec2d newVelocity) {
         velocity = newVelocity;
     }
 
-    Rectangle getRectangle() {
-        Vector2 centeredPosition = centerCollisionboxBottom(position, size);
-        return Rectangle(centeredPosition.x, centeredPosition.y, size.x, size.y);
+    Rect getRectangle() {
+        Vec2d centeredPosition = centerCollisionboxBottom(position, size);
+        return Rect(centeredPosition.x, centeredPosition.y, size.x, size.y);
     }
 
     void draw() {
