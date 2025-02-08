@@ -1,6 +1,7 @@
 module game.block_database;
 
 import graphics.texture_handler;
+import std.string;
 
 class BlockDefinition {
     string name = null;
@@ -27,6 +28,10 @@ public: //* BEGIN PUBLIC API.
 
         if (newBlock.name is null) {
             throw new Error("Name for block is null.");
+        }
+
+        if (newBlock.name.toLower() == "air") {
+            throw new Error("Block air is reserved by engine.");
         }
 
         if (newBlock.name in nameDatabase) {
