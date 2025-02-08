@@ -101,7 +101,7 @@ public: //* BEGIN PUBLIC API.
         }
     }
 
-    float getTop(float xPosition) {
+    double getTop(double xPosition) {
         int chunkID = calculateChunkAtWorldPosition(xPosition);
         int xPosInChunk = getXInChunk(xPosition);
 
@@ -119,11 +119,11 @@ public: //* BEGIN PUBLIC API.
         return 0;
     }
 
-    int calculateChunkAtWorldPosition(float x) {
+    int calculateChunkAtWorldPosition(double x) {
         return cast(int) floor(x / CHUNK_WIDTH);
     }
 
-    int getXInChunk(float x) {
+    int getXInChunk(double x) {
         int result = cast(int) floor(x % CHUNK_WIDTH);
         // Account for negatives.
         if (result < 0) {
@@ -198,7 +198,7 @@ private: //* BEGIN INTERNAL API.
             throw new Error("Attempted to get biome " ~ to!string(0) ~ " which does not exist");
         }
 
-        immutable float baseHeight = 160;
+        immutable double baseHeight = 160;
 
         immutable int basePositionX = chunkPosition * CHUNK_WIDTH;
 
@@ -227,16 +227,16 @@ private: //* BEGIN INTERNAL API.
 
         foreach (x; 0 .. CHUNK_WIDTH) {
 
-            immutable float selectedNoise = fnlGetNoise2D(&noise, x + basePositionX, 0);
+            immutable double selectedNoise = fnlGetNoise2D(&noise, x + basePositionX, 0);
 
-            immutable float noiseScale = 20;
+            immutable double noiseScale = 20;
 
             immutable int selectedHeight = cast(int) floor(baseHeight + (selectedNoise * noiseScale));
 
             immutable int grassLayer = selectedHeight;
             immutable int dirtLayer = selectedHeight - 3;
 
-            immutable float bedRockNoise = fnlGetNoise2D(&noise, (x + basePositionX) * 12, 0) * 2;
+            immutable double bedRockNoise = fnlGetNoise2D(&noise, (x + basePositionX) * 12, 0) * 2;
             immutable int bedRockSelectedHeight = cast(int) round(abs(bedRockNoise));
 
             yStack: foreach (y; 0 .. CHUNK_HEIGHT) {
