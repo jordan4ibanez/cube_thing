@@ -202,7 +202,7 @@ private: //* BEGIN INTERNAL API.
             immutable int grassLayer = selectedHeight;
             immutable int dirtLayer = selectedHeight - 3;
 
-            immutable float bedRockNoise = fnlGetNoise2D(&noise, (x + basePositionX) * 256, 0) * 2;
+            immutable float bedRockNoise = fnlGetNoise2D(&noise, (x + basePositionX) * 12, 0) * 2;
 
             immutable int bedRockSelectedHeight = cast(int) round(abs(bedRockNoise));
 
