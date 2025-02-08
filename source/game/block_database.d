@@ -7,6 +7,7 @@ class BlockDefinition {
     string name = null;
     string modName = null;
     string texture = null;
+    int id = -1;
 }
 
 struct BlockResult {
@@ -21,6 +22,8 @@ private:
     // Faster access based on ID or name.
     BlockDefinition[string] nameDatabase;
     BlockDefinition[int] idDatabase;
+
+    int currentID = 0;
 
 public: //* BEGIN PUBLIC API.
 
