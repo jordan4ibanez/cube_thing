@@ -38,6 +38,7 @@ private:
     Vector2 position = Vector2(0, 0);
     Vector2 velocity = Vector2(0, 0);
     int inChunk = int.max;
+    bool firstGen = true;
 
 public: //* BEGIN PUBLIC API.
 
@@ -159,6 +160,13 @@ public: //* BEGIN PUBLIC API.
         if (oldChunk != newChunk) {
             inChunk = newChunk;
             Map.worldLoad(inChunk);
+
+            // Move the player to the ground level.
+            // todo: when mongoDB added, restore old position.
+            if (firstGen) {
+                position.y = Map.getTop(position.x);
+                firstGen = false;
+            }
         }
     }
 
