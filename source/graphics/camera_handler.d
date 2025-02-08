@@ -2,6 +2,7 @@ module graphics.camera_handler;
 
 import game.player;
 import graphics.gui;
+import math.vec2d;
 import raylib;
 import std.stdio;
 import utility.window;
@@ -44,8 +45,8 @@ public: //* BEGIN PUBLIC API.
         EndMode2D();
     }
 
-    void setTarget(Vector2 position) {
-        camera.target = position;
+    void setTarget(Vec2d position) {
+        camera.target = position.toRaylib();
     }
 
     double getZoom() {
@@ -57,24 +58,25 @@ public: //* BEGIN PUBLIC API.
     }
 
     void centerToPlayer() {
-        Vector2 playerPosition = Player.getPosition();
-        Vector2 offset = Player.getSize();
+        Vec2d playerPosition = Player.getPosition();
+        Vec2d offset = Player.getSize();
         offset.x = 0;
         //? this will move it to the center of the collisionbox.
         // offset.y *= -0.5;
         offset.y = 0;
 
-        Vector2 playerCenter = Vector2Add(playerPosition, offset);
+        Vec2d playerCenter = vec2dAdd(playerPosition, offset);
 
-        camera.target = playerCenter;
+        camera.target = playerCenter.toRaylib();
     }
 
-    Vector2 screenToWorld(int x, int y) {
-        return GetScreenToWorld2D(Vector2(x, y), *camera);
+    Vec2d screenToWorld(int x, int y) {
+
+        return Vec2d(GetScreenToWorld2D(Vec2d(x, y).toRaylib(), *camera));
     }
 
     void __update() {
-        camera.offset = Vector2Multiply(Window.getSize(), Vector2(0.5, 0.5));
+        camera.offset = vec2dMultiply(Window.getSize(), Vec2d(0.5, 0.5)).toRaylib();
         camera.zoom = realZoom * GUI.getGUIScale();
     }
 
