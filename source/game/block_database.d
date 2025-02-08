@@ -25,7 +25,7 @@ private:
     BlockDefinition[string] nameDatabase;
     BlockDefinition[int] idDatabase;
 
-    int currentID = 1;
+    int currentID = 2;
 
 public: //* BEGIN PUBLIC API.
 
@@ -77,10 +77,11 @@ public: //* BEGIN PUBLIC API.
     void finalize() {
 
         makeAir();
+        makeBedrock();
 
         foreach (name, ref thisDefinition; nameDatabase) {
 
-            if (name == "air") {
+            if (name == "air" || name == "bedrock") {
                 continue;
             }
 
@@ -107,6 +108,20 @@ private: //* BEGIN INTERNAL API.
 
         nameDatabase[air.name] = air;
         idDatabase[air.id] = air;
+    }
+
+    void makeBedrock() {
+        BlockDefinition bedrock = new BlockDefinition();
+        bedrock.name = "bedrock";
+        bedrock.modName = "engine";
+        bedrock.texture = "default_bedrock.png";
+        // todo: do the match thing below when mongoDB is added in.
+        bedrock.id = 1;
+
+        debugWrite(bedrock);
+
+        nameDatabase[bedrock.name] = bedrock;
+        idDatabase[bedrock.id] = bedrock;
     }
 
     void debugWrite(BlockDefinition definition) {
