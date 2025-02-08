@@ -1,5 +1,6 @@
 module game.map;
 
+import fast_noise;
 import game.block_database;
 import graphics.camera_handler;
 import graphics.render;
@@ -29,8 +30,13 @@ static:
 private:
 
     Chunk[int] database;
+    FNLState noise;
 
 public: //* BEGIN PUBLIC API.
+
+    void initialize() {
+        noise.seed = 1_010_010;
+    }
 
     void draw() {
 
