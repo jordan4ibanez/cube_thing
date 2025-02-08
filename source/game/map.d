@@ -6,7 +6,6 @@ import game.block_database;
 import graphics.camera_handler;
 import graphics.render;
 import graphics.texture_handler;
-import raylib.raylib_types;
 import std.algorithm.comparison;
 import std.conv;
 import std.math.algebraic;
@@ -14,6 +13,7 @@ import std.math.rounding;
 import std.random;
 import std.stdio;
 import utility.window;
+import math.vec2d;
 
 immutable public int CHUNK_WIDTH = 32;
 immutable public int CHUNK_HEIGHT = 256;
@@ -45,8 +45,8 @@ public: //* BEGIN PUBLIC API.
         int windowWidth = Window.getWidth();
         int windowHeight = Window.getHeight();
 
-        Vector2 bottomLeft = CameraHandler.screenToWorld(0, 0);
-        Vector2 topRight = CameraHandler.screenToWorld(windowWidth, windowHeight);
+        Vec2d bottomLeft = CameraHandler.screenToWorld(0, 0);
+        Vec2d topRight = CameraHandler.screenToWorld(windowWidth, windowHeight);
 
         int minX = cast(int) floor(bottomLeft.x);
         int minY = cast(int) floor(bottomLeft.y);
@@ -72,7 +72,7 @@ public: //* BEGIN PUBLIC API.
             // todo: cache the chunk.
             foreach (y; minY .. maxY + 1) {
 
-                Vector2 position = Vector2(x, y);
+                Vec2d position = Vec2d(x, y);
 
                 ChunkData thisData = getBlockAtWorldPosition(position);
 
@@ -84,19 +84,19 @@ public: //* BEGIN PUBLIC API.
 
                 position.y += 1;
 
-                // Render.rectangle(position, Vector2(1, 1), Colors.ORANGE);
+                // Render.rectangle(position, Vec2d(1, 1), Colors.ORANGE);
 
                 BlockDefinitionResult thisBlockResult = BlockDatabase.getBlockByID(
                     thisData.blockID);
 
                 if (!thisBlockResult.exists) {
-                    TextureHandler.drawTexture("unknown.png", position, Vector2(16, 16), Vector2(1, 1));
+                    TextureHandler.drawTexture("unknown.png", position, Vec2d(16, 16), Vec2d(1, 1));
                 } else {
-                    TextureHandler.drawTexture(thisBlockResult.definition.texture, position, Vector2(16, 16), Vector2(
+                    TextureHandler.drawTexture(thisBlockResult.definition.texture, position, Vec2d(16, 16), Vec2d(
                             1, 1));
                 }
 
-                // Render.rectangleLines(position, Vector2(1, 1), Colors.WHITE);
+                // Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);
             }
         }
     }
@@ -132,7 +132,7 @@ public: //* BEGIN PUBLIC API.
         return result;
     }
 
-    ChunkData getBlockAtWorldPosition(Vector2 position) {
+    ChunkData getBlockAtWorldPosition(Vec2d position) {
         int chunkID = calculateChunkAtWorldPosition(position.x);
 
         if (chunkID !in database) {
