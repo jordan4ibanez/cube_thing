@@ -59,19 +59,19 @@ public: //* BEGIN PUBLIC API.
 
     void finalize() {
         foreach (name, ref thisBiome; nameDatabase) {
-            BlockResult grassResult = BlockDatabase.getBlockByName(thisBiome.grassLayer);
+            BlockDefinitionResult grassResult = BlockDatabase.getBlockByName(thisBiome.grassLayer);
             if (!grassResult.exists) {
                 throw new Error(
                     "Biome " ~ thisBiome.name ~ " grass layer " ~ thisBiome.grassLayer ~ " is not a registered block");
             }
 
-            BlockResult dirtResult = BlockDatabase.getBlockByName(thisBiome.dirtLayer);
+            BlockDefinitionResult dirtResult = BlockDatabase.getBlockByName(thisBiome.dirtLayer);
             if (!dirtResult.exists) {
                 throw new Error(
                     "Biome " ~ thisBiome.name ~ " dirt layer " ~ thisBiome.dirtLayer ~ " is not a registered block");
             }
 
-            BlockResult stoneResult = BlockDatabase.getBlockByName(thisBiome.stoneLayer);
+            BlockDefinitionResult stoneResult = BlockDatabase.getBlockByName(thisBiome.stoneLayer);
             if (!stoneResult.exists) {
                 throw new Error(
                     "Biome " ~ thisBiome.name ~ " stone layer " ~ thisBiome.stoneLayer ~ " is not a registered block");
