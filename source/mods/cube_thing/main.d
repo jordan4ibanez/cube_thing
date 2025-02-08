@@ -12,8 +12,7 @@ void cubeThingMain() {
 
     CubeThingBlock dirt = new CubeThingBlock();
     dirt.name = "dirt";
-    dirt.texture = "dirt.png";
-    dirt.id = 1;
+    dirt.texture = "default_dirt.png";
 
     BlockDatabase.registerBlock(dirt);
 
