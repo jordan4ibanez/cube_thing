@@ -66,9 +66,9 @@ public: //* BEGIN PUBLIC API.
 
                 Vector2 position = Vector2(x, y);
 
-                int thisData = getBlockAtWorldPosition(position);
+                ChunkData thisData = getBlockAtWorldPosition(position);
 
-                if (thisData == 0) {
+                if (thisData.blockID == 0) {
                     continue;
                 }
 
@@ -89,11 +89,11 @@ public: //* BEGIN PUBLIC API.
         return cast(int) floor(x / CHUNK_WIDTH);
     }
 
-    int getBlockAtWorldPosition(Vector2 position) {
+    ChunkData getBlockAtWorldPosition(Vector2 position) {
         int chunkID = calculateChunkAtWorldPosition(position.x);
 
         if (chunkID !in database) {
-            return 0;
+            return ChunkData();
         }
 
         int xPosInChunk = cast(int) floor(position.x % CHUNK_WIDTH);
@@ -105,7 +105,7 @@ public: //* BEGIN PUBLIC API.
         int yPosInChunk = cast(int) floor(position.y);
         // Out of bounds.
         if (yPosInChunk < 0 || yPosInChunk >= CHUNK_HEIGHT) {
-            return 0;
+            return ChunkData();
         }
 
         return database[chunkID].data[xPosInChunk][yPosInChunk];
@@ -158,7 +158,7 @@ private: //* BEGIN INTERNAL API.
         foreach (x; 0 .. CHUNK_WIDTH) {
             foreach (y; 0 .. CHUNK_HEIGHT) {
                 int data = uniform(0, 2, rnd);
-                thisChunk.data[x][y] = data;
+                thisChunk.data[x][y].blockID = data;
             }
         }
     }
