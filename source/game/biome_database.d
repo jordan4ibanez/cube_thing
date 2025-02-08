@@ -14,6 +14,10 @@ class BiomeDefinition {
     int dirtLayerID = -1;
     string stoneLayer = null;
     int stoneLayerID = -1;
+
+    // todo: noise parameters.
+
+    // todo: ores.
 }
 
 static final const class BiomeDatabase {
