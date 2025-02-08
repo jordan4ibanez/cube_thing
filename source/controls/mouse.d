@@ -1,5 +1,6 @@
 module controls.mouse;
 
+public import raylib : MouseButton;
 import raylib;
 
 static final const class Mouse {
