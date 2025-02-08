@@ -8,11 +8,11 @@ private:
 
     // We standardize the GUI with 1080p.
     immutable Vector2 standardSize = Vector2(1920.0, 1080.0);
-    float currentGUIScale = 1.0;
+    double currentGUIScale = 1.0;
 
 public: //* BEGIN PUBLIC API.
 
-    float getGUIScale() {
+    double getGUIScale() {
         return currentGUIScale;
     }
 
