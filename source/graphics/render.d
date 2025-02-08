@@ -1,5 +1,7 @@
 module graphics.render;
 
+import math.rect;
+import math.vec2d;
 import raylib;
 
 static final const class Render {
@@ -8,25 +10,25 @@ private:
 
 public: //* BEGIN PUBLIC API.
 
-    void rectangle(Vector2 position, Vector2 size, Color color) {
-        DrawRectangleV(invertPosition(position), size, color);
+    void rectangle(Vec2d position, Vec2d size, Color color) {
+        DrawRectangleV(invertPosition(position).toRaylib(), size.toRaylib(), color);
     }
 
-    void rectangleLines(Vector2 position, Vector2 size, Color color, double thickness = 0.01) {
-        Vector2 invertedPosition = invertPosition(position);
-        Rectangle rect = Rectangle(invertedPosition.x, invertedPosition.y, size.x, size.y);
-        DrawRectangleLinesEx(rect, thickness, color);
+    void rectangleLines(Vec2d position, Vec2d size, Color color, double thickness = 0.01) {
+        Vec2d invertedPosition = invertPosition(position);
+        Rect rect = Rect(invertedPosition.x, invertedPosition.y, size.x, size.y);
+        DrawRectangleLinesEx(rect.toRaylib(), thickness, color);
     }
 
-    void circle(Vector2 center, double radius, Color color) {
-        Vector2 invertedPosition = invertPosition(center);
-        DrawCircleV(invertedPosition, radius, color);
+    void circle(Vec2d center, double radius, Color color) {
+        Vec2d invertedPosition = invertPosition(center);
+        DrawCircleV(invertedPosition.toRaylib(), radius, color);
     }
 
 private: //* BEGIN INTERNAL API.
 
-    Vector2 invertPosition(Vector2 position) {
-        return Vector2(position.x, -position.y);
+    Vec2d invertPosition(Vec2d position) {
+        return Vec2d(position.x, -position.y);
     }
 
 }
