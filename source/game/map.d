@@ -15,12 +15,12 @@ import utility.window;
 immutable public int CHUNK_WIDTH = 32;
 immutable public int CHUNK_HEIGHT = 256;
 
-// class ChunkData {
+struct ChunkData {
+    int blockID = 0;
+}
 
-// }
-
-class Chunk {
-    int[CHUNK_HEIGHT][CHUNK_WIDTH] data;
+final class Chunk {
+    ChunkData[CHUNK_HEIGHT][CHUNK_WIDTH] data;
 }
 
 static final const class Map {
