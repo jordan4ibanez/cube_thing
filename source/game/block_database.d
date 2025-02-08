@@ -44,15 +44,16 @@ public: //* BEGIN PUBLIC API.
         }
 
         if (newBlock.modName is null) {
-            throw new Error("Mod name for block is null.");
+            throw new Error("Mod name is null for block " ~ newBlock.name);
         }
 
         if (newBlock.texture is null) {
-            throw new Error("Texture for block is null.");
+            throw new Error("Texture is null for block " ~ newBlock.name);
         }
 
         if (!TextureHandler.hasTexture(newBlock.texture)) {
-            throw new Error("Texture for block does not exist.");
+            throw new Error(
+                "Texture " ~ newBlock.texture ~ "for block " ~ newBlock.name ~ " does not exist");
         }
 
         nameDatabase[newBlock.name] = newBlock;
