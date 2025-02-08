@@ -84,6 +84,7 @@ public: //* BEGIN PUBLIC API.
                 continue;
             }
 
+            // todo: do the match thing below when mongoDB is added in.
             thisDefinition.id = nextID();
             idDatabase[thisDefinition.id] = thisDefinition;
 
