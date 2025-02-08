@@ -1,10 +1,10 @@
 module utility.drawing_functions;
 
-import raylib;
+import math.vec2d;
 
 /// This takes the game coordinates and shifts it to be drawn by raylib for a rectangle.
-Vector2 centerCollisionboxBottom(Vector2 position, Vector2 size) {
-    Vector2 newPosition = position;
+Vec2d centerCollisionboxBottom(Vec2d position, Vec2d size) {
+    Vec2d newPosition = position;
     newPosition.x -= size.x * 0.5;
     newPosition.y += size.y;
     return newPosition;
