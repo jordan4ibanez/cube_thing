@@ -1,5 +1,7 @@
 module mods.api;
 
+import game.biome_database;
+import game.block_database;
 import mods.cube_thing.main;
 
 static final const class Api {
@@ -16,7 +18,9 @@ public: //* BEGIN PUBLIC API.
 private: //* BEGIN INTERNAL API.
 
     void finalize() {
-        // todo: biomes register here.
+        BlockDatabase.finalize();
+        BiomeDatabase.finalize();
+
     }
 
 }

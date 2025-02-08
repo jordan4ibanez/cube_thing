@@ -2,6 +2,8 @@ module game.block_database;
 
 import graphics.texture_handler;
 import std.string;
+import std.stdio;
+import std.conv;
 
 class BlockDefinition {
     string name = null;
@@ -72,10 +74,27 @@ public: //* BEGIN PUBLIC API.
     }
 
     void finalize() {
-        
+        makeAir();
+
     }
 
 private: //* BEGIN INTERNAL API.
+
+    void makeAir() {
+        BlockDefinition air = new BlockDefinition();
+        air.name = "air";
+        air.modName = "engine";
+        air.texture = "air.png";
+        // todo: do the match thing below when mongoDB is added in.
+        air.id = nextID();
+
+        nameDatabase[air.name] = air;
+        idDatabase[air.id] = air;
+    }
+
+    void debugWrite(BlockDefinition definition) {
+        writeln("Block " ~ definition.name ~ " at ID " ~ to!string(definition.id));
+    }
 
     // todo: make this pull the standard IDs into an associative array from the mongoDB.
     // todo: mongoDB should store the MAX current ID and restore it.
