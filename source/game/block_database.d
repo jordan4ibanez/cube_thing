@@ -17,8 +17,9 @@ static final const class BlockDatabase {
 static:
 private:
 
-    BlockDefinition[string] databaseName;
-    BlockDefinition[int] databaseID;
+    // Faster access based on ID or name.
+    BlockDefinition[string] nameDatabase;
+    BlockDefinition[int] idDatabase;
 
 public: //* BEGIN PUBLIC API.
 
@@ -28,7 +29,7 @@ public: //* BEGIN PUBLIC API.
             throw new Error("Name for block is null.");
         }
 
-        if (newBlock.name in databaseName) {
+        if (newBlock.name in nameDatabase) {
             throw new Error("Trying to override block " ~ newBlock.name);
         }
 
@@ -44,23 +45,23 @@ public: //* BEGIN PUBLIC API.
             throw new Error("Texture for block does not exist.");
         }
 
-        databaseName[newBlock.name] = newBlock;
+        nameDatabase[newBlock.name] = newBlock;
 
     }
 
     BlockResult getBlockByID(int id) {
-        if (id !in databaseID) {
+        if (id !in idDatabase) {
             return BlockResult();
         }
 
-        return BlockResult(databaseID[id], true);
+        return BlockResult(idDatabase[id], true);
     }
 
     BlockResult getBlockByName(string name) {
-        if (name !in databaseName) {
+        if (name !in nameDatabase) {
             return BlockResult();
         }
-        return BlockResult(databaseName[name], true);
+        return BlockResult(nameDatabase[name], true);
     }
 
 private: //* BEGIN INTERNAL API.
