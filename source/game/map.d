@@ -112,11 +112,7 @@ public: //* BEGIN PUBLIC API.
             return ChunkData();
         }
 
-        int xPosInChunk = cast(int) floor(position.x % CHUNK_WIDTH);
-        // Account for negatives.
-        if (xPosInChunk < 0) {
-            xPosInChunk += CHUNK_WIDTH;
-        }
+        int xPosInChunk = getXInChunk(position.x);
 
         int yPosInChunk = cast(int) floor(position.y);
         // Out of bounds.
