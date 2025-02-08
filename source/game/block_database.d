@@ -74,4 +74,14 @@ public: //* BEGIN PUBLIC API.
 
 private: //* BEGIN INTERNAL API.
 
+    // todo: make this pull the standard IDs into an associative array from the mongoDB.
+    // todo: mongoDB should store the MAX current ID and restore it.
+    // todo: Then, match to it. If it doesn't match, this is a new block.
+    // todo: Then you'd call into this. :)
+    int nextID() {
+        int thisID = currentID;
+        currentID++;
+        return thisID;
+    }
+
 }
