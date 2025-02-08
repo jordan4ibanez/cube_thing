@@ -1,14 +1,26 @@
 module mods.cube_thing.main;
 
+import game.biome_database;
 import game.block_database;
+import std.stdio;
+
+private immutable string nameOfMod = "CubeThing";
 
 class CubeThingBlock : BlockDefinition {
     this() {
-        this.modName = "CubeThing";
+        this.modName = nameOfMod;
+    }
+}
+
+class CubeThingBiome : BiomeDefinition {
+    this() {
+        this.modName = nameOfMod;
     }
 }
 
 void cubeThingMain() {
+
+    //? Blocks.
 
     CubeThingBlock stone = new CubeThingBlock();
     stone.name = "stone";
@@ -24,5 +36,15 @@ void cubeThingMain() {
     grass.name = "grass";
     grass.texture = "default_grass.png";
     BlockDatabase.registerBlock(grass);
+
+    //? Biomes.
+
+    CubeThingBiome grassLands = new CubeThingBiome();
+    grassLands.name = "grass lands";
+    grassLands.grassLayer = "grass";
+    grassLands.dirtLayer = "dirt";
+    grassLands.stoneLayer = "stone";
+
+    BiomeDatabase.registerBiome(grassLands);
 
 }
