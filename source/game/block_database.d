@@ -30,7 +30,7 @@ public: //* BEGIN PUBLIC API.
         }
 
         if (newBlock.name in nameDatabase) {
-            throw new Error("Trying to override block " ~ newBlock.name);
+            throw new Error("Trying to overwrite block " ~ newBlock.name);
         }
 
         if (newBlock.modName is null) {
