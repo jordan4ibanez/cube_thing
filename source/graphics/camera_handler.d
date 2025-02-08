@@ -14,7 +14,7 @@ private:
 
 public: //* BEGIN PUBLIC API.
 
-    float realZoom = 100.0;
+    double realZoom = 100.0;
 
     void initialize() {
         camera = new Camera2D();
@@ -48,11 +48,11 @@ public: //* BEGIN PUBLIC API.
         camera.target = position;
     }
 
-    float getZoom() {
+    double getZoom() {
         return realZoom;
     }
 
-    void setZoom(float zoom) {
+    void setZoom(double zoom) {
         realZoom = zoom;
     }
 
