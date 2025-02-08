@@ -84,16 +84,20 @@ public: //* BEGIN PUBLIC API.
             // todo: do the match thing below when mongoDB is added in.
             thisBiome.id = nextID();
 
-            import std.conv;
-            import std.stdio;
-
-            writeln("Biome " ~ thisBiome.name ~ " at ID " ~ to!string(thisBiome.id));
-
             idDatabase[thisBiome.id] = thisBiome;
+
+            debugWrite(thisBiome);
         }
     }
 
 private: //* BEGIN INTERNAL API.
+
+    void debugWrite(BiomeDefinition biome) {
+        import std.conv;
+        import std.stdio;
+
+        writeln("Biome " ~ biome.name ~ " at ID " ~ to!string(biome.id));
+    }
 
     // todo: make this pull the standard IDs into an associative array from the mongoDB.
     // todo: mongoDB should store the MAX current ID and restore it.
