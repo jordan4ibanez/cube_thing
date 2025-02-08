@@ -1,11 +1,13 @@
 module game.map;
 
+public import utility.collision_functions : CollisionAxis;
 import fast_noise;
 import game.biome_database;
 import game.block_database;
 import graphics.camera_handler;
 import graphics.render;
 import graphics.texture_handler;
+import math.vec2d;
 import std.algorithm.comparison;
 import std.conv;
 import std.math.algebraic;
@@ -13,7 +15,6 @@ import std.math.rounding;
 import std.random;
 import std.stdio;
 import utility.window;
-import math.vec2d;
 
 immutable public int CHUNK_WIDTH = 32;
 immutable public int CHUNK_HEIGHT = 256;
@@ -32,6 +33,7 @@ private:
 
     Chunk[int] database;
     FNLState noise;
+    Vec2d[] debugDrawPoints = [];
 
 public: //* BEGIN PUBLIC API.
 
@@ -68,21 +70,24 @@ public: //* BEGIN PUBLIC API.
         minY = clamp(minY, 0, CHUNK_HEIGHT);
         maxY = clamp(maxY, 0, CHUNK_HEIGHT);
 
+        // todo: cache the chunk. Maybe.
+
         foreach (x; minX .. maxX + 1) {
-            // todo: cache the chunk.
+
             foreach (y; minY .. maxY + 1) {
 
                 Vec2d position = Vec2d(x, y);
 
                 ChunkData thisData = getBlockAtWorldPosition(position);
 
+                position.y += 1;
+
                 if (thisData.blockID == 0) {
+                    Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);
                     continue;
                 }
 
                 // +1 on Y because it's drawn with the origin at the top left.
-
-                position.y += 1;
 
                 // Render.rectangle(position, Vec2d(1, 1), Colors.ORANGE);
 
@@ -96,8 +101,15 @@ public: //* BEGIN PUBLIC API.
                             1, 1));
                 }
 
-                // Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);
+                Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);
+
             }
+        }
+    }
+
+    void drawDebugPoints() {
+        foreach (point; debugDrawPoints) {
+            Render.circle(point, 0.1, Colors.ORANGE);
         }
     }
 
@@ -160,7 +172,68 @@ public: //* BEGIN PUBLIC API.
         unloadOldChunks(currentPlayerChunk);
     }
 
+    void collideEntityToWorld(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity,
+        CollisionAxis axis) {
+
+        if (axis == axis.X) {
+            collisionX(entityPosition, entitySize, entityVelocity);
+        } else {
+            collisionY(entityPosition, entitySize, entityVelocity);
+        }
+
+    }
+
 private: //* BEGIN INTERNAL API.
+
+    void collisionX(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity) {
+
+        int currentChunkID = int.min;
+        int oldX = int.min;
+        int oldY = int.min;
+        int currentX = int.min;
+        int currentY = int.min;
+        Chunk currentChunk = null;
+
+        debugDrawPoints = [];
+
+        foreach (double xOnRect; 0 .. ceil(entitySize.x) + 1) {
+            double thisXPoint = (xOnRect > entitySize.x) ? entitySize.x : xOnRect;
+            thisXPoint += entityPosition.x - (entitySize.x * 0.5);
+            oldX = currentX;
+            currentX = cast(int) floor(thisXPoint);
+
+            if (oldX == currentX) {
+                // writeln("skip X ", currentY);
+                continue;
+            }
+
+            foreach (double yOnRect; 0 .. ceil(entitySize.y) + 1) {
+                double thisYPoint = (yOnRect > entitySize.y) ? entitySize.y : yOnRect;
+                thisYPoint += entityPosition.y;
+
+                oldY = currentY;
+                currentY = cast(int) floor(thisYPoint);
+
+                if (currentY == oldY) {
+                    // writeln("skip Y ", currentY);
+                    continue;
+                }
+
+                debugDrawPoints ~= Vec2d(thisXPoint, thisYPoint);
+
+                ChunkData data = getBlockAtWorldPosition(Vec2d(currentX, currentY));
+
+                // todo: if solid collide.
+
+            }
+
+        }
+
+    }
+
+    void collisionY(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity) {
+
+    }
 
     void unloadOldChunks(int currentPlayerChunk) {
 
@@ -231,7 +304,8 @@ private: //* BEGIN INTERNAL API.
 
             immutable double noiseScale = 20;
 
-            immutable int selectedHeight = cast(int) floor(baseHeight + (selectedNoise * noiseScale));
+            immutable int selectedHeight = cast(int) floor(
+                baseHeight + (selectedNoise * noiseScale));
 
             immutable int grassLayer = selectedHeight;
             immutable int dirtLayer = selectedHeight - 3;
