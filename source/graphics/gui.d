@@ -1,13 +1,13 @@
 module graphics.gui;
 
-import raylib.raylib_types;
+import math.vec2d;
 
 static final const class GUI {
 static:
 private:
 
     // We standardize the GUI with 1080p.
-    immutable Vector2 standardSize = Vector2(1920.0, 1080.0);
+    immutable Vec2d standardSize = Vec2d(1920.0, 1080.0);
     double currentGUIScale = 1.0;
 
 public: //* BEGIN PUBLIC API.
@@ -16,10 +16,10 @@ public: //* BEGIN PUBLIC API.
         return currentGUIScale;
     }
 
-    void __update(Vector2 newWindowSize) {
+    void __update(Vec2d newWindowSize) {
         // Find out which GUI scale is smaller so things can be scaled around it.
 
-        Vector2 scales = Vector2(newWindowSize.x / standardSize.x, newWindowSize.y / standardSize.y);
+        Vec2d scales = Vec2d(newWindowSize.x / standardSize.x, newWindowSize.y / standardSize.y);
 
         if (scales.x >= scales.y) {
             currentGUIScale = scales.y;
