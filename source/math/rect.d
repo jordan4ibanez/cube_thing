@@ -1,10 +1,10 @@
-module math.rectd;
+module math.rect;
 
 import math.vec2d;
 import raylib.raylib_types : Rectangle;
 import std.math.algebraic;
 
-struct RectD {
+struct Rect {
     double x = 0.0;
     double y = 0.0;
     double width = 0.0;
@@ -30,7 +30,7 @@ struct RectD {
 }
 
 /// Check if point is inside rectangle
-bool checkCollisionPointRec(Vec2d point, RectD rec) {
+bool checkCollisionPointRec(Vec2d point, Rect rec) {
     bool collision = false;
 
     if ((point.x >= rec.x) && (point.x < (rec.x + rec.width)) && (point.y >= rec.y) && (
@@ -41,7 +41,7 @@ bool checkCollisionPointRec(Vec2d point, RectD rec) {
 }
 
 /// Check collision between two rectangles
-bool checkCollisionRecs(RectD rec1, RectD rec2) {
+bool checkCollisionRecs(Rect rec1, Rect rec2) {
     bool collision = false;
 
     if ((rec1.x < (rec2.x + rec2.width) && (rec1.x + rec1.width) > rec2.x) &&
@@ -53,7 +53,7 @@ bool checkCollisionRecs(RectD rec1, RectD rec2) {
 
 /// Check collision between circle and rectangle
 /// NOTE: Reviewed version to take into account corner limit case
-bool checkCollisionCircleRec(Vec2d center, double radius, RectD rec) {
+bool checkCollisionCircleRec(Vec2d center, double radius, Rect rec) {
     bool collision = false;
 
     double recCenterX = rec.x + rec.width / 2.0;
@@ -86,8 +86,8 @@ bool checkCollisionCircleRec(Vec2d center, double radius, RectD rec) {
 }
 
 /// Get collision rectangle for two rectangles collision
-RectD getCollisionRec(RectD rec1, RectD rec2) {
-    RectD overlap = RectD();
+Rect getCollisionRec(Rect rec1, Rect rec2) {
+    Rect overlap = Rect();
 
     double left = (rec1.x > rec2.x) ? rec1.x : rec2.x;
     double right1 = rec1.x + rec1.width;
