@@ -167,7 +167,7 @@ private: //* BEGIN INTERNAL API.
 
     void generateChunkData(int chunkPosition, ref Chunk thisChunk) {
 
-        //? This is a placeholder.
+        // todo: the chunk should have a biome.
 
         auto rnd = Random(unpredictableSeed());
 
