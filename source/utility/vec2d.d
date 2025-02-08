@@ -1,359 +1,325 @@
 module utility.vec2d;
 
-import raylib.raylib_types : Vector2;
+import core.stdc.tgmath;
+import raylib.raylib_types : Matrix, Vector2;
+import std.algorithm.comparison;
 
 struct Vec2d {
-
     double x = 0.0;
     double y = 0.0;
 
-    // Vector with components value 0.0f
-    Vec2d vector2Zero() {
-        Vec2d result = {0.0f, 0.0f};
+    Vector2 toRaylib() {
+        return Vector2(x, y);
+    }
+}
 
-        return result;
+/// Vector with components value 0.0.
+Vec2d vec2dZero() {
+    Vec2d result = {0.0, 0.0};
+    return result;
+}
+
+/// Vector with components value 1.0
+Vec2d vec2dOne() {
+    Vec2d result = {1.0, 1.0};
+    return result;
+}
+
+/// Add two vectors (v1 + v2)
+Vec2d vec2dAdd(Vec2d v1, Vec2d v2) {
+    Vec2d result = {v1.x + v2.x, v1.y + v2.y};
+
+    return result;
+}
+
+/// Add vector and float value
+Vec2d vec2dAddValue(Vec2d v, float add) {
+    Vec2d result = {v.x + add, v.y + add};
+
+    return result;
+}
+
+/// Subtract two vectors (v1 - v2)
+Vec2d vec2dSubtract(Vec2d v1, Vec2d v2) {
+    Vec2d result = {v1.x - v2.x, v1.y - v2.y};
+
+    return result;
+}
+
+/// Subtract vector by float value
+Vec2d vec2dSubtractValue(Vec2d v, float sub) {
+    Vec2d result = {v.x - sub, v.y - sub};
+
+    return result;
+}
+
+/// Calculate vector length
+float vec2dLength(Vec2d v) {
+    float result = sqrt((v.x * v.x) + (v.y * v.y));
+
+    return result;
+}
+
+/// Calculate vector square length
+float vec2dLengthSqr(Vec2d v) {
+    float result = (v.x * v.x) + (v.y * v.y);
+
+    return result;
+}
+
+/// Calculate two vectors dot product
+float vec2dDotProduct(Vec2d v1, Vec2d v2) {
+    float result = (v1.x * v2.x + v1.y * v2.y);
+
+    return result;
+}
+
+/// Calculate two vectors cross product
+float vec2dCrossProduct(Vec2d v1, Vec2d v2) {
+    float result = (v1.x * v2.y - v1.y * v2.x);
+
+    return result;
+}
+
+/// Calculate distance between two vectors
+float vec2dDistance(Vec2d v1, Vec2d v2) {
+    float result = sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
+
+    return result;
+}
+
+/// Calculate square distance between two vectors
+float vec2dDistanceSqr(Vec2d v1, Vec2d v2) {
+    float result = ((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
+
+    return result;
+}
+
+/// Calculate the signed angle from v1 to v2, relative to the origin (0, 0)
+/// NOTE: Coordinate system convention: positive X right, positive Y down,
+/// positive angles appear clockwise, and negative angles appear counterclockwise
+float vec2dAngle(Vec2d v1, Vec2d v2) {
+    float result = 0.0f;
+
+    float dot = v1.x * v2.x + v1.y * v2.y;
+    float det = v1.x * v2.y - v1.y * v2.x;
+
+    result = atan2(det, dot);
+
+    return result;
+}
+
+/// Calculate angle defined by a two vectors line
+/// NOTE: Parameters need to be normalized
+/// Current implementation should be aligned with glm::angle
+float vec2dLineAngle(Vec2d start, Vec2d end) {
+    float result = 0.0f;
+
+    // TODO(10/9/2023): Currently angles move clockwise, determine if this is wanted behavior
+    result = -atan2(end.y - start.y, end.x - start.x);
+
+    return result;
+}
+
+/// Scale vector (multiply by value)
+Vec2d vec2dScale(Vec2d v, float scale) {
+    Vec2d result = {v.x * scale, v.y * scale};
+
+    return result;
+}
+
+/// Multiply vector by vector
+Vec2d vec2dMultiply(Vec2d v1, Vec2d v2) {
+    Vec2d result = {v1.x * v2.x, v1.y * v2.y};
+
+    return result;
+}
+
+/// Negate vector
+Vec2d vec2dNegate(Vec2d v) {
+    Vec2d result = {-v.x, -v.y};
+
+    return result;
+}
+
+/// Divide vector by vector
+Vec2d vec2dDivide(Vec2d v1, Vec2d v2) {
+    Vec2d result = {v1.x / v2.x, v1.y / v2.y};
+
+    return result;
+}
+
+/// Normalize provided vector
+Vec2d vec2dNormalize(Vec2d v) {
+    Vec2d result = {0};
+    float length = sqrt((v.x * v.x) + (v.y * v.y));
+
+    if (length > 0) {
+        float ilength = 1.0f / length;
+        result.x = v.x * ilength;
+        result.y = v.y * ilength;
     }
 
-    // // Vector with components value 1.0f
-    // RMAPI Vector2 Vector2One(void)
-    // {
-    //     Vector2 result = { 1.0f, 1.0f };
+    return result;
+}
 
-    //     return result;
-    // }
-
-    // // Add two vectors (v1 + v2)
-    // RMAPI Vector2 Vector2Add(Vector2 v1, Vector2 v2)
-    // {
-    //     Vector2 result = { v1.x + v2.x, v1.y + v2.y };
-
-    //     return result;
-    // }
-
-    // // Add vector and float value
-    // RMAPI Vector2 Vector2AddValue(Vector2 v, float add)
-    // {
-    //     Vector2 result = { v.x + add, v.y + add };
-
-    //     return result;
-    // }
-
-    // // Subtract two vectors (v1 - v2)
-    // RMAPI Vector2 Vector2Subtract(Vector2 v1, Vector2 v2)
-    // {
-    //     Vector2 result = { v1.x - v2.x, v1.y - v2.y };
-
-    //     return result;
-    // }
-
-    // // Subtract vector by float value
-    // RMAPI Vector2 Vector2SubtractValue(Vector2 v, float sub)
-    // {
-    //     Vector2 result = { v.x - sub, v.y - sub };
-
-    //     return result;
-    // }
-
-    // // Calculate vector length
-    // RMAPI float Vector2Length(Vector2 v)
-    // {
-    //     float result = sqrtf((v.x*v.x) + (v.y*v.y));
-
-    //     return result;
-    // }
-
-    // // Calculate vector square length
-    // RMAPI float Vector2LengthSqr(Vector2 v)
-    // {
-    //     float result = (v.x*v.x) + (v.y*v.y);
-
-    //     return result;
-    // }
-
-    // // Calculate two vectors dot product
-    // RMAPI float Vector2DotProduct(Vector2 v1, Vector2 v2)
-    // {
-    //     float result = (v1.x*v2.x + v1.y*v2.y);
-
-    //     return result;
-    // }
-
-    // // Calculate two vectors cross product
-    // RMAPI float Vector2CrossProduct(Vector2 v1, Vector2 v2)
-    // {
-    //     float result = (v1.x*v2.y - v1.y*v2.x);
-
-    //     return result;
-    // }
-
-    // // Calculate distance between two vectors
-    // RMAPI float Vector2Distance(Vector2 v1, Vector2 v2)
-    // {
-    //     float result = sqrtf((v1.x - v2.x)*(v1.x - v2.x) + (v1.y - v2.y)*(v1.y - v2.y));
-
-    //     return result;
-    // }
-
-    // // Calculate square distance between two vectors
-    // RMAPI float Vector2DistanceSqr(Vector2 v1, Vector2 v2)
-    // {
-    //     float result = ((v1.x - v2.x)*(v1.x - v2.x) + (v1.y - v2.y)*(v1.y - v2.y));
-
-    //     return result;
-    // }
-
-    // // Calculate the signed angle from v1 to v2, relative to the origin (0, 0)
-    // // NOTE: Coordinate system convention: positive X right, positive Y down,
-    // // positive angles appear clockwise, and negative angles appear counterclockwise
-    // RMAPI float Vector2Angle(Vector2 v1, Vector2 v2)
-    // {
-    //     float result = 0.0f;
-
-    //     float dot = v1.x*v2.x + v1.y*v2.y;
-    //     float det = v1.x*v2.y - v1.y*v2.x;
-
-    //     result = atan2f(det, dot);
-
-    //     return result;
-    // }
-
-    // // Calculate angle defined by a two vectors line
-    // // NOTE: Parameters need to be normalized
-    // // Current implementation should be aligned with glm::angle
-    // RMAPI float Vector2LineAngle(Vector2 start, Vector2 end)
-    // {
-    //     float result = 0.0f;
-
-    //     // TODO(10/9/2023): Currently angles move clockwise, determine if this is wanted behavior
-    //     result = -atan2f(end.y - start.y, end.x - start.x);
+/// Transforms a Vec2d by a given Matrix
+Vec2d vec2dTransform(Vec2d v, Matrix mat) {
+    Vec2d result = {0};
 
-    //     return result;
-    // }
+    float x = v.x;
+    float y = v.y;
+    float z = 0;
 
-    // // Scale vector (multiply by value)
-    // RMAPI Vector2 Vector2Scale(Vector2 v, float scale)
-    // {
-    //     Vector2 result = { v.x*scale, v.y*scale };
+    result.x = mat.m0 * x + mat.m4 * y + mat.m8 * z + mat.m12;
+    result.y = mat.m1 * x + mat.m5 * y + mat.m9 * z + mat.m13;
 
-    //     return result;
-    // }
+    return result;
+}
 
-    // // Multiply vector by vector
-    // RMAPI Vector2 Vector2Multiply(Vector2 v1, Vector2 v2)
-    // {
-    //     Vector2 result = { v1.x*v2.x, v1.y*v2.y };
+/// Calculate linear interpolation between two vectors
+Vec2d vec2dLerp(Vec2d v1, Vec2d v2, float amount) {
+    Vec2d result = {0};
 
-    //     return result;
-    // }
+    result.x = v1.x + amount * (v2.x - v1.x);
+    result.y = v1.y + amount * (v2.y - v1.y);
 
-    // // Negate vector
-    // RMAPI Vector2 Vector2Negate(Vector2 v)
-    // {
-    //     Vector2 result = { -v.x, -v.y };
+    return result;
+}
 
-    //     return result;
-    // }
+/// Calculate reflected vector to normal
+Vec2d vec2dReflect(Vec2d v, Vec2d normal) {
+    Vec2d result = {0};
 
-    // // Divide vector by vector
-    // RMAPI Vector2 Vector2Divide(Vector2 v1, Vector2 v2)
-    // {
-    //     Vector2 result = { v1.x/v2.x, v1.y/v2.y };
+    float dotProduct = (v.x * normal.x + v.y * normal.y); /// Dot product
 
-    //     return result;
-    // }
+    result.x = v.x - (2.0f * normal.x) * dotProduct;
+    result.y = v.y - (2.0f * normal.y) * dotProduct;
 
-    // // Normalize provided vector
-    // RMAPI Vector2 Vector2Normalize(Vector2 v)
-    // {
-    //     Vector2 result = { 0 };
-    //     float length = sqrtf((v.x*v.x) + (v.y*v.y));
+    return result;
+}
 
-    //     if (length > 0)
-    //     {
-    //         float ilength = 1.0f/length;
-    //         result.x = v.x*ilength;
-    //         result.y = v.y*ilength;
-    //     }
+/// Get min value for each pair of components
+Vec2d vec2dMin(Vec2d v1, Vec2d v2) {
+    Vec2d result = {0};
 
-    //     return result;
-    // }
+    result.x = min(v1.x, v2.x);
+    result.y = min(v1.y, v2.y);
 
-    // // Transforms a Vector2 by a given Matrix
-    // RMAPI Vector2 Vector2Transform(Vector2 v, Matrix mat)
-    // {
-    //     Vector2 result = { 0 };
+    return result;
+}
 
-    //     float x = v.x;
-    //     float y = v.y;
-    //     float z = 0;
+/// Get max value for each pair of components
+Vec2d vec2dMax(Vec2d v1, Vec2d v2) {
+    Vec2d result = {0};
 
-    //     result.x = mat.m0*x + mat.m4*y + mat.m8*z + mat.m12;
-    //     result.y = mat.m1*x + mat.m5*y + mat.m9*z + mat.m13;
+    result.x = max(v1.x, v2.x);
+    result.y = max(v1.y, v2.y);
 
-    //     return result;
-    // }
+    return result;
+}
 
-    // // Calculate linear interpolation between two vectors
-    // RMAPI Vector2 Vector2Lerp(Vector2 v1, Vector2 v2, float amount)
-    // {
-    //     Vector2 result = { 0 };
+/// Rotate vector by angle
+Vec2d vec2dRotate(Vec2d v, float angle) {
+    Vec2d result = {0};
 
-    //     result.x = v1.x + amount*(v2.x - v1.x);
-    //     result.y = v1.y + amount*(v2.y - v1.y);
+    float cosres = cos(angle);
+    float sinres = sin(angle);
 
-    //     return result;
-    // }
+    result.x = v.x * cosres - v.y * sinres;
+    result.y = v.x * sinres + v.y * cosres;
 
-    // // Calculate reflected vector to normal
-    // RMAPI Vector2 Vector2Reflect(Vector2 v, Vector2 normal)
-    // {
-    //     Vector2 result = { 0 };
+    return result;
+}
 
-    //     float dotProduct = (v.x*normal.x + v.y*normal.y); // Dot product
+/// Move Vector towards target
+Vec2d vec2dMoveTowards(Vec2d v, Vec2d target, float maxDistance) {
+    Vec2d result = {0};
 
-    //     result.x = v.x - (2.0f*normal.x)*dotProduct;
-    //     result.y = v.y - (2.0f*normal.y)*dotProduct;
+    float dx = target.x - v.x;
+    float dy = target.y - v.y;
+    float value = (dx * dx) + (dy * dy);
 
-    //     return result;
-    // }
+    if ((value == 0) || ((maxDistance >= 0) && (value <= maxDistance * maxDistance)))
+        return target;
 
-    // // Get min value for each pair of components
-    // RMAPI Vector2 Vector2Min(Vector2 v1, Vector2 v2)
-    // {
-    //     Vector2 result = { 0 };
+    float dist = sqrt(value);
 
-    //     result.x = fminf(v1.x, v2.x);
-    //     result.y = fminf(v1.y, v2.y);
-
-    //     return result;
-    // }
-
-    // // Get max value for each pair of components
-    // RMAPI Vector2 Vector2Max(Vector2 v1, Vector2 v2)
-    // {
-    //     Vector2 result = { 0 };
+    result.x = v.x + dx / dist * maxDistance;
+    result.y = v.y + dy / dist * maxDistance;
 
-    //     result.x = fmaxf(v1.x, v2.x);
-    //     result.y = fmaxf(v1.y, v2.y);
-
-    //     return result;
-    // }
-
-    // // Rotate vector by angle
-    // RMAPI Vector2 Vector2Rotate(Vector2 v, float angle)
-    // {
-    //     Vector2 result = { 0 };
-
-    //     float cosres = cosf(angle);
-    //     float sinres = sinf(angle);
-
-    //     result.x = v.x*cosres - v.y*sinres;
-    //     result.y = v.x*sinres + v.y*cosres;
-
-    //     return result;
-    // }
-
-    // // Move Vector towards target
-    // RMAPI Vector2 Vector2MoveTowards(Vector2 v, Vector2 target, float maxDistance)
-    // {
-    //     Vector2 result = { 0 };
-
-    //     float dx = target.x - v.x;
-    //     float dy = target.y - v.y;
-    //     float value = (dx*dx) + (dy*dy);
-
-    //     if ((value == 0) || ((maxDistance >= 0) && (value <= maxDistance*maxDistance))) return target;
-
-    //     float dist = sqrtf(value);
-
-    //     result.x = v.x + dx/dist*maxDistance;
-    //     result.y = v.y + dy/dist*maxDistance;
-
-    //     return result;
-    // }
-
-    // // Invert the given vector
-    // RMAPI Vector2 Vector2Invert(Vector2 v)
-    // {
-    //     Vector2 result = { 1.0f/v.x, 1.0f/v.y };
-
-    //     return result;
-    // }
-
-    // // Clamp the components of the vector between
-    // // min and max values specified by the given vectors
-    // RMAPI Vector2 Vector2Clamp(Vector2 v, Vector2 min, Vector2 max)
-    // {
-    //     Vector2 result = { 0 };
-
-    //     result.x = fminf(max.x, fmaxf(min.x, v.x));
-    //     result.y = fminf(max.y, fmaxf(min.y, v.y));
-
-    //     return result;
-    // }
-
-    // // Clamp the magnitude of the vector between two min and max values
-    // RMAPI Vector2 Vector2ClampValue(Vector2 v, float min, float max)
-    // {
-    //     Vector2 result = v;
-
-    //     float length = (v.x*v.x) + (v.y*v.y);
-    //     if (length > 0.0f)
-    //     {
-    //         length = sqrtf(length);
-
-    //         float scale = 1;    // By default, 1 as the neutral element.
-    //         if (length < min)
-    //         {
-    //             scale = min/length;
-    //         }
-    //         else if (length > max)
-    //         {
-    //             scale = max/length;
-    //         }
-
-    //         result.x = v.x*scale;
-    //         result.y = v.y*scale;
-    //     }
-
-    //     return result;
-    // }
-
-    // // Check whether two given vectors are almost equal
-    // RMAPI int Vector2Equals(Vector2 p, Vector2 q)
-    // {
-    // #if !defined(EPSILON)
-    //     #define EPSILON 0.000001f
-    // #endif
-
-    //     int result = ((fabsf(p.x - q.x)) <= (EPSILON*fmaxf(1.0f, fmaxf(fabsf(p.x), fabsf(q.x))))) &&
-    //                   ((fabsf(p.y - q.y)) <= (EPSILON*fmaxf(1.0f, fmaxf(fabsf(p.y), fabsf(q.y)))));
-
-    //     return result;
-    // }
-
-    // // Compute the direction of a refracted ray
-    // // v: normalized direction of the incoming ray
-    // // n: normalized normal vector of the interface of two optical media
-    // // r: ratio of the refractive index of the medium from where the ray comes
-    // //    to the refractive index of the medium on the other side of the surface
-    // RMAPI Vector2 Vector2Refract(Vector2 v, Vector2 n, float r)
-    // {
-    //     Vector2 result = { 0 };
-
-    //     float dot = v.x*n.x + v.y*n.y;
-    //     float d = 1.0f - r*r*(1.0f - dot*dot);
-
-    //     if (d >= 0.0f)
-    //     {
-    //         d = sqrtf(d);
-    //         v.x = r*v.x - (r*dot + d)*n.x;
-    //         v.y = r*v.y - (r*dot + d)*n.y;
-
-    //         result = v;
-    //     }
-
-    //     return result;
-    // }
+    return result;
+}
 
+/// Invert the given vector
+Vec2d vec2dInvert(Vec2d v) {
+    Vec2d result = {1.0f / v.x, 1.0f / v.y};
+
+    return result;
+}
+
+/// Clamp the components of the vector between
+/// min and max values specified by the given vectors
+Vec2d vec2dClamp(Vec2d v, Vec2d mind, Vec2d maxd) {
+    Vec2d result = {0};
+
+    result.x = min(maxd.x, max(mind.x, v.x));
+    result.y = min(maxd.y, max(mind.y, v.y));
+
+    return result;
+}
+
+/// Clamp the magnitude of the vector between two min and max values
+Vec2d vec2dClampValue(Vec2d v, float min, float max) {
+    Vec2d result = v;
+
+    float length = (v.x * v.x) + (v.y * v.y);
+    if (length > 0.0f) {
+        length = sqrt(length);
+
+        float scale = 1; // By default, 1 as the neutral element.
+        if (length < min) {
+            scale = min / length;
+        } else if (length > max) {
+            scale = max / length;
+        }
+
+        result.x = v.x * scale;
+        result.y = v.y * scale;
+    }
+
+    return result;
+}
+
+private immutable double EPSILON = 0.000001;
+
+/// Check whether two given vectors are almost equal
+int vec2dEquals(Vec2d p, Vec2d q) {
+
+    int result = ((fabs(p.x - q.x)) <= (EPSILON * max(1.0f, max(fabs(p.x), fabs(q.x))))) &&
+        ((fabs(p.y - q.y)) <= (EPSILON * max(1.0f, max(fabs(p.y), fabs(q.y)))));
+
+    return result;
+}
+
+/// Compute the direction of a refracted ray
+/// v: normalized direction of the incoming ray
+/// n: normalized normal vector of the interface of two optical media
+/// r: ratio of the refractive index of the medium from where the ray comes
+///    to the refractive index of the medium on the other side of the surface
+Vec2d vec2dRefract(Vec2d v, Vec2d n, float r) {
+    Vec2d result = {0};
+
+    float dot = v.x * n.x + v.y * n.y;
+    float d = 1.0f - r * r * (1.0f - dot * dot);
+
+    if (d >= 0.0f) {
+        d = sqrt(d);
+        v.x = r * v.x - (r * dot + d) * n.x;
+        v.y = r * v.y - (r * dot + d) * n.y;
+
+        result = v;
+    }
+
+    return result;
 }
