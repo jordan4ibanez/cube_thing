@@ -32,8 +32,8 @@ Vec2d vec2dAdd(Vec2d v1, Vec2d v2) {
     return result;
 }
 
-/// Add vector and float value
-Vec2d vec2dAddValue(Vec2d v, float add) {
+/// Add vector and double value
+Vec2d vec2dAddValue(Vec2d v, double add) {
     Vec2d result = {v.x + add, v.y + add};
 
     return result;
@@ -46,51 +46,51 @@ Vec2d vec2dSubtract(Vec2d v1, Vec2d v2) {
     return result;
 }
 
-/// Subtract vector by float value
-Vec2d vec2dSubtractValue(Vec2d v, float sub) {
+/// Subtract vector by double value
+Vec2d vec2dSubtractValue(Vec2d v, double sub) {
     Vec2d result = {v.x - sub, v.y - sub};
 
     return result;
 }
 
 /// Calculate vector length
-float vec2dLength(Vec2d v) {
-    float result = sqrt((v.x * v.x) + (v.y * v.y));
+double vec2dLength(Vec2d v) {
+    double result = sqrt((v.x * v.x) + (v.y * v.y));
 
     return result;
 }
 
 /// Calculate vector square length
-float vec2dLengthSqr(Vec2d v) {
-    float result = (v.x * v.x) + (v.y * v.y);
+double vec2dLengthSqr(Vec2d v) {
+    double result = (v.x * v.x) + (v.y * v.y);
 
     return result;
 }
 
 /// Calculate two vectors dot product
-float vec2dDotProduct(Vec2d v1, Vec2d v2) {
-    float result = (v1.x * v2.x + v1.y * v2.y);
+double vec2dDotProduct(Vec2d v1, Vec2d v2) {
+    double result = (v1.x * v2.x + v1.y * v2.y);
 
     return result;
 }
 
 /// Calculate two vectors cross product
-float vec2dCrossProduct(Vec2d v1, Vec2d v2) {
-    float result = (v1.x * v2.y - v1.y * v2.x);
+double vec2dCrossProduct(Vec2d v1, Vec2d v2) {
+    double result = (v1.x * v2.y - v1.y * v2.x);
 
     return result;
 }
 
 /// Calculate distance between two vectors
-float vec2dDistance(Vec2d v1, Vec2d v2) {
-    float result = sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
+double vec2dDistance(Vec2d v1, Vec2d v2) {
+    double result = sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
 
     return result;
 }
 
 /// Calculate square distance between two vectors
-float vec2dDistanceSqr(Vec2d v1, Vec2d v2) {
-    float result = ((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
+double vec2dDistanceSqr(Vec2d v1, Vec2d v2) {
+    double result = ((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
 
     return result;
 }
@@ -98,11 +98,11 @@ float vec2dDistanceSqr(Vec2d v1, Vec2d v2) {
 /// Calculate the signed angle from v1 to v2, relative to the origin (0, 0)
 /// NOTE: Coordinate system convention: positive X right, positive Y down,
 /// positive angles appear clockwise, and negative angles appear counterclockwise
-float vec2dAngle(Vec2d v1, Vec2d v2) {
-    float result = 0.0f;
+double vec2dAngle(Vec2d v1, Vec2d v2) {
+    double result = 0.0;
 
-    float dot = v1.x * v2.x + v1.y * v2.y;
-    float det = v1.x * v2.y - v1.y * v2.x;
+    double dot = v1.x * v2.x + v1.y * v2.y;
+    double det = v1.x * v2.y - v1.y * v2.x;
 
     result = atan2(det, dot);
 
@@ -112,8 +112,8 @@ float vec2dAngle(Vec2d v1, Vec2d v2) {
 /// Calculate angle defined by a two vectors line
 /// NOTE: Parameters need to be normalized
 /// Current implementation should be aligned with glm::angle
-float vec2dLineAngle(Vec2d start, Vec2d end) {
-    float result = 0.0f;
+double vec2dLineAngle(Vec2d start, Vec2d end) {
+    double result = 0.0;
 
     // TODO(10/9/2023): Currently angles move clockwise, determine if this is wanted behavior
     result = -atan2(end.y - start.y, end.x - start.x);
@@ -122,7 +122,7 @@ float vec2dLineAngle(Vec2d start, Vec2d end) {
 }
 
 /// Scale vector (multiply by value)
-Vec2d vec2dScale(Vec2d v, float scale) {
+Vec2d vec2dScale(Vec2d v, double scale) {
     Vec2d result = {v.x * scale, v.y * scale};
 
     return result;
@@ -152,10 +152,10 @@ Vec2d vec2dDivide(Vec2d v1, Vec2d v2) {
 /// Normalize provided vector
 Vec2d vec2dNormalize(Vec2d v) {
     Vec2d result = {0};
-    float length = sqrt((v.x * v.x) + (v.y * v.y));
+    double length = sqrt((v.x * v.x) + (v.y * v.y));
 
     if (length > 0) {
-        float ilength = 1.0f / length;
+        double ilength = 1.0 / length;
         result.x = v.x * ilength;
         result.y = v.y * ilength;
     }
@@ -167,9 +167,9 @@ Vec2d vec2dNormalize(Vec2d v) {
 Vec2d vec2dTransform(Vec2d v, Matrix mat) {
     Vec2d result = {0};
 
-    float x = v.x;
-    float y = v.y;
-    float z = 0;
+    double x = v.x;
+    double y = v.y;
+    double z = 0;
 
     result.x = mat.m0 * x + mat.m4 * y + mat.m8 * z + mat.m12;
     result.y = mat.m1 * x + mat.m5 * y + mat.m9 * z + mat.m13;
@@ -178,7 +178,7 @@ Vec2d vec2dTransform(Vec2d v, Matrix mat) {
 }
 
 /// Calculate linear interpolation between two vectors
-Vec2d vec2dLerp(Vec2d v1, Vec2d v2, float amount) {
+Vec2d vec2dLerp(Vec2d v1, Vec2d v2, double amount) {
     Vec2d result = {0};
 
     result.x = v1.x + amount * (v2.x - v1.x);
@@ -191,10 +191,10 @@ Vec2d vec2dLerp(Vec2d v1, Vec2d v2, float amount) {
 Vec2d vec2dReflect(Vec2d v, Vec2d normal) {
     Vec2d result = {0};
 
-    float dotProduct = (v.x * normal.x + v.y * normal.y); /// Dot product
+    double dotProduct = (v.x * normal.x + v.y * normal.y); /// Dot product
 
-    result.x = v.x - (2.0f * normal.x) * dotProduct;
-    result.y = v.y - (2.0f * normal.y) * dotProduct;
+    result.x = v.x - (2.0 * normal.x) * dotProduct;
+    result.y = v.y - (2.0 * normal.y) * dotProduct;
 
     return result;
 }
@@ -220,11 +220,11 @@ Vec2d vec2dMax(Vec2d v1, Vec2d v2) {
 }
 
 /// Rotate vector by angle
-Vec2d vec2dRotate(Vec2d v, float angle) {
+Vec2d vec2dRotate(Vec2d v, double angle) {
     Vec2d result = {0};
 
-    float cosres = cos(angle);
-    float sinres = sin(angle);
+    double cosres = cos(angle);
+    double sinres = sin(angle);
 
     result.x = v.x * cosres - v.y * sinres;
     result.y = v.x * sinres + v.y * cosres;
@@ -233,17 +233,17 @@ Vec2d vec2dRotate(Vec2d v, float angle) {
 }
 
 /// Move Vector towards target
-Vec2d vec2dMoveTowards(Vec2d v, Vec2d target, float maxDistance) {
+Vec2d vec2dMoveTowards(Vec2d v, Vec2d target, double maxDistance) {
     Vec2d result = {0};
 
-    float dx = target.x - v.x;
-    float dy = target.y - v.y;
-    float value = (dx * dx) + (dy * dy);
+    double dx = target.x - v.x;
+    double dy = target.y - v.y;
+    double value = (dx * dx) + (dy * dy);
 
     if ((value == 0) || ((maxDistance >= 0) && (value <= maxDistance * maxDistance)))
         return target;
 
-    float dist = sqrt(value);
+    double dist = sqrt(value);
 
     result.x = v.x + dx / dist * maxDistance;
     result.y = v.y + dy / dist * maxDistance;
@@ -253,7 +253,7 @@ Vec2d vec2dMoveTowards(Vec2d v, Vec2d target, float maxDistance) {
 
 /// Invert the given vector
 Vec2d vec2dInvert(Vec2d v) {
-    Vec2d result = {1.0f / v.x, 1.0f / v.y};
+    Vec2d result = {1.0 / v.x, 1.0 / v.y};
 
     return result;
 }
@@ -270,14 +270,14 @@ Vec2d vec2dClamp(Vec2d v, Vec2d mind, Vec2d maxd) {
 }
 
 /// Clamp the magnitude of the vector between two min and max values
-Vec2d vec2dClampValue(Vec2d v, float min, float max) {
+Vec2d vec2dClampValue(Vec2d v, double min, double max) {
     Vec2d result = v;
 
-    float length = (v.x * v.x) + (v.y * v.y);
-    if (length > 0.0f) {
+    double length = (v.x * v.x) + (v.y * v.y);
+    if (length > 0.0) {
         length = sqrt(length);
 
-        float scale = 1; // By default, 1 as the neutral element.
+        double scale = 1; // By default, 1 as the neutral element.
         if (length < min) {
             scale = min / length;
         } else if (length > max) {
@@ -296,8 +296,8 @@ private immutable double EPSILON = 0.000001;
 /// Check whether two given vectors are almost equal
 int vec2dEquals(Vec2d p, Vec2d q) {
 
-    int result = ((fabs(p.x - q.x)) <= (EPSILON * max(1.0f, max(fabs(p.x), fabs(q.x))))) &&
-        ((fabs(p.y - q.y)) <= (EPSILON * max(1.0f, max(fabs(p.y), fabs(q.y)))));
+    int result = ((fabs(p.x - q.x)) <= (EPSILON * max(1.0, max(fabs(p.x), fabs(q.x))))) &&
+        ((fabs(p.y - q.y)) <= (EPSILON * max(1.0, max(fabs(p.y), fabs(q.y)))));
 
     return result;
 }
@@ -307,13 +307,13 @@ int vec2dEquals(Vec2d p, Vec2d q) {
 /// n: normalized normal vector of the interface of two optical media
 /// r: ratio of the refractive index of the medium from where the ray comes
 ///    to the refractive index of the medium on the other side of the surface
-Vec2d vec2dRefract(Vec2d v, Vec2d n, float r) {
+Vec2d vec2dRefract(Vec2d v, Vec2d n, double r) {
     Vec2d result = {0};
 
-    float dot = v.x * n.x + v.y * n.y;
-    float d = 1.0f - r * r * (1.0f - dot * dot);
+    double dot = v.x * n.x + v.y * n.y;
+    double d = 1.0 - r * r * (1.0 - dot * dot);
 
-    if (d >= 0.0f) {
+    if (d >= 0.0) {
         d = sqrt(d);
         v.x = r * v.x - (r * dot + d) * n.x;
         v.y = r * v.y - (r * dot + d) * n.y;
