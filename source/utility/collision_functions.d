@@ -1,6 +1,7 @@
 module utility.collision_functions;
 
-import raylib;
+import math.rectd;
+import math.vec2d;
 import std.math.traits : sgn;
 import std.stdio;
 
@@ -13,8 +14,8 @@ struct CollisionResult {
 //? Note: This will have issues extremely far out.
 private immutable double magicAdjustment = 0.001;
 
-CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vector2 entityVelocity,
-    Vector2 blockPosition, Vector2 blockSize) {
+CollisionResult collideXToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d entityVelocity,
+    Vec2d blockPosition, Vec2d blockSize) {
 
     CollisionResult result;
     result.newPosition = entityPosition.x;
@@ -28,13 +29,13 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
 
     // Entity position is on the bottom center of the collisionbox.
     immutable double entityHalfWidth = entitySize.x * 0.5;
-    immutable Rectangle entityRectangle = Rectangle(entityPosition.x - entityHalfWidth, entityPosition.y - entitySize.y,
+    immutable RectD entityRectangle = RectD(entityPosition.x - entityHalfWidth, entityPosition.y - entitySize.y,
         entitySize.x, entitySize.y);
 
-    immutable Rectangle blockRectangle = Rectangle(blockPosition.x, blockPosition.y, blockSize.x, blockSize
+    immutable RectD blockRectangle = RectD(blockPosition.x, blockPosition.y, blockSize.x, blockSize
             .y);
 
-    if (CheckCollisionRecs(entityRectangle, blockRectangle)) {
+    if (checkCollisionRecs(entityRectangle, blockRectangle)) {
         // This doesn't kick out in a specific direction on dir 0 because the Y axis check will kick them up as a safety.
         result.collides = true;
         if (dir > 0) {
@@ -49,8 +50,8 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
     return result;
 }
 
-CollisionResult collideYToBlock(Vector2 entityPosition, Vector2 entitySize, Vector2 entityVelocity,
-    Vector2 blockPosition, Vector2 blockSize) {
+CollisionResult collideYToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d entityVelocity,
+    Vec2d blockPosition, Vec2d blockSize) {
 
     CollisionResult result;
     result.newPosition = entityPosition.y;
@@ -64,13 +65,13 @@ CollisionResult collideYToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
 
     // Entity position is on the bottom center of the collisionbox.
     immutable double entityHalfWidth = entitySize.x * 0.5;
-    immutable Rectangle entityRectangle = Rectangle(entityPosition.x - entityHalfWidth, entityPosition.y - entitySize.y,
+    immutable RectD entityRectangle = RectD(entityPosition.x - entityHalfWidth, entityPosition.y - entitySize.y,
         entitySize.x, entitySize.y);
 
-    immutable Rectangle blockRectangle = Rectangle(blockPosition.x, blockPosition.y, blockSize.x, blockSize
+    immutable RectD blockRectangle = RectD(blockPosition.x, blockPosition.y, blockSize.x, blockSize
             .y);
 
-    if (CheckCollisionRecs(entityRectangle, blockRectangle)) {
+    if (checkCollisionRecs(entityRectangle, blockRectangle)) {
         result.collides = true;
         if (dir >= 0) {
             // Kick up. This is the safety default.
