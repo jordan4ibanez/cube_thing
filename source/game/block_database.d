@@ -41,6 +41,10 @@ public: //* BEGIN PUBLIC API.
             throw new Error("Texture for block is null.");
         }
 
+        if (!TextureHandler.hasTexture(newBlock.texture)) {
+            throw new Error("Texture for block does not exist.");
+        }
+
         if (newBlock.id <= 0) {
             throw new Error("Texture for block invalid.");
         }
