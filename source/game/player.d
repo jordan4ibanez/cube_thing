@@ -35,7 +35,7 @@ private:
     // todo: replace this with double type!
 
     Vector2 size = Vector2(0.6, 1.8);
-    Vector2 position = Vector2(0, 0);
+    Vector2 position = Vector2(100_000, 0);
     Vector2 velocity = Vector2(0, 0);
     int inChunk = int.max;
     bool firstGen = true;
@@ -50,11 +50,11 @@ public: //* BEGIN PUBLIC API.
         return position;
     }
 
-    float getWidth() {
+    double getWidth() {
         return size.y;
     }
 
-    float getHalfWidth() {
+    double getHalfWidth() {
         return size.x * 0.5;
     }
 
@@ -82,8 +82,8 @@ public: //* BEGIN PUBLIC API.
     void move() {
         double delta = Delta.getDelta();
 
-        immutable float acceleration = 20;
-        immutable float deceleration = 25;
+        immutable double acceleration = 20;
+        immutable double deceleration = 25;
 
         // writeln(velocity.x);
 
@@ -102,7 +102,7 @@ public: //* BEGIN PUBLIC API.
             }
         } else {
             if (abs(velocity.x) > delta * deceleration) {
-                float valSign = sgn(velocity.x);
+                double valSign = sgn(velocity.x);
                 velocity.x = (abs(velocity.x) - (delta * deceleration)) * valSign;
             } else {
                 velocity.x = 0;
@@ -123,7 +123,7 @@ public: //* BEGIN PUBLIC API.
             }
         } else {
             if (abs(velocity.y) > delta * deceleration) {
-                float valSign = sgn(velocity.y);
+                double valSign = sgn(velocity.y);
                 velocity.y = (abs(velocity.y) - (delta * deceleration)) * valSign;
             } else {
                 velocity.y = 0;
