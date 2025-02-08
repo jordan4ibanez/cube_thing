@@ -6,7 +6,7 @@ class BlockDefinition {
     string name = null;
     string modName = null;
     string texture = null;
-    int id = 0;
+    int id = -1;
 }
 
 struct BlockResult {
@@ -43,10 +43,6 @@ public: //* BEGIN PUBLIC API.
 
         if (!TextureHandler.hasTexture(newBlock.texture)) {
             throw new Error("Texture for block does not exist.");
-        }
-
-        if (newBlock.id <= 0) {
-            throw new Error("Texture for block invalid.");
         }
 
         if (newBlock.id in databaseID) {
