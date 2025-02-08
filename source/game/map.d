@@ -1,6 +1,7 @@
 module game.map;
 
 import fast_noise;
+import game.biome_database;
 import game.block_database;
 import graphics.camera_handler;
 import graphics.render;
