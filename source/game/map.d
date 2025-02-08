@@ -186,9 +186,20 @@ private: //* BEGIN INTERNAL API.
 
         BlockDefinitionResult stoneResult = BlockDatabase.getBlockByID(
             biomeResult.definition.stoneLayerID);
-
-        if (!bedrockResult.exists) {
+        if (!stoneResult.exists) {
             throw new Error("Stone does not exist for biome " ~ biomeResult.definition.name);
+        }
+
+        BlockDefinitionResult dirtResult = BlockDatabase.getBlockByID(
+            biomeResult.definition.dirtLayerID);
+        if (!dirtResult.exists) {
+            throw new Error("Dirt does not exist for biome " ~ biomeResult.definition.name);
+        }
+
+        BlockDefinitionResult grassResult = BlockDatabase.getBlockByID(
+            biomeResult.definition.grassLayerID);
+        if (!grassResult.exists) {
+            throw new Error("Grass does not exist for biome " ~ biomeResult.definition.name);
         }
 
         foreach (x; 0 .. CHUNK_WIDTH) {
@@ -203,7 +214,6 @@ private: //* BEGIN INTERNAL API.
             immutable int dirtLayer = selectedHeight - 3;
 
             immutable float bedRockNoise = fnlGetNoise2D(&noise, (x + basePositionX) * 12, 0) * 2;
-
             immutable int bedRockSelectedHeight = cast(int) round(abs(bedRockNoise));
 
             yStack: foreach (y; 0 .. CHUNK_HEIGHT) {
@@ -212,28 +222,20 @@ private: //* BEGIN INTERNAL API.
                     break yStack;
                 }
 
-                switch (y) {
-                case 0: {
-                        thisChunk.data[x][y].blockID = bedrockResult.definition.id;
-                    }
-                    break;
-                case 1: .. case 2: {
-
-                        writeln(bedRockSelectedHeight);
-
-                        if (y <= bedRockSelectedHeight) {
-                            thisChunk.data[x][y].blockID = bedrockResult.definition.id;
-                        } else {
-                            thisChunk.data[x][y].blockID = stoneResult.definition.id;
-                        }
-                    }
-                    break;
-                default:
-                    // air.
-                }
-
                 if (y == 0) {
-
+                    thisChunk.data[x][y].blockID = bedrockResult.definition.id;
+                } else if (y <= 2) {
+                    if (y <= bedRockSelectedHeight) {
+                        thisChunk.data[x][y].blockID = bedrockResult.definition.id;
+                    } else {
+                        thisChunk.data[x][y].blockID = stoneResult.definition.id;
+                    }
+                } else if (y < dirtLayer) {
+                    thisChunk.data[x][y].blockID = stoneResult.definition.id;
+                } else if (y < grassLayer) {
+                    thisChunk.data[x][y].blockID = dirtResult.definition.id;
+                } else if (y == grassLayer) {
+                    thisChunk.data[x][y].blockID = grassResult.definition.id;
                 }
 
                 // int data = uniform(0, 2, rnd);
