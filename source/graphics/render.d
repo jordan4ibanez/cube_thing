@@ -12,13 +12,13 @@ public: //* BEGIN PUBLIC API.
         DrawRectangleV(invertPosition(position), size, color);
     }
 
-    void rectangleLines(Vector2 position, Vector2 size, Color color, float thickness = 0.01) {
+    void rectangleLines(Vector2 position, Vector2 size, Color color, double thickness = 0.01) {
         Vector2 invertedPosition = invertPosition(position);
         Rectangle rect = Rectangle(invertedPosition.x, invertedPosition.y, size.x, size.y);
         DrawRectangleLinesEx(rect, thickness, color);
     }
 
-    void circle(Vector2 center, float radius, Color color) {
+    void circle(Vector2 center, double radius, Color color) {
         Vector2 invertedPosition = invertPosition(center);
         DrawCircleV(invertedPosition, radius, color);
     }
