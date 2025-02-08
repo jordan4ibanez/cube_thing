@@ -35,6 +35,13 @@ public: //* BEGIN PUBLIC API.
         DrawTexturePro(*database[textureName], source, dest, Vector2(0, 0), 0, Colors.WHITE);
     }
 
+    bool hasTexture(string name) {
+        if (name in database) {
+            return true;
+        }
+        return false;
+    }
+
     void loadTexture(string location) {
 
         // Extract the file name from the location.
