@@ -13,6 +13,7 @@ public: //* BEGIN PUBLIC API.
     void initialize() {
         cubeThingMain();
 
+        finalize();
     }
 
 private: //* BEGIN INTERNAL API.
