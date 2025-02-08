@@ -1,6 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
+		"fast_noise": "1.0.5",
 		"fast_pack": "3.0.4",
 		"mini_png": "1.0.1",
 		"option_d": "1.0.2",
