@@ -1,6 +1,7 @@
 module controls.keyboard;
 
 import raylib;
+public import raylib : KeyboardKey;
 
 static final const class Keyboard {
 static:

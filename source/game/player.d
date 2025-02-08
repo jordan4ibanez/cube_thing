@@ -2,6 +2,7 @@ module game.player;
 
 import controls.keyboard;
 import game.map;
+import graphics.colors;
 import graphics.render;
 import math.rect;
 import math.vec2d;
@@ -12,7 +13,6 @@ import std.stdio;
 import utility.collision_functions;
 import utility.delta;
 import utility.drawing_functions;
-import raylib;
 
 static final const class Player {
 static:
