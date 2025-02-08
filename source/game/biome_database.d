@@ -66,6 +66,21 @@ public: //* BEGIN PUBLIC API.
         nameDatabase[newBiome.name] = newBiome;
     }
 
+    BiomeDefinitionResult getBiomeByID(int id) {
+        if (id !in idDatabase) {
+            return BiomeDefinitionResult();
+        }
+
+        return BiomeDefinitionResult(idDatabase[id], true);
+    }
+
+    BiomeDefinitionResult getBiomeByName(string name) {
+        if (name !in nameDatabase) {
+            return BiomeDefinitionResult();
+        }
+        return BiomeDefinitionResult(nameDatabase[name], true);
+    }
+
     void finalize() {
         foreach (name, ref thisBiome; nameDatabase) {
             BlockDefinitionResult grassResult = BlockDatabase.getBlockByName(thisBiome.grassLayer);
