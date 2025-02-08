@@ -32,6 +32,8 @@ private:
            |-------- Actual position
     */
 
+    // todo: replace this with double type!
+
     Vector2 size = Vector2(0.6, 1.8);
     Vector2 position = Vector2(0, 0);
     Vector2 velocity = Vector2(0, 0);
