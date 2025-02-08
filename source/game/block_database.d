@@ -12,7 +12,7 @@ class BlockDefinition {
     int id = -1;
 }
 
-struct BlockResult {
+struct BlockDefinitionResult {
     BlockDefinition definition = null;
     bool exists = false;
 }
@@ -59,19 +59,19 @@ public: //* BEGIN PUBLIC API.
         nameDatabase[newBlock.name] = newBlock;
     }
 
-    BlockResult getBlockByID(int id) {
+    BlockDefinitionResult getBlockByID(int id) {
         if (id !in idDatabase) {
-            return BlockResult();
+            return BlockDefinitionResult();
         }
 
-        return BlockResult(idDatabase[id], true);
+        return BlockDefinitionResult(idDatabase[id], true);
     }
 
-    BlockResult getBlockByName(string name) {
+    BlockDefinitionResult getBlockByName(string name) {
         if (name !in nameDatabase) {
-            return BlockResult();
+            return BlockDefinitionResult();
         }
-        return BlockResult(nameDatabase[name], true);
+        return BlockDefinitionResult(nameDatabase[name], true);
     }
 
     void finalize() {
