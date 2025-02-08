@@ -168,13 +168,76 @@ private: //* BEGIN INTERNAL API.
     void generateChunkData(int chunkPosition, ref Chunk thisChunk) {
 
         // todo: the chunk should have a biome.
+        BiomeDefinitionResult biomeResult = BiomeDatabase.getBiomeByID(0);
+        if (!biomeResult.exists) {
+            import std.conv;
 
-        auto rnd = Random(unpredictableSeed());
+            throw new Error("Attempted to get biome " ~ to!string(0) ~ " which does not exist");
+        }
+
+        immutable float baseHeight = 160;
+
+        immutable int basePositionX = chunkPosition * CHUNK_WIDTH;
+
+        BlockDefinitionResult bedrockResult = BlockDatabase.getBlockByName("bedrock");
+        if (!bedrockResult.exists) {
+            throw new Error("Please do not remove bedrock from the engine.");
+        }
+
+        BlockDefinitionResult stoneResult = BlockDatabase.getBlockByID(
+            biomeResult.definition.stoneLayerID);
+
+        if (!bedrockResult.exists) {
+            throw new Error("Stone does not exist for biome " ~ biomeResult.definition.name);
+        }
 
         foreach (x; 0 .. CHUNK_WIDTH) {
-            foreach (y; 0 .. CHUNK_HEIGHT) {
-                int data = uniform(0, 2, rnd);
-                thisChunk.data[x][y].blockID = data;
+
+            immutable float selectedNoise = fnlGetNoise2D(&noise, x + basePositionX, 0);
+
+            immutable float noiseScale = 20;
+
+            immutable int selectedHeight = cast(int) floor(baseHeight + (selectedNoise * noiseScale));
+
+            immutable int grassLayer = selectedHeight;
+            immutable int dirtLayer = selectedHeight - 3;
+
+            immutable float bedRockNoise = fnlGetNoise2D(&noise, (x + basePositionX) * 256, 0) * 2;
+
+            immutable int bedRockSelectedHeight = cast(int) round(abs(bedRockNoise));
+
+            yStack: foreach (y; 0 .. CHUNK_HEIGHT) {
+
+                if (y > selectedHeight) {
+                    break yStack;
+                }
+
+                switch (y) {
+                case 0: {
+                        thisChunk.data[x][y].blockID = bedrockResult.definition.id;
+                    }
+                    break;
+                case 1: .. case 2: {
+
+                        writeln(bedRockSelectedHeight);
+
+                        if (y <= bedRockSelectedHeight) {
+                            thisChunk.data[x][y].blockID = bedrockResult.definition.id;
+                        } else {
+                            thisChunk.data[x][y].blockID = stoneResult.definition.id;
+                        }
+                    }
+                    break;
+                default:
+                    // air.
+                }
+
+                if (y == 0) {
+
+                }
+
+                // int data = uniform(0, 2, rnd);
+                // thisChunk.data[x][y].blockID = data;
             }
         }
     }
