@@ -1,8 +1,8 @@
-module utility.rectd;
+module math.rectd;
 
+import math.vec2d;
 import raylib.raylib_types : Rectangle;
 import std.math.algebraic;
-import utility.vec2d;
 
 struct RectD {
     double x = 0.0;

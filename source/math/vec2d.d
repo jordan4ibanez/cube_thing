@@ -1,4 +1,4 @@
-module utility.vec2d;
+module math.vec2d;
 
 import core.stdc.tgmath;
 import raylib.raylib_types : Matrix, Vector2;
