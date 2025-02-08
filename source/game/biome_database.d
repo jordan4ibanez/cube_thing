@@ -43,6 +43,7 @@ public: //* BEGIN PUBLIC API.
             throw new Error("Stone layer missing from biome " ~ newBiome.name);
         }
 
+        nameDatabase[newBiome.name] = newBiome;
     }
 
 private: //* BEGIN INTERNAL API.
