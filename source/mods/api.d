@@ -9,11 +9,14 @@ private:
 public: //* BEGIN PUBLIC API.
 
     void initialize() {
-
         cubeThingMain();
 
     }
 
 private: //* BEGIN INTERNAL API.
+
+    void finalize() {
+        // todo: biomes register here.
+    }
 
 }
