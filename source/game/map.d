@@ -242,9 +242,6 @@ private: //* BEGIN INTERNAL API.
                 } else if (y == grassLayer) {
                     thisChunk.data[x][y].blockID = grassResult.definition.id;
                 }
-
-                // int data = uniform(0, 2, rnd);
-                // thisChunk.data[x][y].blockID = data;
             }
         }
     }
