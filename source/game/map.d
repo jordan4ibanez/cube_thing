@@ -129,7 +129,7 @@ public: //* BEGIN PUBLIC API.
 
     void worldLoad(int currentPlayerChunk) {
         foreach (i; currentPlayerChunk - 1 .. currentPlayerChunk + 2) {
-            writeln(i);
+            writeln("loading chunk ", i);
             loadChunk(i);
         }
 
