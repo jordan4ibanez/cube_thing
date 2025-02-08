@@ -78,7 +78,7 @@ public: //* BEGIN PUBLIC API.
 
         makeAir();
 
-        foreach (name, thisDefinition; nameDatabase) {
+        foreach (name, ref thisDefinition; nameDatabase) {
 
             if (name == "air") {
                 continue;

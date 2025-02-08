@@ -1,8 +1,12 @@
 module game.biome_database;
 
+import game.block_database;
+
 class BiomeDefinition {
     string name = null;
     string modName = null;
+
+    int id = -1;
 
     string grassLayer = null;
     int grassLayerID = -1;
@@ -54,7 +58,39 @@ public: //* BEGIN PUBLIC API.
     }
 
     void finalize() {
+        foreach (name, ref thisBiome; nameDatabase) {
+            BlockResult grassResult = BlockDatabase.getBlockByName(thisBiome.grassLayer);
+            if (!grassResult.exists) {
+                throw new Error(
+                    "Biome " ~ thisBiome.name ~ " grass layer " ~ thisBiome.grassLayer ~ " is not a registered block");
+            }
 
+            BlockResult dirtResult = BlockDatabase.getBlockByName(thisBiome.dirtLayer);
+            if (!dirtResult.exists) {
+                throw new Error(
+                    "Biome " ~ thisBiome.name ~ " dirt layer " ~ thisBiome.dirtLayer ~ " is not a registered block");
+            }
+
+            BlockResult stoneResult = BlockDatabase.getBlockByName(thisBiome.stoneLayer);
+            if (!stoneResult.exists) {
+                throw new Error(
+                    "Biome " ~ thisBiome.name ~ " stone layer " ~ thisBiome.stoneLayer ~ " is not a registered block");
+            }
+
+            thisBiome.grassLayerID = grassResult.definition.id;
+            thisBiome.dirtLayerID = dirtResult.definition.id;
+            thisBiome.stoneLayerID = stoneResult.definition.id;
+
+            // todo: do the match thing below when mongoDB is added in.
+            thisBiome.id = nextID();
+
+            import std.conv;
+            import std.stdio;
+
+            writeln("Biome " ~ thisBiome.name ~ " at ID " ~ to!string(thisBiome.id));
+
+            idDatabase[thisBiome.id] = thisBiome;
+        }
     }
 
 private: //* BEGIN INTERNAL API.
