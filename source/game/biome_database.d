@@ -11,7 +11,7 @@ class BiomeDefinition {
     int stoneLayerID = -1;
 }
 
-static final const class BlockDatabase {
+static final const class BiomeDatabase {
 static:
 private:
 
