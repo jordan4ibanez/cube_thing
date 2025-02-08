@@ -1,10 +1,18 @@
 module mods.api;
 
-static final const class Render {
+import mods.cube_thing.main;
+
+static final const class Api {
 static:
 private:
 
 public: //* BEGIN PUBLIC API.
+
+    void initialize() {
+
+        cubeThingMain();
+
+    }
 
 private: //* BEGIN INTERNAL API.
 

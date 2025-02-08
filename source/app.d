@@ -6,6 +6,7 @@ import game.player;
 import graphics.camera_handler;
 import graphics.font_handler;
 import graphics.texture_handler;
+import mods.api;
 import raylib;
 import std.conv;
 import std.math.traits;
@@ -36,6 +37,8 @@ void main() {
 	// SetTargetFPS(100);
 
 	CameraHandler.initialize();
+
+	Api.initialize();
 
 	while (Window.shouldStayOpen()) {
 
