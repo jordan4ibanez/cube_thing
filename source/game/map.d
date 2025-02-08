@@ -105,6 +105,15 @@ public: //* BEGIN PUBLIC API.
         return cast(int) floor(x / CHUNK_WIDTH);
     }
 
+    int getXInChunk(float x) {
+        int result = cast(int) floor(x % CHUNK_WIDTH);
+        // Account for negatives.
+        if (result < 0) {
+            result += CHUNK_WIDTH;
+        }
+        return result;
+    }
+
     ChunkData getBlockAtWorldPosition(Vector2 position) {
         int chunkID = calculateChunkAtWorldPosition(position.x);
 
