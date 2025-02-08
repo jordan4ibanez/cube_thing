@@ -1,5 +1,6 @@
 module graphics.render;
 
+public import raylib : Colors;
 import math.rect;
 import math.vec2d;
 import raylib;
