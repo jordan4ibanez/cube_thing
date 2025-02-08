@@ -46,7 +46,6 @@ public: //* BEGIN PUBLIC API.
         }
 
         nameDatabase[newBlock.name] = newBlock;
-
     }
 
     BlockResult getBlockByID(int id) {
@@ -62,6 +61,10 @@ public: //* BEGIN PUBLIC API.
             return BlockResult();
         }
         return BlockResult(nameDatabase[name], true);
+    }
+
+    void finalize() {
+        
     }
 
 private: //* BEGIN INTERNAL API.

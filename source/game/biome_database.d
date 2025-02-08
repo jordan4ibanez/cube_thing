@@ -46,6 +46,10 @@ public: //* BEGIN PUBLIC API.
         nameDatabase[newBiome.name] = newBiome;
     }
 
+    void finalize() {
+
+    }
+
 private: //* BEGIN INTERNAL API.
 
 }
