@@ -133,9 +133,9 @@ public: //* BEGIN PUBLIC API.
         }
 
         //? Then apply Y axis.
-        position.x += velocity.x * delta;
+        position.y += velocity.y * delta;
 
-
+        // Map.collideEntityToWorld(position, size, velocity, CollisionAxis.Y);
 
         // CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
         // if (res.collides) {
@@ -143,10 +143,10 @@ public: //* BEGIN PUBLIC API.
         //     playerPos.x = res.newPosition;
         // }
 
-        // //? Finally apply X axis.
-        position.y += velocity.y * delta;
+        //? Finally apply X axis.
+        position.x += velocity.x * delta;
 
-        
+        Map.collideEntityToWorld(position, size, velocity, CollisionAxis.X);
 
         // todo: the void.
         // if (position.y <= 0) {
