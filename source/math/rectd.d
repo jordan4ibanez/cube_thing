@@ -10,6 +10,13 @@ struct RectD {
     double width = 0.0;
     double height = 0.0;
 
+    this(double x, double y, double width, double height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
     this(Vec2d position, Vec2d size) {
         x = position.x;
         y = position.y;
