@@ -101,6 +101,24 @@ public: //* BEGIN PUBLIC API.
         }
     }
 
+    float getTop(float xPosition) {
+        int chunkID = calculateChunkAtWorldPosition(xPosition);
+        int xPosInChunk = getXInChunk(xPosition);
+
+        if (chunkID !in database) {
+            return 0;
+        }
+
+        Chunk thisChunk = database[chunkID];
+
+        foreach_reverse (y; 0 .. CHUNK_HEIGHT) {
+            if (thisChunk.data[xPosInChunk][y].blockID != 0) {
+                return y + 1;
+            }
+        }
+        return 0;
+    }
+
     int calculateChunkAtWorldPosition(float x) {
         return cast(int) floor(x / CHUNK_WIDTH);
     }
