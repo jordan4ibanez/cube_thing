@@ -1,5 +1,7 @@
 module graphics.texture_handler;
 
+import math.rect;
+import math.vec2d;
 import raylib;
 import std.container;
 import std.file;
@@ -22,17 +24,18 @@ public: //* BEGIN PUBLIC API.
         }
     }
 
-    void drawTexture(string textureName, Vector2 position, Vector2 sourceSize, Vector2 size) {
+    void drawTexture(string textureName, Vec2d position, Vec2d sourceSize, Vec2d size) {
         if (textureName !in database) {
             throw new Error(
                 "[TextureManager]: Texture does not exist. Cannot draw. " ~ textureName);
         }
-        Vector2 flippedPosition = Vector2(position.x, -position.y);
+        Vec2d flippedPosition = Vec2d(position.x, -position.y);
 
-        Rectangle source = Rectangle(0, 0, sourceSize.x, sourceSize.y);
-        Rectangle dest = Rectangle(flippedPosition.x, flippedPosition.y, size.x, size.y);
+        Rect source = Rect(0, 0, sourceSize.x, sourceSize.y);
+        Rect dest = Rect(flippedPosition.x, flippedPosition.y, size.x, size.y);
 
-        DrawTexturePro(*database[textureName], source, dest, Vector2(0, 0), 0, Colors.WHITE);
+        DrawTexturePro(*database[textureName], source.toRaylib(), dest.toRaylib(), Vector2(0, 0), 0, Colors
+                .WHITE);
     }
 
     bool hasTexture(string name) {
