@@ -61,6 +61,7 @@ void main() {
 			{
 				Map.draw();
 				Player.draw();
+				Map.drawDebugPoints();
 			}
 			CameraHandler.end();
 
