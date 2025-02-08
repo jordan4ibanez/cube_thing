@@ -132,8 +132,10 @@ public: //* BEGIN PUBLIC API.
             }
         }
 
-        //? Then apply X axis.
+        //? Then apply Y axis.
         position.x += velocity.x * delta;
+
+
 
         // CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
         // if (res.collides) {
@@ -141,8 +143,10 @@ public: //* BEGIN PUBLIC API.
         //     playerPos.x = res.newPosition;
         // }
 
-        // //? Finally apply Y axis.
+        // //? Finally apply X axis.
         position.y += velocity.y * delta;
+
+        
 
         // todo: the void.
         // if (position.y <= 0) {
