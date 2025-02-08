@@ -1,10 +1,17 @@
 module game.block_database;
 
+import graphics.texture_handler;
+
 class BlockDefinition {
     string name = null;
     string modName = null;
     string texture = null;
     int id = 0;
+}
+
+struct BlockResult {
+    BlockDefinition definition = null;
+    bool exists = false;
 }
 
 static final const class BlockDatabase {
@@ -46,8 +53,19 @@ public: //* BEGIN PUBLIC API.
         databaseID[newBlock.id] = newBlock;
     }
 
-    BlockDefinition getBlockByID(int id) {
-        return databaseID[id];
+    BlockResult getBlockByID(int id) {
+        if (id !in databaseID) {
+            return BlockResult();
+        }
+
+        return BlockResult(databaseID[id], true);
+    }
+
+    BlockResult getBlockByName(string name) {
+        if (name !in databaseName) {
+            return BlockResult();
+        }
+        return BlockResult(databaseName[name], true);
     }
 
 private: //* BEGIN INTERNAL API.
