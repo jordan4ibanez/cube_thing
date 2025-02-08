@@ -40,6 +40,8 @@ void main() {
 
 	Api.initialize();
 
+	Map.initialize();
+
 	while (Window.shouldStayOpen()) {
 
 		double delta = Delta.getDelta();
