@@ -6,12 +6,12 @@ import std.stdio;
 
 struct CollisionResult {
     bool collides = false;
-    float newPosition = 0;
+    double newPosition = 0;
 }
 
 // This basically shoves the entity out of the block.
 //? Note: This will have issues extremely far out.
-private immutable float magicAdjustment = 0.001;
+private immutable double magicAdjustment = 0.001;
 
 CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vector2 entityVelocity,
     Vector2 blockPosition, Vector2 blockSize) {
@@ -27,7 +27,7 @@ CollisionResult collideXToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
     }
 
     // Entity position is on the bottom center of the collisionbox.
-    immutable float entityHalfWidth = entitySize.x * 0.5;
+    immutable double entityHalfWidth = entitySize.x * 0.5;
     immutable Rectangle entityRectangle = Rectangle(entityPosition.x - entityHalfWidth, entityPosition.y - entitySize.y,
         entitySize.x, entitySize.y);
 
@@ -63,7 +63,7 @@ CollisionResult collideYToBlock(Vector2 entityPosition, Vector2 entitySize, Vect
     }
 
     // Entity position is on the bottom center of the collisionbox.
-    immutable float entityHalfWidth = entitySize.x * 0.5;
+    immutable double entityHalfWidth = entitySize.x * 0.5;
     immutable Rectangle entityRectangle = Rectangle(entityPosition.x - entityHalfWidth, entityPosition.y - entitySize.y,
         entitySize.x, entitySize.y);
 
