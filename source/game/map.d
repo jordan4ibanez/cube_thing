@@ -1,5 +1,6 @@
 module game.map;
 
+import game.block_database;
 import graphics.camera_handler;
 import graphics.render;
 import graphics.texture_handler;
@@ -78,7 +79,14 @@ public: //* BEGIN PUBLIC API.
 
                 // Render.rectangle(position, Vector2(1, 1), Colors.ORANGE);
 
-                TextureHandler.drawTexture("default_dirt.png", position, Vector2(16, 16), Vector2(1, 1));
+                BlockDefinitionResult thisBlockResult = BlockDatabase.getBlockByID(
+                    thisData.blockID);
+
+                if (!thisBlockResult.exists) {
+                    TextureHandler.drawTexture("unknown.png", position, Vector2(16, 16), Vector2(1, 1));
+                } else {
+                    TextureHandler.drawTexture("default_dirt.png", position, Vector2(16, 16), Vector2(1, 1));
+                }
 
                 // Render.rectangleLines(position, Vector2(1, 1), Colors.WHITE);
             }
