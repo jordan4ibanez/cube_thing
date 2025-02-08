@@ -6,7 +6,6 @@ class BlockDefinition {
     string name = null;
     string modName = null;
     string texture = null;
-    int id = -1;
 }
 
 struct BlockResult {
@@ -45,12 +44,8 @@ public: //* BEGIN PUBLIC API.
             throw new Error("Texture for block does not exist.");
         }
 
-        if (newBlock.id in databaseID) {
-            throw new Error("Tried to override block " ~ databaseID[newBlock.id].name);
-        }
-
         databaseName[newBlock.name] = newBlock;
-        databaseID[newBlock.id] = newBlock;
+
     }
 
     BlockResult getBlockByID(int id) {
