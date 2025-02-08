@@ -8,6 +8,16 @@ struct Vec2d {
     double x = 0.0;
     double y = 0.0;
 
+    this(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    this(Vector2 old) {
+        this.x = old.x;
+        this.y = old.y;
+    }
+
     Vector2 toRaylib() {
         return Vector2(x, y);
     }
@@ -15,40 +25,40 @@ struct Vec2d {
 
 /// Vector with components value 0.0.
 Vec2d vec2dZero() {
-    Vec2d result = {0.0, 0.0};
+    Vec2d result = Vec2d(0.0, 0.0);
     return result;
 }
 
 /// Vector with components value 1.0
 Vec2d vec2dOne() {
-    Vec2d result = {1.0, 1.0};
+    Vec2d result = Vec2d(1.0, 1.0);
     return result;
 }
 
 /// Add two vectors (v1 + v2)
 Vec2d vec2dAdd(Vec2d v1, Vec2d v2) {
-    Vec2d result = {v1.x + v2.x, v1.y + v2.y};
+    Vec2d result = Vec2d(v1.x + v2.x, v1.y + v2.y);
 
     return result;
 }
 
 /// Add vector and double value
 Vec2d vec2dAddValue(Vec2d v, double add) {
-    Vec2d result = {v.x + add, v.y + add};
+    Vec2d result = Vec2d(v.x + add, v.y + add);
 
     return result;
 }
 
 /// Subtract two vectors (v1 - v2)
 Vec2d vec2dSubtract(Vec2d v1, Vec2d v2) {
-    Vec2d result = {v1.x - v2.x, v1.y - v2.y};
+    Vec2d result = Vec2d(v1.x - v2.x, v1.y - v2.y);
 
     return result;
 }
 
 /// Subtract vector by double value
 Vec2d vec2dSubtractValue(Vec2d v, double sub) {
-    Vec2d result = {v.x - sub, v.y - sub};
+    Vec2d result = Vec2d(v.x - sub, v.y - sub);
 
     return result;
 }
@@ -123,35 +133,35 @@ double vec2dLineAngle(Vec2d start, Vec2d end) {
 
 /// Scale vector (multiply by value)
 Vec2d vec2dScale(Vec2d v, double scale) {
-    Vec2d result = {v.x * scale, v.y * scale};
+    Vec2d result = Vec2d(v.x * scale, v.y * scale);
 
     return result;
 }
 
 /// Multiply vector by vector
 Vec2d vec2dMultiply(Vec2d v1, Vec2d v2) {
-    Vec2d result = {v1.x * v2.x, v1.y * v2.y};
+    Vec2d result = Vec2d(v1.x * v2.x, v1.y * v2.y);
 
     return result;
 }
 
 /// Negate vector
 Vec2d vec2dNegate(Vec2d v) {
-    Vec2d result = {-v.x, -v.y};
+    Vec2d result = Vec2d(-v.x, -v.y);
 
     return result;
 }
 
 /// Divide vector by vector
 Vec2d vec2dDivide(Vec2d v1, Vec2d v2) {
-    Vec2d result = {v1.x / v2.x, v1.y / v2.y};
+    Vec2d result = Vec2d(v1.x / v2.x, v1.y / v2.y);
 
     return result;
 }
 
 /// Normalize provided vector
 Vec2d vec2dNormalize(Vec2d v) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
     double length = sqrt((v.x * v.x) + (v.y * v.y));
 
     if (length > 0) {
@@ -165,7 +175,7 @@ Vec2d vec2dNormalize(Vec2d v) {
 
 /// Transforms a Vec2d by a given Matrix
 Vec2d vec2dTransform(Vec2d v, Matrix mat) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     double x = v.x;
     double y = v.y;
@@ -179,7 +189,7 @@ Vec2d vec2dTransform(Vec2d v, Matrix mat) {
 
 /// Calculate linear interpolation between two vectors
 Vec2d vec2dLerp(Vec2d v1, Vec2d v2, double amount) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     result.x = v1.x + amount * (v2.x - v1.x);
     result.y = v1.y + amount * (v2.y - v1.y);
@@ -189,7 +199,7 @@ Vec2d vec2dLerp(Vec2d v1, Vec2d v2, double amount) {
 
 /// Calculate reflected vector to normal
 Vec2d vec2dReflect(Vec2d v, Vec2d normal) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     double dotProduct = (v.x * normal.x + v.y * normal.y); /// Dot product
 
@@ -201,7 +211,7 @@ Vec2d vec2dReflect(Vec2d v, Vec2d normal) {
 
 /// Get min value for each pair of components
 Vec2d vec2dMin(Vec2d v1, Vec2d v2) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     result.x = min(v1.x, v2.x);
     result.y = min(v1.y, v2.y);
@@ -211,7 +221,7 @@ Vec2d vec2dMin(Vec2d v1, Vec2d v2) {
 
 /// Get max value for each pair of components
 Vec2d vec2dMax(Vec2d v1, Vec2d v2) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     result.x = max(v1.x, v2.x);
     result.y = max(v1.y, v2.y);
@@ -221,7 +231,7 @@ Vec2d vec2dMax(Vec2d v1, Vec2d v2) {
 
 /// Rotate vector by angle
 Vec2d vec2dRotate(Vec2d v, double angle) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     double cosres = cos(angle);
     double sinres = sin(angle);
@@ -234,7 +244,7 @@ Vec2d vec2dRotate(Vec2d v, double angle) {
 
 /// Move Vector towards target
 Vec2d vec2dMoveTowards(Vec2d v, Vec2d target, double maxDistance) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     double dx = target.x - v.x;
     double dy = target.y - v.y;
@@ -253,7 +263,7 @@ Vec2d vec2dMoveTowards(Vec2d v, Vec2d target, double maxDistance) {
 
 /// Invert the given vector
 Vec2d vec2dInvert(Vec2d v) {
-    Vec2d result = {1.0 / v.x, 1.0 / v.y};
+    Vec2d result = Vec2d(1.0 / v.x, 1.0 / v.y);
 
     return result;
 }
@@ -261,7 +271,7 @@ Vec2d vec2dInvert(Vec2d v) {
 /// Clamp the components of the vector between
 /// min and max values specified by the given vectors
 Vec2d vec2dClamp(Vec2d v, Vec2d mind, Vec2d maxd) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     result.x = min(maxd.x, max(mind.x, v.x));
     result.y = min(maxd.y, max(mind.y, v.y));
@@ -308,7 +318,7 @@ int vec2dEquals(Vec2d p, Vec2d q) {
 /// r: ratio of the refractive index of the medium from where the ray comes
 ///    to the refractive index of the medium on the other side of the surface
 Vec2d vec2dRefract(Vec2d v, Vec2d n, double r) {
-    Vec2d result = {0};
+    Vec2d result = Vec2d();
 
     double dot = v.x * n.x + v.y * n.y;
     double d = 1.0 - r * r * (1.0 - dot * dot);
