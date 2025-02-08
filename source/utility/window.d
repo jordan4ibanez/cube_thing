@@ -3,6 +3,7 @@ module utility.window;
 import graphics.camera_handler;
 import graphics.font_handler;
 import graphics.gui;
+import math.vec2d;
 import raylib;
 import utility.delta;
 
@@ -40,8 +41,8 @@ public: //* BEGIN PUBLIC API.
         return GetRenderHeight();
     }
 
-    Vector2 getSize() {
-        return Vector2(getWidth(), getHeight());
+    Vec2d getSize() {
+        return Vec2d(getWidth(), getHeight());
     }
 
     bool shouldStayOpen() {
