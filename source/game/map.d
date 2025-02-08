@@ -92,7 +92,8 @@ public: //* BEGIN PUBLIC API.
                 if (!thisBlockResult.exists) {
                     TextureHandler.drawTexture("unknown.png", position, Vector2(16, 16), Vector2(1, 1));
                 } else {
-                    TextureHandler.drawTexture("default_dirt.png", position, Vector2(16, 16), Vector2(1, 1));
+                    TextureHandler.drawTexture(thisBlockResult.definition.texture, position, Vector2(16, 16), Vector2(
+                            1, 1));
                 }
 
                 // Render.rectangleLines(position, Vector2(1, 1), Colors.WHITE);
