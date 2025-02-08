@@ -11,8 +11,8 @@ private:
 
     // Roboto condensed medium looks pretty close to the Bass Rise font, kind of.
     Font* font = null;
-    immutable float spacing = -1;
-    float currentFontSize = 1;
+    immutable double spacing = -1;
+    double currentFontSize = 1;
 
 public: //* BEGIN PUBLIC API.
 
@@ -30,11 +30,11 @@ public: //* BEGIN PUBLIC API.
         return MeasureTextEx(*font, toStringz(text), currentFontSize, spacing);
     }
 
-    void draw(string text, float x, float y, Color color = Colors.BLACK) {
+    void draw(string text, double x, double y, Color color = Colors.BLACK) {
         DrawTextEx(*font, toStringz(text), Vector2(x, y), currentFontSize, spacing, color);
     }
 
-    void drawShadowed(string text, float x, float y, Color foregroundColor = Colors.WHITE) {
+    void drawShadowed(string text, double x, double y, Color foregroundColor = Colors.WHITE) {
         DrawTextEx(*font, toStringz(text), Vector2(x, y), currentFontSize, spacing, Colors.BLACK);
         DrawTextEx(*font, toStringz(text), Vector2(x - 1, y - 1), currentFontSize, spacing, foregroundColor);
     }
