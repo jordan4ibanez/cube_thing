@@ -5,6 +5,11 @@ import math.vec2d;
 import std.math.traits : sgn;
 import std.stdio;
 
+enum CollisionAxis {
+    X,
+    Y
+}
+
 struct CollisionResult {
     bool collides = false;
     double newPosition = 0;
