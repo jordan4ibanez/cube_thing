@@ -1,9 +1,9 @@
 module game.block_database;
 
 import graphics.texture_handler;
-import std.string;
-import std.stdio;
 import std.conv;
+import std.stdio;
+import std.string;
 
 class BlockDefinition {
     string name = null;
@@ -25,7 +25,7 @@ private:
     BlockDefinition[string] nameDatabase;
     BlockDefinition[int] idDatabase;
 
-    int currentID = 0;
+    int currentID = 1;
 
 public: //* BEGIN PUBLIC API.
 
@@ -74,7 +74,20 @@ public: //* BEGIN PUBLIC API.
     }
 
     void finalize() {
+
         makeAir();
+
+        foreach (name, thisDefinition; nameDatabase) {
+
+            if (name == "air") {
+                continue;
+            }
+
+            thisDefinition.id = nextID();
+            idDatabase[thisDefinition.id] = thisDefinition;
+
+            debugWrite(thisDefinition);
+        }
 
     }
 
@@ -86,7 +99,9 @@ private: //* BEGIN INTERNAL API.
         air.modName = "engine";
         air.texture = "air.png";
         // todo: do the match thing below when mongoDB is added in.
-        air.id = nextID();
+        air.id = 0;
+
+        debugWrite(air);
 
         nameDatabase[air.name] = air;
         idDatabase[air.id] = air;
