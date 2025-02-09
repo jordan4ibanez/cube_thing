@@ -13,6 +13,7 @@ enum CollisionAxis {
 struct CollisionResult {
     bool collides = false;
     double newPosition = 0;
+    bool hitGround = false;
 }
 
 // This basically shoves the entity out of the block.
@@ -80,6 +81,7 @@ CollisionResult collideYToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d en
         if (dir <= 0) {
             // Kick up. This is the safety default.
             result.newPosition = blockPosition.y + blockSize.y + magicAdjustment;
+            result.hitGround = true;
         } else {
             // Kick down.
             result.newPosition = blockPosition.y - entitySize.y - magicAdjustment;
