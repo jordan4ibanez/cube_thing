@@ -162,6 +162,30 @@ public: //* BEGIN PUBLIC API.
         return database[chunkID].data[xPosInChunk][yPosInChunk];
     }
 
+    void setBlockAtWorldPositionByID(Vec2d position, int id) {
+        if (!BlockDatabase.hasBlockID(id)) {
+            throw new Error("Cannot set to block ID " ~ to!string(id) ~ ", ID does not exist.");
+        }
+
+        int chunkID = calculateChunkAtWorldPosition(position.x);
+
+        if (chunkID !in database) {
+            // todo: maybe unload the chunk after?
+            loadChunk(chunkID);
+        }
+
+        int xPosInChunk = getXInChunk(position.x);
+
+        int yPosInChunk = cast(int) floor(position.y);
+
+        // Out of bounds.
+        if (yPosInChunk < 0 || yPosInChunk >= CHUNK_HEIGHT) {
+            writeln("WARNING! trying to write out of bounds! " ~ to!string(yPosInChunk));
+        }
+
+        database[chunkID].data[xPosInChunk][yPosInChunk].blockID = id;
+    }
+
     void worldLoad(int currentPlayerChunk) {
         foreach (i; currentPlayerChunk - 1 .. currentPlayerChunk + 2) {
             writeln("loading chunk ", i);
