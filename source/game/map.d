@@ -292,7 +292,6 @@ private: //* BEGIN INTERNAL API.
                     }
                 } else {
 
-                    
                     CollisionResult result = collideYToBlock(entityPosition, entitySize, entityVelocity,
                         Vec2d(currentX, currentY), Vec2d(1, 1));
 
