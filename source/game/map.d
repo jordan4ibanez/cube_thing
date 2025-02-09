@@ -228,15 +228,15 @@ public: //* BEGIN PUBLIC API.
         unloadOldChunks(currentPlayerChunk);
     }
 
-    void collideEntityToWorld(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity,
+    bool collideEntityToWorld(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity,
         CollisionAxis axis) {
 
-        collision(entityPosition, entitySize, entityVelocity, axis);
+        return collision(entityPosition, entitySize, entityVelocity, axis);
     }
 
 private: //* BEGIN INTERNAL API.
 
-    void collision(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity, CollisionAxis axis) {
+    bool collision(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity, CollisionAxis axis) {
         import utility.collision_functions;
 
         int oldX = int.min;
@@ -245,6 +245,8 @@ private: //* BEGIN INTERNAL API.
         int currentY = int.min;
 
         debugDrawPoints = [];
+
+        bool hitGround = false;
 
         foreach (double xOnRect; 0 .. ceil(entitySize.x) + 1) {
             double thisXPoint = (xOnRect > entitySize.x) ? entitySize.x : xOnRect;
@@ -297,11 +299,15 @@ private: //* BEGIN INTERNAL API.
                     if (result.collides) {
                         entityPosition.y = result.newPosition;
                         entityVelocity.y = 0;
+                        if (result.hitGround) {
+                            hitGround = true;
+                        }
                     }
                 }
             }
         }
 
+        return hitGround;
     }
 
     void unloadOldChunks(int currentPlayerChunk) {
