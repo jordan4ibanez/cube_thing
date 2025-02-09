@@ -34,8 +34,6 @@ private:
            |-------- Actual position
     */
 
-    // todo: replace this with double type!
-
     Vec2d size = Vec2d(0.6, 1.8);
     Vec2d position = Vec2d(0, 0);
     Vec2d velocity = Vec2d(0, 0);
