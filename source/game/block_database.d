@@ -59,6 +59,13 @@ public: //* BEGIN PUBLIC API.
         nameDatabase[newBlock.name] = newBlock;
     }
 
+    bool hasBlockID(int id) {
+        if (id in idDatabase) {
+            return true;
+        }
+        return false;
+    }
+
     BlockDefinitionResult getBlockByID(int id) {
         if (id !in idDatabase) {
             return BlockDefinitionResult();
