@@ -33,7 +33,7 @@ private:
 
     Chunk[int] database;
     FNLState noise;
-    Vec2d[] debugDrawPoints = [];
+    // Vec2d[] debugDrawPoints = [];
     double gravity = 20.0;
 
 public: //* BEGIN PUBLIC API.
@@ -84,7 +84,7 @@ public: //* BEGIN PUBLIC API.
                 position.y += 1;
 
                 if (thisData.blockID == 0) {
-                    Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);
+                    // Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);
                     continue;
                 }
 
@@ -102,7 +102,7 @@ public: //* BEGIN PUBLIC API.
                             1, 1));
                 }
 
-                Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);
+                // Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);
 
             }
         }
@@ -112,11 +112,11 @@ public: //* BEGIN PUBLIC API.
         return gravity;
     }
 
-    void drawDebugPoints() {
-        foreach (point; debugDrawPoints) {
-            Render.circle(point, 0.1, Colors.ORANGE);
-        }
-    }
+    // void drawDebugPoints() {
+    //     foreach (point; debugDrawPoints) {
+    //         Render.circle(point, 0.1, Colors.ORANGE);
+    //     }
+    // }
 
     double getTop(double xPosition) {
         int chunkID = calculateChunkAtWorldPosition(xPosition);
@@ -244,7 +244,7 @@ private: //* BEGIN INTERNAL API.
         int currentX = int.min;
         int currentY = int.min;
 
-        debugDrawPoints = [];
+        // debugDrawPoints = [];
 
         bool hitGround = false;
 
@@ -271,7 +271,7 @@ private: //* BEGIN INTERNAL API.
                     continue;
                 }
 
-                debugDrawPoints ~= Vec2d(currentX, currentY);
+                // debugDrawPoints ~= Vec2d(currentX, currentY);
 
                 ChunkData data = getBlockAtWorldPosition(Vec2d(currentX, currentY));
 
