@@ -75,16 +75,14 @@ CollisionResult collideYToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d en
     immutable Rect blockRectangle = Rect(blockPosition.x, blockPosition.y, blockSize.x, blockSize.y);
 
     if (checkCollisionRecs(entityRectangle, blockRectangle)) {
+
         result.collides = true;
         if (dir <= 0) {
             // Kick up. This is the safety default.
-            writeln("kick up");
-
             result.newPosition = blockPosition.y + blockSize.y + magicAdjustment;
         } else {
             // Kick down.
-            writeln("kick down");
-            result.newPosition = blockPosition.y - magicAdjustment;
+            result.newPosition = blockPosition.y - entitySize.y - magicAdjustment;
         }
     }
 
