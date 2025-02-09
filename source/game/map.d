@@ -34,6 +34,7 @@ private:
     Chunk[int] database;
     FNLState noise;
     Vec2d[] debugDrawPoints = [];
+    double gravity = 20.0;
 
 public: //* BEGIN PUBLIC API.
 
@@ -105,6 +106,10 @@ public: //* BEGIN PUBLIC API.
 
             }
         }
+    }
+
+    double getGravity() {
+        return gravity;
     }
 
     void drawDebugPoints() {
