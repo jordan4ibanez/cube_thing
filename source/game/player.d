@@ -159,6 +159,9 @@ public: //* BEGIN PUBLIC API.
             if (firstGen) {
                 position.y = Map.getTop(position.x);
                 firstGen = false;
+
+                Map.setBlockAtWorldPositionByName(Vec2d(position.x, position.y + 3), "dirt");
+                Map.setBlockAtWorldPositionByName(Vec2d(position.x + 1, position.y + 3), "dirt");
             }
         }
     }

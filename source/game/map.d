@@ -264,7 +264,7 @@ private: //* BEGIN INTERNAL API.
                     continue;
                 }
 
-                debugDrawPoints ~= Vec2d(thisXPoint, thisYPoint);
+                debugDrawPoints ~= Vec2d(currentX, currentY);
 
                 ChunkData data = getBlockAtWorldPosition(Vec2d(currentX, currentY));
 
