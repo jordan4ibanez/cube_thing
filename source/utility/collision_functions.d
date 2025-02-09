@@ -70,7 +70,7 @@ CollisionResult collideYToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d en
 
     // Entity position is on the bottom center of the collisionbox.
     immutable double entityHalfWidth = entitySize.x * 0.5;
-    immutable Rect entityRectangle = Rect(entityPosition.x - entityHalfWidth, entityPosition.y - entitySize.y,
+    immutable Rect entityRectangle = Rect(entityPosition.x - entityHalfWidth, entityPosition.y,
         entitySize.x, entitySize.y);
 
     immutable Rect blockRectangle = Rect(blockPosition.x, blockPosition.y, blockSize.x, blockSize
