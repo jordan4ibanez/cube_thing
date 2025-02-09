@@ -66,6 +66,13 @@ public: //* BEGIN PUBLIC API.
         return false;
     }
 
+    bool hasBlockName(string name) {
+        if (name in nameDatabase) {
+            return true;
+        }
+        return false;
+    }
+
     BlockDefinitionResult getBlockByID(int id) {
         if (id !in idDatabase) {
             return BlockDefinitionResult();
