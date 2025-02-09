@@ -175,25 +175,18 @@ public: //* BEGIN PUBLIC API.
     void collideEntityToWorld(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity,
         CollisionAxis axis) {
 
-        if (axis == axis.X) {
-            collisionX(entityPosition, entitySize, entityVelocity);
-        } else {
-            collisionY(entityPosition, entitySize, entityVelocity);
-        }
-
+        collision(entityPosition, entitySize, entityVelocity, axis);
     }
 
 private: //* BEGIN INTERNAL API.
 
-    void collisionX(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity) {
+    void collision(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity, CollisionAxis axis) {
         import utility.collision_functions;
 
-        int currentChunkID = int.min;
         int oldX = int.min;
         int oldY = int.min;
         int currentX = int.min;
         int currentY = int.min;
-        Chunk currentChunk = null;
 
         debugDrawPoints = [];
 
@@ -231,20 +224,25 @@ private: //* BEGIN INTERNAL API.
                     continue;
                 }
 
-                CollisionResult result = collideXToBlock(entityPosition, entitySize, entityVelocity,
-                    Vec2d(currentX, currentY), Vec2d(1, 1));
+                if (axis == CollisionAxis.X) {
+                    CollisionResult result = collideXToBlock(entityPosition, entitySize, entityVelocity,
+                        Vec2d(currentX, currentY), Vec2d(1, 1));
 
-                if (result.collides) {
-                    entityPosition.x = result.newPosition;
-                    entityVelocity.x = 0;
+                    if (result.collides) {
+                        entityPosition.x = result.newPosition;
+                        entityVelocity.x = 0;
+                    }
+                } else {
+                    CollisionResult result = collideYToBlock(entityPosition, entitySize, entityVelocity,
+                        Vec2d(currentX, currentY), Vec2d(1, 1));
+
+                    if (result.collides) {
+                        entityPosition.y = result.newPosition;
+                        entityVelocity.y = 0;
+                    }
                 }
             }
-
         }
-
-    }
-
-    void collisionY(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity) {
 
     }
 
