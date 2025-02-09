@@ -78,7 +78,7 @@ CollisionResult collideYToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d en
 
     if (checkCollisionRecs(entityRectangle, blockRectangle)) {
         result.collides = true;
-        if (dir < 0) {
+        if (dir <= 0) {
             // Kick up. This is the safety default.
             writeln("kick up");
 
