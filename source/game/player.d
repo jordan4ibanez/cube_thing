@@ -19,6 +19,7 @@ static:
 private:
 
     //? Note: Entities position is at the bottom center of the collision box.
+
     /*
     |------------|
     |            |
@@ -39,6 +40,8 @@ private:
     Vec2d velocity = Vec2d(0, 0);
     int inChunk = int.max;
     bool firstGen = true;
+    bool jumpQueued = false;
+    bool inJump = false;
 
 public: //* BEGIN PUBLIC API.
 
@@ -109,31 +112,31 @@ public: //* BEGIN PUBLIC API.
             }
         }
 
-        if (Keyboard.isDown(KeyboardKey.KEY_UP)) {
-            if (sgn(velocity.y) < 0) {
-                velocity.y += delta * deceleration;
-            } else {
-                velocity.y += delta * acceleration;
-            }
-        } else if (Keyboard.isDown(KeyboardKey.KEY_DOWN)) {
-            if (sgn(velocity.y) > 0) {
-                velocity.y -= delta * deceleration;
-            } else {
-                velocity.y -= delta * acceleration;
-            }
-        } else {
-            if (abs(velocity.y) > delta * deceleration) {
-                double valSign = sgn(velocity.y);
-                velocity.y = (abs(velocity.y) - (delta * deceleration)) * valSign;
-            } else {
-                velocity.y = 0;
-            }
+        // Speed limiter. 
+        if (abs(velocity.x) > 5) {
+
+            double valSign = sgn(velocity.x);
+            velocity.x = valSign * 5;
+        }
+
+        velocity.y -= delta * Map.getGravity();
+
+        if (!inJump && Keyboard.isDown(KeyboardKey.KEY_UP)) {
+            jumpQueued = true;
         }
 
         //? Then apply Y axis.
         position.y += velocity.y * delta;
 
-        Map.collideEntityToWorld(position, size, velocity, CollisionAxis.Y);
+        bool hitGround = Map.collideEntityToWorld(position, size, velocity, CollisionAxis.Y);
+
+        if (inJump && hitGround) {
+            inJump = false;
+        } else if (jumpQueued && hitGround) {
+            velocity.y = 7;
+            jumpQueued = false;
+            inJump = true;
+        }
 
         //? Finally apply X axis.
         position.x += velocity.x * delta;
