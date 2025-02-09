@@ -186,6 +186,7 @@ public: //* BEGIN PUBLIC API.
 private: //* BEGIN INTERNAL API.
 
     void collisionX(ref Vec2d entityPosition, Vec2d entitySize, ref Vec2d entityVelocity) {
+        import utility.collision_functions;
 
         int currentChunkID = int.min;
         int oldX = int.min;
@@ -223,8 +224,20 @@ private: //* BEGIN INTERNAL API.
 
                 ChunkData data = getBlockAtWorldPosition(Vec2d(currentX, currentY));
 
-                // todo: if solid collide.
+                // todo: if solid block collide.
+                // todo: probably custom blocks one day.
 
+                if (data.blockID == 0) {
+                    continue;
+                }
+
+                CollisionResult result = collideXToBlock(entityPosition, entitySize, entityVelocity,
+                    Vec2d(currentX, currentY), Vec2d(1, 1));
+
+                if (result.collides) {
+                    entityPosition.x = result.newPosition;
+                    entityVelocity.x = 0;
+                }
             }
 
         }
