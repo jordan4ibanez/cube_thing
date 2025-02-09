@@ -37,8 +37,7 @@ CollisionResult collideXToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d en
     immutable Rect entityRectangle = Rect(entityPosition.x - entityHalfWidth, entityPosition.y,
         entitySize.x, entitySize.y);
 
-    immutable Rect blockRectangle = Rect(blockPosition.x, blockPosition.y, blockSize.x, blockSize
-            .y);
+    immutable Rect blockRectangle = Rect(blockPosition.x, blockPosition.y, blockSize.x, blockSize.y);
 
     if (checkCollisionRecs(entityRectangle, blockRectangle)) {
         // This doesn't kick out in a specific direction on dir 0 because the Y axis check will kick them up as a safety.
@@ -73,8 +72,7 @@ CollisionResult collideYToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d en
     immutable Rect entityRectangle = Rect(entityPosition.x - entityHalfWidth, entityPosition.y,
         entitySize.x, entitySize.y);
 
-    immutable Rect blockRectangle = Rect(blockPosition.x, blockPosition.y, blockSize.x, blockSize
-            .y);
+    immutable Rect blockRectangle = Rect(blockPosition.x, blockPosition.y, blockSize.x, blockSize.y);
 
     if (checkCollisionRecs(entityRectangle, blockRectangle)) {
         result.collides = true;
