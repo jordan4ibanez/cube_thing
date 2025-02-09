@@ -135,13 +135,7 @@ public: //* BEGIN PUBLIC API.
         //? Then apply Y axis.
         position.y += velocity.y * delta;
 
-        // Map.collideEntityToWorld(position, size, velocity, CollisionAxis.Y);
-
-        // CollisionResult res = collideXToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
-        // if (res.collides) {
-        //     playerVelocity.x = 0;
-        //     playerPos.x = res.newPosition;
-        // }
+        Map.collideEntityToWorld(position, size, velocity, CollisionAxis.Y);
 
         //? Finally apply X axis.
         position.x += velocity.x * delta;
@@ -151,13 +145,6 @@ public: //* BEGIN PUBLIC API.
         // todo: the void.
         // if (position.y <= 0) {
         //     position.y = 0;
-        // }
-
-        // res = collideYToBlock(playerPos, playerSize, playerVelocity, sampleBlockPosition, sampleBlockSize);
-
-        // if (res.collides) {
-        //     playerPos.y = res.newPosition;
-        //     playerVelocity.y = 0;
         // }
 
         int oldChunk = inChunk;
