@@ -2,9 +2,10 @@
 	"fileVersion": 1,
 	"versions": {
 		"fast_noise": "1.0.5",
-		"fast_pack": "3.0.4",
+		"fast_pack": "4.1.0",
+		"intel-intrinsics": "1.11.25",
 		"mini_png": "1.0.1",
-		"option_d": "1.0.2",
+		"miniz": "0.0.1",
 		"raylib-d": "5.5.1"
 	}
 }
