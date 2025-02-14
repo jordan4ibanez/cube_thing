@@ -45,7 +45,7 @@ public: //* BEGIN PUBLIC API.
         EndMode2D();
     }
 
-    void setTarget(Vec2d position) {
+    void setTarget(const ref Vec2d position) {
         camera.target = position.toRaylib();
     }
 
@@ -55,6 +55,10 @@ public: //* BEGIN PUBLIC API.
 
     void setZoom(double zoom) {
         realZoom = zoom;
+    }
+
+    Vec2d screenToWorld(const ref Vec2d position) {
+        return Vec2d(GetScreenToWorld2D(position.toRaylib(), *camera));
     }
 
     void centerToPlayer() {
