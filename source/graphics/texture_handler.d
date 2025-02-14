@@ -1,5 +1,6 @@
 module graphics.texture_handler;
 
+import fast_pack;
 import math.rect;
 import math.vec2d;
 import raylib;
@@ -14,35 +15,37 @@ static final const class TextureHandler {
 static:
 private:
 
-    Texture2D*[string] database;
+    TexturePacker!string database = TexturePacker!string(1);
+    Texture2D atlas;
 
 public: //* BEGIN PUBLIC API.
 
     void initialize() {
+
         foreach (string thisFilePathString; dirEntries("textures", "*.png", SpanMode.depth)) {
             loadTexture(thisFilePathString);
         }
+
+        database.finalize("atlas.png");
+
+        atlas = LoadTexture(toStringz("atlas.png"));
     }
 
     void drawTexture(string textureName, Vec2d position, Vec2d sourceSize, Vec2d size) {
-        if (textureName !in database) {
-            throw new Error(
-                "[TextureManager]: Texture does not exist. Cannot draw. " ~ textureName);
-        }
+        Rectangle thisRectangle = database.getRectangle!Rectangle(textureName);
+
         Vec2d flippedPosition = Vec2d(position.x, -position.y);
 
-        Rect source = Rect(0, 0, sourceSize.x, sourceSize.y);
+        Rect source = Rect(0, 0, 2, 2);
+
         Rect dest = Rect(flippedPosition.x, flippedPosition.y, size.x, size.y);
 
-        DrawTexturePro(*database[textureName], source.toRaylib(), dest.toRaylib(), Vector2(0, 0), 0, Colors
+        DrawTexturePro(atlas, source.toRaylib(), dest.toRaylib(), Vector2(0, 0), 0, Colors
                 .WHITE);
     }
 
     bool hasTexture(string name) {
-        if (name in database) {
-            return true;
-        }
-        return false;
+        return database.contains(name);
     }
 
     void loadTexture(string location) {
@@ -61,45 +64,19 @@ public: //* BEGIN PUBLIC API.
             return outputFileName;
         }();
 
-        if (fileName in database) {
-            throw new Error("[TextureManager]: Tried to overwrite [" ~ fileName ~ "]");
-        }
-
-        Texture2D* thisTexture = new Texture2D();
-        *thisTexture = LoadTexture(toStringz(location));
-
-        if (!IsTextureValid(*thisTexture)) {
-            throw new Error("[TextureManager]: Texture [" ~ location ~ "] is invalid.");
-        }
-
-        database[fileName] = thisTexture;
+        database.pack(fileName, location);
     }
 
-    Texture2D* getTexturePointer(string textureName) {
-        if (textureName !in database) {
-            throw new Error("[TextureManager]: Texture does not exist. " ~ textureName);
-        }
+    // Texture2D* getTexturePointer(string textureName) {
+    //     if (textureName !in database) {
+    //         throw new Error("[TextureManager]: Texture does not exist. " ~ textureName);
+    //     }
 
-        return database[textureName];
-    }
-
-    void deleteTexture(string textureName) {
-        if (textureName !in database) {
-            throw new Error(
-                "[TextureManager]: Texture does not exist. Cannot delete. " ~ textureName);
-        }
-
-        Texture* thisTexture = database[textureName];
-        UnloadTexture(*thisTexture);
-        database.remove(textureName);
-    }
+    //     return database[textureName];
+    // }
 
     void terminate() {
-        foreach (textureName, thisTexture; database) {
-            UnloadTexture(*thisTexture);
-        }
-
-        database.clear();
+        UnloadTexture(atlas);
     }
 
 private: //* BEGIN INTERNAL API.
