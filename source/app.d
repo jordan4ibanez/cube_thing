@@ -67,6 +67,17 @@ void main() {
 
 				Render.circle(Mouse.getWorldPosition(), 0.1, Colors.RED);
 
+				{
+					import std.math.rounding;
+
+					Vec2d mousePos = Mouse.getWorldPosition();
+
+					mousePos.x = floor(mousePos.x);
+					mousePos.y = floor(mousePos.y) + 1;
+
+					Render.rectangleLines(mousePos, Vec2d(1, 1), Colors.WHITE);
+				}
+
 				if (Mouse.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
 					Map.setBlockAtWorldPositionByID(Mouse.getWorldPosition(), 0);
 				} else if (Mouse.isButtonDown(MouseButton.MOUSE_BUTTON_RIGHT)) {
