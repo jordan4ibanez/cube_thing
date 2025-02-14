@@ -31,7 +31,8 @@ public: //* BEGIN PUBLIC API.
         atlas = LoadTexture(toStringz("atlas.png"));
     }
 
-    void drawTexture(string textureName, Vec2d position, Rect sourceOnTexture, Vec2d size) {
+    void drawTexture(string textureName, Vec2d position, Rect sourceOnTexture, Vec2d size, Vec2d origin = Vec2d(0, 0),
+        double rotation = 0) {
 
         Vec2d flippedPosition = Vec2d(position.x, -position.y);
 
@@ -58,7 +59,7 @@ public: //* BEGIN PUBLIC API.
             size.y
         );
 
-        DrawTexturePro(atlas, source.toRaylib(), dest.toRaylib(), Vector2(0, 0), 0, Colors
+        DrawTexturePro(atlas, source.toRaylib(), dest.toRaylib(), origin.toRaylib(), rotation, Colors
                 .WHITE);
     }
 
