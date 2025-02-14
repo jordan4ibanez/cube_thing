@@ -1,10 +1,12 @@
 import std.stdio;
 
 import controls.keyboard;
+import controls.mouse;
 import game.map;
 import game.player;
 import graphics.camera_handler;
 import graphics.font_handler;
+import graphics.render;
 import graphics.texture_handler;
 import math.vec2d;
 import mods.api;
@@ -62,6 +64,15 @@ void main() {
 				Map.draw();
 				Player.draw();
 				// Map.drawDebugPoints();
+
+				Render.circle(Mouse.getWorldPosition(), 0.1, Colors.RED);
+
+				if (Mouse.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+					Map.setBlockAtWorldPositionByID(Mouse.getWorldPosition(), 0);
+				} else if (Mouse.isButtonDown(MouseButton.MOUSE_BUTTON_RIGHT)) {
+					Map.setBlockAtWorldPositionByID(Mouse.getWorldPosition(), 2);
+				}
+
 			}
 			CameraHandler.end();
 
