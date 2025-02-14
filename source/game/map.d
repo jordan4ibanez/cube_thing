@@ -7,6 +7,7 @@ import game.block_database;
 import graphics.camera_handler;
 import graphics.render;
 import graphics.texture_handler;
+import math.rect;
 import math.vec2d;
 import std.algorithm.comparison;
 import std.conv;
@@ -96,10 +97,10 @@ public: //* BEGIN PUBLIC API.
                     thisData.blockID);
 
                 if (!thisBlockResult.exists) {
-                    TextureHandler.drawTexture("unknown.png", position, Vec2d(16, 16), Vec2d(1, 1));
+                    TextureHandler.drawTexture("unknown.png", position, Rect(0, 0, 16, 16), Vec2d(1, 1));
                 } else {
-                    TextureHandler.drawTexture(thisBlockResult.definition.texture, position, Vec2d(16, 16), Vec2d(
-                            1, 1));
+                    TextureHandler.drawTexture(thisBlockResult.definition.texture, position,
+                        Rect(0, 0, 16.00001, 16.00001), Vec2d(1, 1));
                 }
 
                 // Render.rectangleLines(position, Vec2d(1, 1), Colors.WHITE);

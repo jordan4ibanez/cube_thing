@@ -31,7 +31,7 @@ public: //* BEGIN PUBLIC API.
         atlas = LoadTexture(toStringz("atlas.png"));
     }
 
-    void drawTexture(string textureName, Vec2d position, Vec2d sourceSize, Vec2d size) {
+    void drawTexture(string textureName, Vec2d position, Rect sourceOnTexture, Vec2d size) {
 
         Vec2d flippedPosition = Vec2d(position.x, -position.y);
 
@@ -46,12 +46,17 @@ public: //* BEGIN PUBLIC API.
         database.getRectangleIntegral(textureName, rawInput);
 
         Rect source = Rect();
-        source.x = rawInput.x;
-        source.y = rawInput.y;
-        source.width = rawInput.w;
-        source.height = rawInput.h;
+        source.x = rawInput.x + cast(int) sourceOnTexture.x;
+        source.y = rawInput.y + cast(int) sourceOnTexture.y;
+        source.width = sourceOnTexture.width;
+        source.height = sourceOnTexture.height;
 
-        Rect dest = Rect(flippedPosition.x, flippedPosition.y, size.x, size.y);
+        Rect dest = Rect(
+            flippedPosition.x,
+            flippedPosition.y,
+            size.x,
+            size.y
+        );
 
         DrawTexturePro(atlas, source.toRaylib(), dest.toRaylib(), Vector2(0, 0), 0, Colors
                 .WHITE);
