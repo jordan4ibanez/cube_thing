@@ -78,9 +78,9 @@ void main() {
 					Render.rectangleLines(mousePos, Vec2d(1, 1), Colors.WHITE);
 				}
 
-				if (Mouse.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+				if (Mouse.isButtonPressed(MouseButton.MOUSE_BUTTON_LEFT)) {
 					Map.setBlockAtWorldPositionByID(Mouse.getWorldPosition(), 0);
-				} else if (Mouse.isButtonDown(MouseButton.MOUSE_BUTTON_RIGHT)) {
+				} else if (Mouse.isButtonPressed(MouseButton.MOUSE_BUTTON_RIGHT)) {
 					Map.setBlockAtWorldPositionByID(Mouse.getWorldPosition(), 2);
 				}
 
