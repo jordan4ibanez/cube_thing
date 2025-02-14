@@ -32,7 +32,6 @@ public: //* BEGIN PUBLIC API.
     }
 
     void drawTexture(string textureName, Vec2d position, Vec2d sourceSize, Vec2d size) {
-        Rectangle thisRectangle = database.getRectangle!Rectangle(textureName);
 
         Vec2d flippedPosition = Vec2d(position.x, -position.y);
 
