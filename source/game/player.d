@@ -79,7 +79,8 @@ public: //* BEGIN PUBLIC API.
     }
 
     void draw() {
-        Render.rectangle(centerCollisionboxBottom(position, size), size, Colors.WHITE);
+        // Render.rectangle(centerCollisionboxBottom(position, size), size, Colors.WHITE);
+        Render.rectangleLines(centerCollisionboxBottom(position, size), size, Colors.WHITE);
     }
 
     void move() {
