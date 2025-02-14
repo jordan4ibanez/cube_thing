@@ -18,7 +18,7 @@ struct Vec2d {
         this.y = old.y;
     }
 
-    Vector2 toRaylib() {
+    Vector2 toRaylib() const {
         return Vector2(x, y);
     }
 }
