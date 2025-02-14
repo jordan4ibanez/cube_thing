@@ -4,11 +4,14 @@ import controls.keyboard;
 import game.map;
 import graphics.colors;
 import graphics.render;
+import graphics.texture_handler;
 import math.rect;
 import math.vec2d;
+import raylib : DEG2RAD, PI, RAD2DEG;
 import std.math.algebraic : abs;
 import std.math.rounding;
 import std.math.traits : sgn;
+import std.math.trigonometry;
 import std.stdio;
 import utility.collision_functions;
 import utility.delta;
@@ -17,6 +20,11 @@ import utility.drawing_functions;
 static final const class Player {
 static:
 private:
+
+    enum Direction {
+        Left,
+        Right
+    }
 
     //? Note: Entities position is at the bottom center of the collision box.
 
@@ -42,6 +50,10 @@ private:
     bool firstGen = true;
     bool jumpQueued = false;
     bool inJump = false;
+    double rotation = 0;
+    bool moving = false;
+    bool skidding = false;
+    Direction direction = Direction.Right;
 
 public: //* BEGIN PUBLIC API.
 
@@ -79,7 +91,143 @@ public: //* BEGIN PUBLIC API.
     }
 
     void draw() {
-        // Render.rectangle(centerCollisionboxBottom(position, size), size, Colors.WHITE);
+
+        double delta = Delta.getDelta();
+        // rotation += delta * 230.0;
+        immutable double scale = 0.05625;
+
+        immutable double centerX = size.x * 0.5;
+
+        immutable double DOUBLE_PI = PI * 2;
+        immutable double QUARTER_PI = PI * 0.25;
+        immutable double HALF_PI = PI * 0.5;
+
+        immutable double speedMultiplier = 4;
+
+        if (velocity.x == 0 || skidding || !moving) {
+
+            if (rotation == 0) {
+                // do nothing.
+            } else if (rotation > QUARTER_PI) {
+                rotation += delta * speedMultiplier;
+                if (rotation >= PI) {
+                    rotation = 0;
+                }
+            } else if (rotation > 0) {
+                rotation -= delta * speedMultiplier;
+
+                if (rotation <= 0) {
+                    rotation = 0;
+                }
+            } else if (rotation < -QUARTER_PI) {
+                rotation -= delta * speedMultiplier;
+                if (rotation <= -PI) {
+                    rotation = 0;
+                }
+            } else if (rotation < 0) {
+                rotation += delta * speedMultiplier;
+                if (rotation >= 0) {
+                    rotation = 0;
+                }
+            }
+        } else {
+            rotation += abs(velocity.x) * (delta * 2.0);
+        }
+
+        if (rotation < -PI) {
+            rotation += DOUBLE_PI;
+        } else if (rotation > PI) {
+            rotation -= DOUBLE_PI;
+        }
+
+        double animationRotation = sin(rotation) * RAD2DEG;
+
+        double facingDir = (direction == Direction.Right) ? 1 : -1;
+
+        //? Leg inner.
+        Vec2d legPosition = centerCollisionboxBottom(position, size);
+        legPosition.x += centerX;
+        legPosition.y -= 20 * scale;
+        TextureHandler.drawTexture(
+            "character.png",
+            legPosition, // Position.
+            Rect(0, 22, 4 * facingDir, 12), // Texture coordinates.
+            Vec2d(4 * scale, 12 * scale), // Size.
+            Vec2d(2 * scale, 0), // Origin.
+            // Rotation.
+            -animationRotation
+
+        );
+
+        //? Leg outer.
+        TextureHandler.drawTexture(
+            "character.png",
+            legPosition, // Position.
+            Rect(0, 22, 4 * facingDir, 12), // Texture coordinates.
+            Vec2d(4 * scale, 12 * scale), // Size.
+            Vec2d(2 * scale, 0), // Origin.
+            // Rotation.
+            animationRotation
+        );
+
+        //? Arm inner.
+        Vec2d armPosition = centerCollisionboxBottom(position, size);
+        armPosition.x += centerX;
+        armPosition.y -= 8 * scale;
+        TextureHandler.drawTexture(
+            "character.png",
+            armPosition, // Position.
+            Rect(5, 9, 4 * facingDir, 12), // Texture coordinates.
+            Vec2d(4 * scale, 12 * scale), // Size.
+            Vec2d(2 * scale, 0), // Origin.
+            // Rotation.
+            -animationRotation
+
+        );
+
+        //? Head.
+        Vec2d headPosition = centerCollisionboxBottom(position, size);
+        headPosition.x += centerX;
+        headPosition.y -= 8 * scale;
+
+        TextureHandler.drawTexture(
+            "character.png",
+            headPosition, // Position.
+            Rect(0, 0, 8 * facingDir, 8), // Texture coordinates.
+            Vec2d(8 * scale, 8 * scale), // Size.
+            Vec2d(4 * scale, 8 * scale), // Origin.
+            // Rotation.
+            0
+
+        );
+
+        //? Body.
+        Vec2d bodyPosition = centerCollisionboxBottom(position, size);
+        bodyPosition.x += centerX;
+        bodyPosition.y -= 8 * scale;
+        TextureHandler.drawTexture(
+            "character.png",
+            bodyPosition, // Position.
+            Rect(0, 9, 4 * facingDir, 12), // Texture coordinates.
+            Vec2d(4 * scale, 12 * scale), // Size.
+            Vec2d(2 * scale, 0), // Origin.
+            // Rotation.
+            0
+
+        );
+
+        //? Arm outer.
+        TextureHandler.drawTexture(
+            "character.png",
+            armPosition, // Position.
+            Rect(5, 9, 4 * facingDir, 12), // Texture coordinates.
+            Vec2d(4 * scale, 12 * scale), // Size.
+            Vec2d(2 * scale, 0), // Origin.
+            // Rotation.
+            animationRotation
+
+        );
+
         Render.rectangleLines(centerCollisionboxBottom(position, size), size, Colors.WHITE);
     }
 
@@ -91,15 +239,25 @@ public: //* BEGIN PUBLIC API.
 
         // writeln(velocity.x);
 
+        moving = false;
+        // Skidding is the player trying to slow down.
+        skidding = false;
+
         //? Controls first.
         if (Keyboard.isDown(KeyboardKey.KEY_RIGHT)) {
+            direction = Direction.Right;
+            moving = true;
             if (sgn(velocity.x) < 0) {
+                skidding = true;
                 velocity.x += delta * deceleration;
             } else {
                 velocity.x += delta * acceleration;
             }
         } else if (Keyboard.isDown(KeyboardKey.KEY_LEFT)) {
+            direction = Direction.Left;
+            moving = true;
             if (sgn(velocity.x) > 0) {
+                skidding = true;
                 velocity.x -= delta * deceleration;
             } else {
                 velocity.x -= delta * acceleration;
