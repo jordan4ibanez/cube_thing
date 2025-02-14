@@ -159,17 +159,6 @@ public: //* BEGIN PUBLIC API.
 
         );
 
-        //? Leg outer.
-        TextureHandler.drawTexture(
-            "character.png",
-            legPosition, // Position.
-            Rect(0, 22, 4 * facingDir, 12), // Texture coordinates.
-            Vec2d(4 * scale, 12 * scale), // Size.
-            Vec2d(2 * scale, 0), // Origin.
-            // Rotation.
-            animationRotation
-        );
-
         //? Arm inner.
         Vec2d armPosition = centerCollisionboxBottom(position, size);
         armPosition.x += centerX;
@@ -183,6 +172,17 @@ public: //* BEGIN PUBLIC API.
             // Rotation.
             -animationRotation
 
+        );
+
+        //? Leg outer.
+        TextureHandler.drawTexture(
+            "character.png",
+            legPosition, // Position.
+            Rect(0, 22, 4 * facingDir, 12), // Texture coordinates.
+            Vec2d(4 * scale, 12 * scale), // Size.
+            Vec2d(2 * scale, 0), // Origin.
+            // Rotation.
+            animationRotation
         );
 
         //? Head.
