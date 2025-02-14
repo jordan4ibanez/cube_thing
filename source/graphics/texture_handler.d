@@ -36,7 +36,21 @@ public: //* BEGIN PUBLIC API.
 
         Vec2d flippedPosition = Vec2d(position.x, -position.y);
 
-        Rect source = Rect(0, 0, 2, 2);
+        struct OutputRect {
+            int x = 0;
+            int y = 0;
+            int w = 0;
+            int h = 0;
+        }
+
+        OutputRect rawInput;
+        database.getRectangleIntegral(textureName, rawInput);
+
+        Rect source = Rect();
+        source.x = rawInput.x;
+        source.y = rawInput.y;
+        source.width = rawInput.w;
+        source.height = rawInput.h;
 
         Rect dest = Rect(flippedPosition.x, flippedPosition.y, size.x, size.y);
 
