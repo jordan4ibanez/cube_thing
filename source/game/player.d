@@ -244,7 +244,7 @@ public: //* BEGIN PUBLIC API.
         skidding = false;
 
         //? Controls first.
-        if (Keyboard.isDown(KeyboardKey.KEY_RIGHT)) {
+        if (Keyboard.isDown(KeyboardKey.KEY_D)) {
             direction = Direction.Right;
             moving = true;
             if (sgn(velocity.x) < 0) {
@@ -253,7 +253,7 @@ public: //* BEGIN PUBLIC API.
             } else {
                 velocity.x += delta * acceleration;
             }
-        } else if (Keyboard.isDown(KeyboardKey.KEY_LEFT)) {
+        } else if (Keyboard.isDown(KeyboardKey.KEY_A)) {
             direction = Direction.Left;
             moving = true;
             if (sgn(velocity.x) > 0) {
@@ -280,7 +280,7 @@ public: //* BEGIN PUBLIC API.
 
         velocity.y -= delta * Map.getGravity();
 
-        if (!inJump && Keyboard.isDown(KeyboardKey.KEY_UP)) {
+        if (!inJump && Keyboard.isDown(KeyboardKey.KEY_SPACE)) {
             jumpQueued = true;
         }
 
