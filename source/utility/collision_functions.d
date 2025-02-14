@@ -18,7 +18,7 @@ struct CollisionResult {
 
 // This basically shoves the entity out of the block.
 //? Note: This will have issues extremely far out.
-private immutable double magicAdjustment = 0.001;
+private immutable double magicAdjustment = 0.0001;
 
 CollisionResult collideXToBlock(Vec2d entityPosition, Vec2d entitySize, Vec2d entityVelocity,
     Vec2d blockPosition, Vec2d blockSize) {
