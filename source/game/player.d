@@ -104,7 +104,8 @@ public: //* BEGIN PUBLIC API.
 
         immutable double speedMultiplier = 4;
 
-        if (velocity.x == 0 || skidding || !moving) {
+        // writeln(abs(velocity.x * delta));
+        if (abs(velocity.x * delta) <= 0.00001 || skidding || !moving) {
 
             if (rotation == 0) {
                 // do nothing.
@@ -273,7 +274,6 @@ public: //* BEGIN PUBLIC API.
 
         // Speed limiter. 
         if (abs(velocity.x) > 5) {
-
             double valSign = sgn(velocity.x);
             velocity.x = valSign * 5;
         }
@@ -301,6 +301,10 @@ public: //* BEGIN PUBLIC API.
         position.x += velocity.x * delta;
 
         Map.collideEntityToWorld(position, size, velocity, CollisionAxis.X);
+
+        if (velocity.x == 0) {
+            moving = false;
+        }
 
         // todo: the void.
         // if (position.y <= 0) {
