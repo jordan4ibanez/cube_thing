@@ -162,6 +162,7 @@ public: //* BEGIN PUBLIC API.
         int yPosInChunk = cast(int) floor(position.y);
         // Out of bounds.
         if (yPosInChunk < 0 || yPosInChunk >= CHUNK_HEIGHT) {
+            writeln("WARNING! trying to read out of bounds! " ~ to!string(yPosInChunk));
             return ChunkData();
         }
 
@@ -187,6 +188,7 @@ public: //* BEGIN PUBLIC API.
         // Out of bounds.
         if (yPosInChunk < 0 || yPosInChunk >= CHUNK_HEIGHT) {
             writeln("WARNING! trying to write out of bounds! " ~ to!string(yPosInChunk));
+            return;
         }
 
         database[chunkID].data[xPosInChunk][yPosInChunk].blockID = id;
@@ -208,6 +210,7 @@ public: //* BEGIN PUBLIC API.
         // Out of bounds.
         if (yPosInChunk < 0 || yPosInChunk >= CHUNK_HEIGHT) {
             writeln("WARNING! trying to write out of bounds! " ~ to!string(yPosInChunk));
+            return;
         }
 
         BlockDefinitionResult result = BlockDatabase.getBlockByName(name);
